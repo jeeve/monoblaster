@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function Sprite( {x, y } ) {
+function Sprite( {x, y, image } ) {
 
   const style = {
     left : x,
@@ -8,35 +8,56 @@ function Sprite( {x, y } ) {
   };
 
   return (
-    <img style={style} src="player.png" />
+    <img style={style} src={image} />
   );
 }
 
-export default function Jeu() {
+export default function Game() {
 
-  const [x, setX] = useState(150);
-  const [y, setY] = useState(100);
+  const [decor, setDecor] = useState([]);
+
+  useEffect(() => {
+    const rows = [];
+    for (let i = 0; i < 10; i++) {
+      const columns = [];
+      for (let j = 0; j < 15; j++) {
+        if (i == 0 || i == 9 || j == 0 || j == 14) {
+          columns.push('brick.png');
+        } else {
+          columns.push('grass.png');
+        }
+      }
+      rows.push(columns);
+    }
+    setDecor(rows);
+  }, []);
+
+  const [player, setPlayer] = useState({ x: 150, y: 100 });
 
   function handleKeyDown(event) {
-    if (event.code == "ArrowLeft") {
-      setX(x - 5)
+    if (event.code === "ArrowLeft") {
+      setPlayer({...player, 'x': player.x - 5});
     }
-    if (event.code == "ArrowRight") {
-      setX(x + 5)
+    if (event.code === "ArrowRight") {
+      setPlayer({...player, 'x': player.x + 5});
     }
-    if (event.code == "ArrowDown") {
-      setY(y + 5)
+    if (event.code === "ArrowDown") {
+      setPlayer({...player, 'y': player.y + 5});
     }
-    if (event.code == "ArrowUp") {
-      setY(y - 5)
+    if (event.code === "ArrowUp") {
+      setPlayer({...player, 'y': player.y - 5});
     }
   }
 
   return (
-    <>
-      <div onKeyDown={handleKeyDown} className='jeu' tabIndex="0" >
-        <Sprite x={x} y={y} />
+      <div onKeyDown={ handleKeyDown } className='game' tabIndex="0" >
+        { decor.map((row, i) => 
+          <div key={i} >
+            { row.map((column, j) =>
+              <Sprite key={ j } x={ j * 32 } y={ i * 32 } image={ column } />
+            )} 
+          </div> 
+        )}
       </div>  
-    </>
   );
 }
