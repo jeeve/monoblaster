@@ -15,6 +15,7 @@ function Sprite( {x, y, image } ) {
 export default function Game() {
 
   const [decor, setDecor] = useState([]);
+  const [player, setPlayer] = useState({ x: 150, y: 100 });
 
   useEffect(() => {
     const rows = [];
@@ -31,8 +32,6 @@ export default function Game() {
     }
     setDecor(rows);
   }, []);
-
-  const [player, setPlayer] = useState({ x: 150, y: 100 });
 
   function handleKeyDown(event) {
     if (event.code === "ArrowLeft") {
@@ -58,6 +57,7 @@ export default function Game() {
             )} 
           </div> 
         )}
+        <Sprite x={ player.x } y={ player.y } image='player.png' />
       </div>  
   );
 }
