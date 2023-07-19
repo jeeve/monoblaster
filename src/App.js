@@ -19,9 +19,13 @@ export default function Game() {
       const columns = [];
       for (let j = 0; j < 15; j++) {
         if (i === 0 || i === 9 || j === 0 || j === 14) {
-          columns.push("brick.png");
+          columns.push("rock.png");
         } else {
-          columns.push("grass.png");
+          if (Math.random() > 0.2) {
+            columns.push("grass.png");
+          } else {
+            columns.push("rock.png");
+          }  
         }
       }
       rows.push(columns);
@@ -35,11 +39,11 @@ export default function Game() {
     return decor[j][i] !== "grass.png";
   }
 
-  function getXArrondiMoins(x) {
+  function getRoundLess(x) {
     return x + 32 - x % 32;
   }
 
-  function getXArrondiPlus(x) {
+  function getRoundMore(x) {
     return 32*Math.floor(x / 32);
   }
 
@@ -48,28 +52,28 @@ export default function Game() {
       if (!hasBlockAt(player.x - 5, player.y)) {
         setPlayer({ ...player, x: player.x - 5 });
       } else {
-        setPlayer({ ...player, x: getXArrondiMoins(player.x - 5) });
+        setPlayer({ ...player, x: getRoundLess(player.x - 5) });
       }
     }
     if (event.code === "ArrowRight") {
       if (!hasBlockAt(player.x + 32 + 5, player.y)) {
         setPlayer({ ...player, x: player.x + 5 });
       } else {
-        setPlayer({ ...player, x: getXArrondiPlus(player.x + 5) });
+        setPlayer({ ...player, x: getRoundMore(player.x + 5) });
       }
     }
     if (event.code === "ArrowDown") {
       if (!hasBlockAt(player.x, player.y + 32 + 5)) {
         setPlayer({ ...player, y: player.y + 5 });
       } else {
-        setPlayer({ ...player, y: getXArrondiPlus(player.y + 5) });
+        setPlayer({ ...player, y: getRoundMore(player.y + 5) });
       }
     }
     if (event.code === "ArrowUp") {
       if (!hasBlockAt(player.x, player.y - 5)) {
         setPlayer({ ...player, y: player.y - 5 });
       } else {
-        setPlayer({ ...player, y: getXArrondiMoins(player.y - 5) });
+        setPlayer({ ...player, y: getRoundLess(player.y - 5) });
       }
     }
   }
