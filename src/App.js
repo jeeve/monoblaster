@@ -6,7 +6,7 @@ function Sprite({ x, y, image }) {
     top: y,
   };
 
-  return <img style={ style } src={ image } />;
+  return <img style={style} src={image} />;
 }
 
 export default function Game() {
@@ -25,7 +25,7 @@ export default function Game() {
             columns.push("grass.png");
           } else {
             columns.push("rock.png");
-          }  
+          }
         }
       }
       rows.push(columns);
@@ -33,44 +33,54 @@ export default function Game() {
     setDecor(rows);
   }, []);
 
-  function hasBlockAt(x, y) {
+  function blockAt(x, y) {
     const i = Math.floor(x / 32);
-    const j = Math.floor(y / 32);              
-    return decor[j][i] !== "grass.png";
+    const j = Math.floor(y / 32);
+    return decor[j][i];
   }
 
   function getRoundLess(x) {
-    return x + 32 - x % 32;
+    return x + 32 - (x % 32);
   }
 
   function getRoundMore(x) {
-    return 32*Math.floor(x / 32);
+    return 32 * Math.floor(x / 32);
   }
 
   function handleKeyDown(event) {
     if (event.code === "ArrowLeft") {
-      if (!hasBlockAt(player.x - 5, player.y)) {
+      if (blockAt(player.x - 5, player.y) === "grass.png") {
         setPlayer({ ...player, x: player.x - 5 });
       } else {
         setPlayer({ ...player, x: getRoundLess(player.x - 5) });
       }
     }
     if (event.code === "ArrowRight") {
-      if (!hasBlockAt(player.x + 32 + 5, player.y)) {
-        setPlayer({ ...player, x: player.x + 5 });
+      if (player.y % 32 == 0) {
+        if (blockAt(player.x + 32 + 5, player.y) === "grass.png") {
+          setPlayer({ ...player, x: player.x + 5 });
+        } else {
+          setPlayer({ ...player, x: getRoundMore(player.x + 5) });
+        }
       } else {
-        setPlayer({ ...player, x: getRoundMore(player.x + 5) });
+        if (
+          blockAt(player.x + 32 + 5, player.y) === "grass.png" &&
+          blockAt(player.x + 32 + 5, player.y + 32) === "grass.png"
+        ) {
+          setPlayer({ ...player, x: player.x + 5 });
+        }
       }
     }
+
     if (event.code === "ArrowDown") {
-      if (!hasBlockAt(player.x, player.y + 32 + 5)) {
+      if (blockAt(player.x, player.y + 32 + 5) === "grass.png") {
         setPlayer({ ...player, y: player.y + 5 });
       } else {
         setPlayer({ ...player, y: getRoundMore(player.y + 5) });
       }
     }
     if (event.code === "ArrowUp") {
-      if (!hasBlockAt(player.x, player.y - 5)) {
+      if (blockAt(player.x, player.y - 5) === "grass.png") {
         setPlayer({ ...player, y: player.y - 5 });
       } else {
         setPlayer({ ...player, y: getRoundLess(player.y - 5) });
@@ -79,15 +89,15 @@ export default function Game() {
   }
 
   return (
-    <div onKeyDown={ handleKeyDown } className="game" tabIndex="0">
-      { decor.map((row, i) => (
-        <div key={ i }>
-          { row.map((column, j) => (
-            <Sprite key= {j } x={ j * 32 } y={ i * 32 } image={ column } />
-          )) }
+    <div onKeyDown={handleKeyDown} className="game" tabIndex="0">
+      {decor.map((row, i) => (
+        <div key={i}>
+          {row.map((column, j) => (
+            <Sprite key={j} x={j * 32} y={i * 32} image={column} />
+          ))}
         </div>
-      )) }
-      <Sprite x={ player.x } y={ player.y } image="player.png" />
+      ))}
+      <Sprite x={player.x} y={player.y} image="player.png" />
     </div>
   );
 }
