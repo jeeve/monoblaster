@@ -98,17 +98,17 @@ export default function Game() {
         setPlayer({ ...player, y: getRoundLess(player.y - 5) });
       }
     } else {
-      if (player.x % 32 < 5) {
+      if (player.x % 32 <= 5 && blockAt(player.x, player.y - 5) === "grass.png" && blockAt(player.x + 32, player.y - 5) === "grass.png") {
         if (blockAt(player.x, player.y - 5) === "grass.png") {
           setPlayer({ ...player, y: player.y - 5, x: getRoundMore(player.x) });
         }
       } else
-      if (32 - (player.x % 32) < 5) {
+      if (32 - (player.x % 32) <= 5 && blockAt(player.x, player.y - 5) === "grass.png" && blockAt(player.x + 32, player.y - 5) === "grass.png") {
         if (blockAt(player.x - 32 - 5, player.y - 5) === "grass.png") {
           setPlayer({ ...player, y: player.y - 5, x: getRoundLess(player.x) });
         }
       } else
-      if (blockAt(player.x, player.y - 32 - 5) === "grass.png") {
+      if (blockAt(player.x, player.y - 5) === "grass.png" && blockAt(player.x + 32, player.y - 5) === "grass.png") {
         setPlayer({ ...player, y: player.y - 5 });
       }
     }
