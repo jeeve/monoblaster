@@ -90,23 +90,20 @@ export default function Game() {
   }
 
   function tryToGoUp() {
-    function blockAtTop() {
-      const i = Math.floor(player.x / 32);
-      const j = Math.floor(player.y / 32);
-      if (player.x % 32 == 0) {
-        if (decor[j][i] !== "grass.png") {
-          return true;
-        }
-      } else {
-        if (decor[j][i] !== "grass.png" || decor[j][i + 1] !== "grass.png") {
-          return true;
-        }
+    const i = Math.floor(player.x / 32);
+    const j = Math.floor(player.y / 32);
+    if (player.x % 32 == 0) {
+      if (decor[j][i] === "grass.png") {
+        setPlayer({ ...player, y: player.y - 5 });
       }
-      return false;
-    }
-
-    if (!blockAtTop()) {
-      setPlayer({ ...player, y: player.y - 5 });
+    } else {
+      if (decor[j][i] === "grass.png" && decor[j][i + 1] === "grass.png") {
+        setPlayer({ ...player, y: player.y - 5 });
+      } else if (player.x % 32 <= 5) {
+        setPlayer({ ...player, x: getRoundMore(player.x), y: player.y - 5 });
+      } else if (player.x % 32 >= 32 - 5) {
+        setPlayer({ ...player, x: getRoundLess(player.x), y: player.y - 5 });
+      }
     }
   }
 
