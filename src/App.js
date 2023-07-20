@@ -90,28 +90,27 @@ export default function Game() {
   }
 
   function tryToGoUp() {
-    console.log(player.x % 32)
-    if (player.x % 32 == 0) {
-      if (blockAt(player.x, player.y - 5) === "grass.png") {
-        setPlayer({ ...player, y: player.y - 5 });
+
+    function blockAtTop() {
+      const X = Math.floor(player.x / 32);
+      const j = Math.floor(player.y / 32);
+      if (player.x % 32 <= 5) {
+        const i = X;
+        if (decor[j][i] !== 'grass.png') {
+          return true;
+        }
       } else {
-        setPlayer({ ...player, y: getRoundLess(player.y - 5) });
+        const i = X + 1;
+        if (decor[j][i] !== 'grass.png') {
+          return true;
+        }
       }
-    } else {
-      if (player.x % 32 <= 5 && blockAt(player.x, player.y - 5) === "grass.png" && blockAt(player.x + 32, player.y - 5) === "grass.png") {
-        if (blockAt(player.x, player.y - 5) === "grass.png") {
-          setPlayer({ ...player, y: player.y - 5, x: getRoundMore(player.x) });
-        }
-      } else
-      if (32 - (player.x % 32) <= 5 && blockAt(player.x, player.y - 5) === "grass.png" && blockAt(player.x + 32, player.y - 5) === "grass.png") {
-        if (blockAt(player.x - 32 - 5, player.y - 5) === "grass.png") {
-          setPlayer({ ...player, y: player.y - 5, x: getRoundLess(player.x) });
-        }
-      } else
-      if (blockAt(player.x, player.y - 5) === "grass.png" && blockAt(player.x + 32, player.y - 5) === "grass.png") {
+      return false;
+    }
+
+    if (!blockAtTop()) {
         setPlayer({ ...player, y: player.y - 5 });
       }
-    }
   }
 
   function handleKeyDown(event) {
