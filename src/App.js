@@ -47,29 +47,76 @@ export default function Game() {
     return 32 * Math.floor(x / 32);
   }
 
-  function handleKeyDown(event) {
-    if (event.code === "ArrowLeft") {
+  function tryToGoLeft() {
+    if (player.y % 32 == 0) {
       if (blockAt(player.x - 5, player.y) === "grass.png") {
         setPlayer({ ...player, x: player.x - 5 });
       } else {
         setPlayer({ ...player, x: getRoundLess(player.x - 5) });
       }
-    }
-    if (event.code === "ArrowRight") {
-      if (player.y % 32 == 0) {
-        if (blockAt(player.x + 32 + 5, player.y) === "grass.png") {
-          setPlayer({ ...player, x: player.x + 5 });
-        } else {
-          setPlayer({ ...player, x: getRoundMore(player.x + 5) });
-        }
-      } else {
-        if (
-          blockAt(player.x + 32 + 5, player.y) === "grass.png" &&
-          blockAt(player.x + 32 + 5, player.y + 32) === "grass.png"
-        ) {
-          setPlayer({ ...player, x: player.x + 5 });
+    } else {
+      if (player.y % 32 <= 5) {
+        if (blockAt(player.x - 5, player.y) === "grass.png") {
+          setPlayer({ ...player, x: player.x - 5, y: getRoundMore(player.y) });
         }
       }
+      if (32 - (player.y % 32) <= 5) {
+        if (blockAt(player.x - 5, player.y + 32) === "grass.png") {
+          setPlayer({ ...player, x: player.x - 5, y: getRoundLess(player.y) });
+        }
+      }
+    }
+  }
+
+  function tryToGoRight() {
+    if (player.y % 32 == 0) {
+      if (blockAt(player.x + 32 + 5, player.y) === "grass.png") {
+        setPlayer({ ...player, x: player.x + 5 });
+      } else {
+        setPlayer({ ...player, x: getRoundMore(player.x + 5) });
+      }
+    } else {
+      if (player.y % 32 <= 5) {
+        if (blockAt(player.x + 32 + 5, player.y) === "grass.png") {
+          setPlayer({ ...player, x: player.x + 5, y: getRoundMore(player.y) });
+        }
+      }
+      if (32 - (player.y % 32) <= 5) {
+        if (blockAt(player.x + 32 + 5, player.y + 32) === "grass.png") {
+          setPlayer({ ...player, x: player.x + 5, y: getRoundLess(player.y) });
+        }
+      }
+    }
+  }
+
+  function tryToGoUp() {
+    if (player.x % 32 == 0) {
+      if (blockAt(player.x, player.y - 5) === "grass.png") {
+        setPlayer({ ...player, y: player.y - 5 });
+      } else {
+        setPlayer({ ...player, y: getRoundLess(player.y - 5) });
+      }
+    } else {
+      if (player.x % 32 <= 5) {
+        if (blockAt(player.x, player.y - 5) === "grass.png") {
+          setPlayer({ ...player, y: player.y - 5, x: getRoundMore(player.x) });
+        }
+      }
+      if (32 - (player.x % 32) <= 5) {
+        if (blockAt(player.x - 32 - 5, player.y - 5) === "grass.png") {
+          setPlayer({ ...player, y: player.y - 5, x: getRoundLess(player.x) });
+        }
+      }
+    }
+  }
+
+  function handleKeyDown(event) {
+    if (event.code === "ArrowLeft") {
+      tryToGoLeft();
+    }
+
+    if (event.code === "ArrowRight") {
+      tryToGoRight();
     }
 
     if (event.code === "ArrowDown") {
@@ -79,12 +126,9 @@ export default function Game() {
         setPlayer({ ...player, y: getRoundMore(player.y + 5) });
       }
     }
+
     if (event.code === "ArrowUp") {
-      if (blockAt(player.x, player.y - 5) === "grass.png") {
-        setPlayer({ ...player, y: player.y - 5 });
-      } else {
-        setPlayer({ ...player, y: getRoundLess(player.y - 5) });
-      }
+      tryToGoUp();
     }
   }
 
