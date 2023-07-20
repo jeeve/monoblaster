@@ -90,18 +90,15 @@ export default function Game() {
   }
 
   function tryToGoUp() {
-
     function blockAtTop() {
-      const X = Math.floor(player.x / 32);
+      const i = Math.floor(player.x / 32);
       const j = Math.floor(player.y / 32);
-      if (player.x % 32 <= 5) {
-        const i = X;
-        if (decor[j][i] !== 'grass.png') {
+      if (player.x % 32 == 0) {
+        if (decor[j][i] !== "grass.png") {
           return true;
         }
       } else {
-        const i = X + 1;
-        if (decor[j][i] !== 'grass.png') {
+        if (decor[j][i] !== "grass.png" || decor[j][i + 1] !== "grass.png") {
           return true;
         }
       }
@@ -109,8 +106,8 @@ export default function Game() {
     }
 
     if (!blockAtTop()) {
-        setPlayer({ ...player, y: player.y - 5 });
-      }
+      setPlayer({ ...player, y: player.y - 5 });
+    }
   }
 
   function handleKeyDown(event) {
