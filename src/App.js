@@ -6,7 +6,7 @@ function Sprite({ x, y, image }) {
     top: y,
   };
 
-  return <img style={style} src={image} />;
+  return <img style={style} src={image} alt="" />;
 }
 
 export default function Game() {
@@ -61,7 +61,7 @@ export default function Game() {
   function tryToGoLeft() {
     const i = Math.floor((player.x - dx) / 32);
     const j = Math.floor(player.y / 32);
-    if (player.y % 32 == 0) {
+    if (player.y % 32 === 0) {
       if (decor[j][i] === "grass.png") {
         setPlayer({ ...player, x: getRoundLessToBlock(player.x - dx) });
       }
@@ -79,7 +79,7 @@ export default function Game() {
   function tryToGoRight() {
     const i = Math.floor((player.x + 32 + dx) / 32);
     const j = Math.floor(player.y / 32);
-    if (player.y % 32 == 0) {
+    if (player.y % 32 === 0) {
       if (decor[j][i] === "grass.png") {
         setPlayer({ ...player, x: getRoundMoreToBlock(player.x + dx) });
       }
@@ -97,7 +97,7 @@ export default function Game() {
   function tryToGoUp() {
     const i = Math.floor(player.x / 32);
     const j = Math.floor((player.y - dx) / 32);
-    if (player.x % 32 == 0) {
+    if (player.x % 32 === 0) {
       if (decor[j][i] === "grass.png") {
         setPlayer({ ...player, y: getRoundLessToBlock(player.y - dx) });
       }
@@ -115,7 +115,7 @@ export default function Game() {
   function tryToGoDown() {
     const i = Math.floor(player.x / 32);
     const j = Math.floor((player.y + 32 + dx) / 32);
-    if (player.x % 32 == 0) {
+    if (player.x % 32 === 0) {
       if (decor[j][i] === "grass.png") {
         setPlayer({ ...player, y: getRoundMoreToBlock(player.y + dx) });
       }
