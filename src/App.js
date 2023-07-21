@@ -12,16 +12,16 @@ function Sprite({ x, y, image }) {
 export default function Game() {
   const [decor, setDecor] = useState([]);
   const [player, setPlayer] = useState({ x: 150, y: 100 });
-  const nx = 20;
-  const ny = 15;
+  const ni = 20;
+  const nj = 15;
   const dx = 5;
 
   useEffect(() => {
     const rows = [];
-    for (let i = 0; i < ny; i++) {
+    for (let i = 0; i < nj; i++) {
       const columns = [];
-      for (let j = 0; j < nx; j++) {
-        if (i === 0 || i === ny-1 || j === 0 || j === nx-1) {
+      for (let j = 0; j < ni; j++) {
+        if (i === 0 || i === nj-1 || j === 0 || j === ni-1) {
           columns.push("rock.png");
         } else {
           if (Math.random() > 0.2) {
@@ -42,20 +42,20 @@ export default function Game() {
 
   function getRoundLess2(x) {
     if (x % 32 <= dx) {
-      return 32 * Math.floor(x / 32);
-    }
-    return x;      
-  }
-
-  function getRoundMore2(x) {
-    if (x % 32 >= 32 - dx) {
-      return x + 32 - (x % 32);
+      return getRoundMore(x);
     }
     return x;      
   }
 
   function getRoundMore(x) {
     return 32 * Math.floor(x / 32);
+  }
+
+  function getRoundMore2(x) {
+    if (x % 32 >= 32 - dx) {
+      return getRoundLess(x);
+    }
+    return x;      
   }
 
   function tryToGoLeft() {
