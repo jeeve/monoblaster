@@ -40,7 +40,7 @@ export default function Game() {
     return x + 32 - (x % 32);
   }
 
-  function getRoundLess2(x) {
+  function getRoundLessToBlock(x) {
     if (x % 32 <= dx) {
       return getRoundMore(x);
     }
@@ -51,7 +51,7 @@ export default function Game() {
     return 32 * Math.floor(x / 32);
   }
 
-  function getRoundMore2(x) {
+  function getRoundMoreToBlock(x) {
     if (x % 32 >= 32 - dx) {
       return getRoundLess(x);
     }
@@ -63,15 +63,15 @@ export default function Game() {
     const j = Math.floor(player.y / 32);
     if (player.y % 32 == 0) {
       if (decor[j][i] === "grass.png") {
-        setPlayer({ ...player, x: getRoundLess2(player.x - dx) });
+        setPlayer({ ...player, x: getRoundLessToBlock(player.x - dx) });
       }
     } else {
       if (decor[j][i] === "grass.png" && decor[j + 1][i] === "grass.png") {
-        setPlayer({ ...player, x: getRoundLess2(player.x - dx) });
+        setPlayer({ ...player, x: getRoundLessToBlock(player.x - dx) });
       } else if (player.y % 32 <= 10 && decor[j][i] === "grass.png") {
-        setPlayer({ ...player, y: getRoundMore(player.y), x: getRoundLess2(player.x - dx) });
+        setPlayer({ ...player, y: getRoundMore(player.y), x: getRoundLessToBlock(player.x - dx) });
       } else if (player.y % 32 >= 32 - 10 && decor[j + 1][i] === "grass.png") {
-        setPlayer({ ...player, y: getRoundLess(player.y), x: getRoundLess2(player.x - dx) });
+        setPlayer({ ...player, y: getRoundLess(player.y), x: getRoundLessToBlock(player.x - dx) });
       }
     }
   }
@@ -81,15 +81,15 @@ export default function Game() {
     const j = Math.floor(player.y / 32);
     if (player.y % 32 == 0) {
       if (decor[j][i] === "grass.png") {
-        setPlayer({ ...player, x: getRoundMore2(player.x + dx) });
+        setPlayer({ ...player, x: getRoundMoreToBlock(player.x + dx) });
       }
     } else {
       if (decor[j][i] === "grass.png" && decor[j + 1][i] === "grass.png") {
-        setPlayer({ ...player, x: getRoundMore2(player.x + dx) });
+        setPlayer({ ...player, x: getRoundMoreToBlock(player.x + dx) });
       } else if (player.y % 32 <= 10 && decor[j][i] === "grass.png") {
-        setPlayer({ ...player, y: getRoundMore(player.y), x: getRoundMore2(player.x + dx) });
+        setPlayer({ ...player, y: getRoundMore(player.y), x: getRoundMoreToBlock(player.x + dx) });
       } else if (player.y % 32 >= 32 - 10 && decor[j + 1][i] === "grass.png") {
-        setPlayer({ ...player, y: getRoundLess(player.y), x: getRoundMore2(player.x + dx) });
+        setPlayer({ ...player, y: getRoundLess(player.y), x: getRoundMoreToBlock(player.x + dx) });
       }
     }
   }
@@ -99,15 +99,15 @@ export default function Game() {
     const j = Math.floor((player.y - dx) / 32);
     if (player.x % 32 == 0) {
       if (decor[j][i] === "grass.png") {
-        setPlayer({ ...player, y: getRoundLess2(player.y - dx) });
+        setPlayer({ ...player, y: getRoundLessToBlock(player.y - dx) });
       }
     } else {
       if (decor[j][i] === "grass.png" && decor[j][i + 1] === "grass.png") {
-        setPlayer({ ...player, y: getRoundLess2(player.y - dx) });
+        setPlayer({ ...player, y: getRoundLessToBlock(player.y - dx) });
       } else if (player.x % 32 <= 10 && decor[j][i] === "grass.png") {
-        setPlayer({ ...player, x: getRoundMore(player.x), y: getRoundLess2(player.y - dx) });
+        setPlayer({ ...player, x: getRoundMore(player.x), y: getRoundLessToBlock(player.y - dx) });
       } else if (player.x % 32 >= 32 - 10 && decor[j][i + 1] === "grass.png") {
-        setPlayer({ ...player, x: getRoundLess(player.x), y: getRoundLess2(player.y - dx) });
+        setPlayer({ ...player, x: getRoundLess(player.x), y: getRoundLessToBlock(player.y - dx) });
       }
     }
   }
@@ -117,15 +117,15 @@ export default function Game() {
     const j = Math.floor((player.y + 32 + dx) / 32);
     if (player.x % 32 == 0) {
       if (decor[j][i] === "grass.png") {
-        setPlayer({ ...player, y: getRoundMore2(player.y + dx) });
+        setPlayer({ ...player, y: getRoundMoreToBlock(player.y + dx) });
       }
     } else {
       if (decor[j][i] === "grass.png" && decor[j][i + 1] === "grass.png") {
-        setPlayer({ ...player, y: getRoundMore2(player.y + dx) });
+        setPlayer({ ...player, y: getRoundMoreToBlock(player.y + dx) });
       } else if (player.x % 32 <= 10 && decor[j][i] === "grass.png") {
-        setPlayer({ ...player, x: getRoundMore(player.x), y: getRoundMore2(player.y + dx) });
+        setPlayer({ ...player, x: getRoundMore(player.x), y: getRoundMoreToBlock(player.y + dx) });
       } else if (player.x % 32 >= 32 - 10 && decor[j][i + 1] === "grass.png") {
-        setPlayer({ ...player, x: getRoundLess(player.x), y: getRoundMore2(player.y + dx) });
+        setPlayer({ ...player, x: getRoundLess(player.x), y: getRoundMoreToBlock(player.y + dx) });
       }
     }
   }
