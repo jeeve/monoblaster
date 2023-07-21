@@ -43,6 +43,20 @@ export default function Game() {
     return x + 32 - (x % 32);
   }
 
+  function getRoundLess2(x) {
+    if (x % 32 <= 5) {
+      return 32 * Math.floor(x / 32);
+    }
+    return x;      
+  }
+
+  function getRoundMore2(x) {
+    if (x % 32 >= 32 - 5) {
+      return x + 32 - (x % 32);
+    }
+    return x;      
+  }
+
   function getRoundMore(x) {
     return 32 * Math.floor(x / 32);
   }
@@ -91,18 +105,18 @@ export default function Game() {
 
   function tryToGoUp() {
     const i = Math.floor(player.x / 32);
-    const j = Math.floor(player.y / 32);
+    let j = Math.floor((player.y - 5) / 32);
     if (player.x % 32 == 0) {
       if (decor[j][i] === "grass.png") {
-        setPlayer({ ...player, y: player.y - 5 });
+        setPlayer({ ...player, y: getRoundLess2(player.y - 5) });
       }
     } else {
       if (decor[j][i] === "grass.png" && decor[j][i + 1] === "grass.png") {
-        setPlayer({ ...player, y: player.y - 5 });
-      } else if (player.x % 32 <= 5) {
-        setPlayer({ ...player, x: getRoundMore(player.x), y: player.y - 5 });
-      } else if (player.x % 32 >= 32 - 5) {
-        setPlayer({ ...player, x: getRoundLess(player.x), y: player.y - 5 });
+        setPlayer({ ...player, y: getRoundLess2(player.y - 5) });
+      } else if (player.x % 32 <= 5 && decor[j][i] === "grass.png") {
+        setPlayer({ ...player, x: getRoundMore(player.x), y: getRoundLess2(player.y - 5) });
+      } else if (player.x % 32 >= 32 - 5 && decor[j][i + 1] === "grass.png") {
+        setPlayer({ ...player, x: getRoundLess(player.x), y: getRoundLess2(player.y - 5) });
       }
     }
   }
