@@ -9,6 +9,32 @@ function Sprite({ x, y, image }) {
   return <img style={style} src={image} alt="" />;
 }
 
+function Bomb({ x, y }) {
+
+  const [image, setImage] = useState("bomb1.png");
+
+  const style = {
+    left: x,
+    top: y,
+  };
+  
+  const startTimer = () => {
+    return setInterval(() => {
+      setImage((prevImage) => (prevImage === "bomb1.png" ? "bomb2.png" : "bomb1.png"));
+    }, 100);
+  };
+
+  useEffect(() => {
+    const interval = startTimer();
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return <img style={style} src={image} alt="" />;
+}
+
 export default function Game() {
   const [decor, setDecor] = useState([]);
   const [player, setPlayer] = useState({ x: 150, y: 100 });
@@ -233,7 +259,7 @@ export default function Game() {
           return sprite.image.includes("bomb");
         })
         .map((sprite, n) => (
-          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
+          <Bomb key={n} x={sprite.x} y={sprite.y} />
         ))}
     </div>
   );
