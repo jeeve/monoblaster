@@ -9,14 +9,25 @@ function Sprite({ x, y, image }) {
   return <img style={style} src={image} alt="" />;
 }
 
+function Bomb({ i, j }) {
+  const style = {
+    left: i * 32,
+    top: j * 32,
+  };
+
+  return <img style={style} src="bomb1.png" alt="" />;
+}
+
 export default function Game() {
   const [decor, setDecor] = useState([]);
   const [player, setPlayer] = useState({ x: 150, y: 100 });
-  const ni = 20;
-  const nj = 15;
-  const dx = 5;
+  const [bombs, setBombs] = useState([]);
 
   useEffect(() => {
+    setDecor(makeDecor());
+  }, []);
+
+  function makeDecor() {
     const rows = [];
     for (let i = 0; i < nj; i++) {
       const columns = [];
@@ -37,29 +48,7 @@ export default function Game() {
       }
       rows.push(columns);
     }
-    setDecor(rows);
-  }, []);
-
-  function getRoundLess(x) {
-    return x + 32 - (x % 32);
-  }
-
-  function getRoundLessToBlock(x) {
-    if (x % 32 <= dx) {
-      return getRoundMore(x);
-    }
-    return x;      
-  }
-
-  function getRoundMore(x) {
-    return 32 * Math.floor(x / 32);
-  }
-
-  function getRoundMoreToBlock(x) {
-    if (x % 32 >= 32 - dx) {
-      return getRoundLess(x);
-    }
-    return x;      
+    return rows;  
   }
 
   function tryToGoLeft() {
@@ -134,6 +123,12 @@ export default function Game() {
     }
   }
 
+  function dropBomb() {
+    const nextBombs = [...bombs];
+    nextBombs.push({ i: Math.round(player.x / 32), j: Math.round(player.y / 32) })
+    setBombs(nextBombs);
+  }
+
   function handleKeyDown(event) {
     if (event.code === "ArrowLeft") {
       tryToGoLeft();
@@ -147,18 +142,50 @@ export default function Game() {
     if (event.code === "ArrowUp") {
       tryToGoUp();
     }
+    if (event.code === "Space") {
+      dropBomb();
+    }
   }
 
   return (
     <div onKeyDown={handleKeyDown} className="game" tabIndex="0">
-      {decor.map((row, i) => (
-        <div key={i}>
+      { decor.map((row, i) => (
+        <div key={ i }>
           {row.map((column, j) => (
-            <Sprite key={j} x={j * 32} y={i * 32} image={column} />
-          ))}
+            <Sprite key={ j } x={ j * 32 } y={ i * 32 } image={ column } />
+          )) }
         </div>
-      ))}
-      <Sprite x={player.x} y={player.y} image="player.png" />
+      )) }
+      <Sprite x={ player.x } y={ player. y} image="player.png" />
+      { bombs.map((bomb, n) => (
+        <Bomb key={ n } i={ bomb.i } j={ bomb.j } />
+      )) }
     </div>
   );
+}
+
+const ni = 20;
+const nj = 15;
+const dx = 5;
+
+function getRoundLess(x) {
+  return x + 32 - (x % 32);
+}
+
+function getRoundLessToBlock(x) {
+  if (x % 32 <= dx) {
+    return getRoundMore(x);
+  }
+  return x;      
+}
+
+function getRoundMore(x) {
+  return 32 * Math.floor(x / 32);
+}
+
+function getRoundMoreToBlock(x) {
+  if (x % 32 >= 32 - dx) {
+    return getRoundLess(x);
+  }
+  return x;      
 }
