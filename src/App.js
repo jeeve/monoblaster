@@ -221,7 +221,7 @@ export default function Game() {
           x={sprite.x}
           y={sprite.y}
           image={
-            sprite.image === "" || sprite.image === "bomb1.png"
+            sprite.image === "" || sprite.image.includes("bomb")
               ? "grass.png"
               : sprite.image
           }
@@ -230,7 +230,7 @@ export default function Game() {
       <Sprite x={player.x} y={player.y} image="player.png" />
       {decor
         .filter((sprite) => {
-          return sprite.image === "bomb1.png";
+          return sprite.image.includes("bomb");
         })
         .map((sprite, n) => (
           <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
