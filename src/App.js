@@ -24,10 +24,14 @@ export default function Game() {
         if (i === 0 || i === nj-1 || j === 0 || j === ni-1) {
           columns.push("rock.png");
         } else {
-          if (Math.random() > 0.2) {
-            columns.push("grass.png");
-          } else {
+          const k = Math.random();
+          if (k > 0.2 && k <= 0.4) {
             columns.push("rock.png");
+          } else if (k >= 0.4 && k < 0.6) {
+            columns.push("brick.png");
+          }
+          else {
+            columns.push("grass.png");
           }
         }
       }
