@@ -1,39 +1,6 @@
 import { useEffect, useState } from "react";
-
-function Sprite({ x, y, image }) {
-  const style = {
-    left: x,
-    top: y,
-  };
-
-  return <img style={style} src={image} alt="" />;
-}
-
-function Bomb({ x, y }) {
-
-  const [image, setImage] = useState("bomb1.png");
-
-  const style = {
-    left: x,
-    top: y,
-  };
-  
-  const startTimer = () => {
-    return setInterval(() => {
-      setImage((prevImage) => (prevImage === "bomb1.png" ? "bomb2.png" : "bomb1.png"));
-    }, 100);
-  };
-
-  useEffect(() => {
-    const interval = startTimer();
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  return <img style={style} src={image} alt="" />;
-}
+import Sprite from "./components/Sprite"
+import Bomb from "./components/Bomb";
 
 export default function Game() {
   const [decor, setDecor] = useState([]);
