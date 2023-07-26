@@ -240,7 +240,7 @@ export default function Game() {
 const ni = 20;
 const nj = 15;
 const dx = 5;
-const tolx = 10;
+const tolx = 16;
 
 function getIndex(i, j) {
   return j * ni + i;
