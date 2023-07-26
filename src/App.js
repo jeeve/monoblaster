@@ -4,18 +4,10 @@ function Sprite({ x, y, image }) {
   const style = {
     left: x,
     top: y,
+    zIndex: image === "grass.png"|| image === "" ? 0 : image === "bomb1.png" ? 100 : 10
   };
 
-  return <img style={style} src={image} alt="" />;
-}
-
-function Bomb({ i, j }) {
-  const style = {
-    left: i * 32,
-    top: j * 32,
-  };
-
-  return <img style={style} src="bomb1.png" alt="" />;
+  return <img style={ style } src={ image } alt="" />;
 }
 
 export default function Game() {
@@ -42,7 +34,7 @@ export default function Game() {
             columns.push("brick.png");
           }
           else {
-            columns.push("grass.png");
+            columns.push("");
           }
         }
       }
@@ -55,16 +47,16 @@ export default function Game() {
     const i = Math.floor((player.x - dx) / 32);
     const j = Math.floor(player.y / 32);
     if (player.y % 32 === 0) {
-      if (decor[j][i] === "grass.png") {
+      if (decor[j][i] === "") {
         setPlayer({ ...player, x: getRoundLessToBlock(player.x - dx) });
       }
     } else {
-      if (decor[j][i] === "grass.png" && decor[j + 1][i] === "grass.png") {
+      if (decor[j][i] === "" && decor[j + 1][i] === "") {
         setPlayer({ ...player, x: getRoundLessToBlock(player.x - dx) });
-      } else if (player.y % 32 <= 10 && decor[j][i] === "grass.png") {
+      } else if (player.y % 32 <= 10 && decor[j][i] === "") {
         setPlayer({ ...player, y: getRoundMore(player.y), x: getRoundLessToBlock(player.x - dx) });
-      } else if (player.y % 32 >= 32 - 10 && decor[j + 1][i] === "grass.png") {
-        setPlayer({ ...player, y: getRoundLess(player.y), x: getRoundLessToBlock(player.x - dx) });
+      } else if (player.y % 32 >= 32 - 10 && decor[j + 1][i] === "") {
+        setPlayer({ ...player, y: getRoundLess(player.y), x: getRoundLessToBlock(player.x - dx) }); 
       }
     }
   }
@@ -73,15 +65,15 @@ export default function Game() {
     const i = Math.floor((player.x + 32 + dx) / 32);
     const j = Math.floor(player.y / 32);
     if (player.y % 32 === 0) {
-      if (decor[j][i] === "grass.png") {
+      if (decor[j][i] === "") {
         setPlayer({ ...player, x: getRoundMoreToBlock(player.x + dx) });
       }
     } else {
-      if (decor[j][i] === "grass.png" && decor[j + 1][i] === "grass.png") {
+      if (decor[j][i] === "" && decor[j + 1][i] === "") {
         setPlayer({ ...player, x: getRoundMoreToBlock(player.x + dx) });
-      } else if (player.y % 32 <= 10 && decor[j][i] === "grass.png") {
+      } else if (player.y % 32 <= 10 && decor[j][i] === "") {
         setPlayer({ ...player, y: getRoundMore(player.y), x: getRoundMoreToBlock(player.x + dx) });
-      } else if (player.y % 32 >= 32 - 10 && decor[j + 1][i] === "grass.png") {
+      } else if (player.y % 32 >= 32 - 10 && decor[j + 1][i] === "") {
         setPlayer({ ...player, y: getRoundLess(player.y), x: getRoundMoreToBlock(player.x + dx) });
       }
     }
@@ -91,15 +83,15 @@ export default function Game() {
     const i = Math.floor(player.x / 32);
     const j = Math.floor((player.y - dx) / 32);
     if (player.x % 32 === 0) {
-      if (decor[j][i] === "grass.png") {
+      if (decor[j][i] === "") {
         setPlayer({ ...player, y: getRoundLessToBlock(player.y - dx) });
       }
     } else {
-      if (decor[j][i] === "grass.png" && decor[j][i + 1] === "grass.png") {
+      if (decor[j][i] === "" && decor[j][i + 1] === "") {
         setPlayer({ ...player, y: getRoundLessToBlock(player.y - dx) });
-      } else if (player.x % 32 <= 10 && decor[j][i] === "grass.png") {
+      } else if (player.x % 32 <= 10 && decor[j][i] === "") {
         setPlayer({ ...player, x: getRoundMore(player.x), y: getRoundLessToBlock(player.y - dx) });
-      } else if (player.x % 32 >= 32 - 10 && decor[j][i + 1] === "grass.png") {
+      } else if (player.x % 32 >= 32 - 10 && decor[j][i + 1] === "") {
         setPlayer({ ...player, x: getRoundLess(player.x), y: getRoundLessToBlock(player.y - dx) });
       }
     }
@@ -109,24 +101,26 @@ export default function Game() {
     const i = Math.floor(player.x / 32);
     const j = Math.floor((player.y + 32 + dx) / 32);
     if (player.x % 32 === 0) {
-      if (decor[j][i] === "grass.png") {
+      if (decor[j][i] === "") {
         setPlayer({ ...player, y: getRoundMoreToBlock(player.y + dx) });
       }
     } else {
-      if (decor[j][i] === "grass.png" && decor[j][i + 1] === "grass.png") {
+      if (decor[j][i] === "" && decor[j][i + 1] === "") {
         setPlayer({ ...player, y: getRoundMoreToBlock(player.y + dx) });
-      } else if (player.x % 32 <= 10 && decor[j][i] === "grass.png") {
+      } else if (player.x % 32 <= 10 && decor[j][i] === "") {
         setPlayer({ ...player, x: getRoundMore(player.x), y: getRoundMoreToBlock(player.y + dx) });
-      } else if (player.x % 32 >= 32 - 10 && decor[j][i + 1] === "grass.png") {
+      } else if (player.x % 32 >= 32 - 10 && decor[j][i + 1] === "") {
         setPlayer({ ...player, x: getRoundLess(player.x), y: getRoundMoreToBlock(player.y + dx) });
       }
     }
   }
 
   function dropBomb() {
-    const nextBombs = [...bombs];
-    nextBombs.push({ i: Math.round(player.x / 32), j: Math.round(player.y / 32) })
-    setBombs(nextBombs);
+    const nextDecor = [...decor];
+    const i = Math.round(player.x / 32); 
+    const j = Math.round(player.y / 32);
+    nextDecor[j][i] = "bomb1.png";
+    setBombs(nextDecor);
   }
 
   function handleKeyDown(event) {
@@ -152,14 +146,11 @@ export default function Game() {
       { decor.map((row, i) => (
         <div key={ i }>
           {row.map((column, j) => (
-            <Sprite key={ j } x={ j * 32 } y={ i * 32 } image={ column } />
+            <Sprite key={ j } x={ j * 32 } y={ i * 32 } image={ column === "" ? "grass.png": column } />
           )) }
         </div>
       )) }
       <Sprite x={ player.x } y={ player. y} image="player.png" />
-      { bombs.map((bomb, n) => (
-        <Bomb key={ n } i={ bomb.i } j={ bomb.j } />
-      )) }
     </div>
   );
 }
