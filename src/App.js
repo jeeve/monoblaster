@@ -186,9 +186,10 @@ export default function Game() {
     const nextDecor = [...decor];
     const i = Math.round(player.x / 32);
     const j = Math.round(player.y / 32);
-    nextDecor[getIndex(i, j)] = {
-      x: getRoundMore(player.x),
-      y: getRoundMore(player.y),
+    const n = getIndex(i, j);
+    nextDecor[n] = {
+      x: getI(n) * 32,
+      y: getJ(n) * 32,
       image: "bomb1.png",
     };
     setDecor(nextDecor);
@@ -214,22 +215,18 @@ export default function Game() {
 
   return (
     <div onKeyDown={handleKeyDown} className="game" tabIndex="0">
-      {decor
-        .filter((sprite) => {
-          return sprite.image !== "bomb1.png";
-        })
-        .map((sprite, n) => (
-          <Sprite
-            key={n}
-            x={sprite.x}
-            y={sprite.y}
-            image={
-              sprite.image === "" || sprite.image === "bomb1.png"
-                ? "grass.png"
-                : sprite.image
-            }
-          />
-        ))}
+      {decor.map((sprite, n) => (
+        <Sprite
+          key={n}
+          x={sprite.x}
+          y={sprite.y}
+          image={
+            sprite.image === "" || sprite.image === "bomb1.png"
+              ? "grass.png"
+              : sprite.image
+          }
+        />
+      ))}
       <Sprite x={player.x} y={player.y} image="player.png" />
       {decor
         .filter((sprite) => {
