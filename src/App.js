@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Sprite from "./components/Sprite"
+import Sprite from "./components/Sprite";
 import Bomb from "./components/Bomb";
 
 export default function Game() {
@@ -60,14 +60,14 @@ export default function Game() {
         decor[getIndex(i, j + 1)].image === ""
       ) {
         setPlayer({ ...player, x: getRoundLessToBlock(player.x - dx) });
-      } else if (player.y % 32 <= 10 && decor[getIndex(i, j)].image === "") {
+      } else if (player.y % 32 <= tolx && decor[getIndex(i, j)].image === "") {
         setPlayer({
           ...player,
           y: getRoundMore(player.y),
           x: getRoundLessToBlock(player.x - dx),
         });
       } else if (
-        player.y % 32 >= 32 - 10 &&
+        player.y % 32 >= 32 - tolx &&
         decor[getIndex(i, j + 1)].image === ""
       ) {
         setPlayer({
@@ -92,14 +92,14 @@ export default function Game() {
         decor[getIndex(i, j + 1)].image === ""
       ) {
         setPlayer({ ...player, x: getRoundMoreToBlock(player.x + dx) });
-      } else if (player.y % 32 <= 10 && decor[getIndex(i, j)].image === "") {
+      } else if (player.y % 32 <= tolx && decor[getIndex(i, j)].image === "") {
         setPlayer({
           ...player,
           y: getRoundMore(player.y),
           x: getRoundMoreToBlock(player.x + dx),
         });
       } else if (
-        player.y % 32 >= 32 - 10 &&
+        player.y % 32 >= 32 - tolx &&
         decor[getIndex(i, j + 1)].image === ""
       ) {
         setPlayer({
@@ -124,14 +124,14 @@ export default function Game() {
         decor[getIndex(i + 1, j)].image === ""
       ) {
         setPlayer({ ...player, y: getRoundLessToBlock(player.y - dx) });
-      } else if (player.x % 32 <= 10 && decor[getIndex(i, j)].image === "") {
+      } else if (player.x % 32 <= tolx && decor[getIndex(i, j)].image === "") {
         setPlayer({
           ...player,
           x: getRoundMore(player.x),
           y: getRoundLessToBlock(player.y - dx),
         });
       } else if (
-        player.x % 32 >= 32 - 10 &&
+        player.x % 32 >= 32 - tolx &&
         decor[getIndex(i + 1, j)].image === ""
       ) {
         setPlayer({
@@ -156,14 +156,14 @@ export default function Game() {
         decor[getIndex(i + 1, j)].image === ""
       ) {
         setPlayer({ ...player, y: getRoundMoreToBlock(player.y + dx) });
-      } else if (player.x % 32 <= 10 && decor[getIndex(i, j)].image === "") {
+      } else if (player.x % 32 <= tolx && decor[getIndex(i, j)].image === "") {
         setPlayer({
           ...player,
           x: getRoundMore(player.x),
           y: getRoundMoreToBlock(player.y + dx),
         });
       } else if (
-        player.x % 32 >= 32 - 10 &&
+        player.x % 32 >= 32 - tolx &&
         decor[getIndex(i + 1, j)].image === ""
       ) {
         setPlayer({
@@ -180,12 +180,17 @@ export default function Game() {
     const i = Math.round(player.x / 32);
     const j = Math.round(player.y / 32);
     const n = getIndex(i, j);
-    nextDecor[n] = {
-      x: getI(n) * 32,
-      y: getJ(n) * 32,
-      image: "bomb1.png",
-    };
-    setDecor(nextDecor);
+    if (decor[n].image === "") {
+      const x = getI(n) * 32;
+      const y = getJ(n) * 32;
+      nextDecor[n] = {
+        x: x,
+        y: y,
+        image: "bomb1.png",
+      };
+      setDecor(nextDecor);
+      setPlayer({ ...player, x, y });
+    }
   }
 
   function handleKeyDown(event) {
@@ -235,6 +240,7 @@ export default function Game() {
 const ni = 20;
 const nj = 15;
 const dx = 5;
+const tolx = 10;
 
 function getIndex(i, j) {
   return j * ni + i;
