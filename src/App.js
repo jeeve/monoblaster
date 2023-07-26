@@ -156,7 +156,7 @@ export default function Game() {
         decor[getIndex(i + 1, j)].image === ""
       ) {
         setPlayer({ ...player, y: getRoundMoreToBlock(player.y + dx) });
-      } else if (player.x % 32 <= 10 && decor[getIndex(i, j)] === "") {
+      } else if (player.x % 32 <= 10 && decor[getIndex(i, j)].image === "") {
         setPlayer({
           ...player,
           x: getRoundMore(player.x),
