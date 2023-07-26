@@ -4,12 +4,6 @@ function Sprite({ x, y, image }) {
   const style = {
     left: x,
     top: y,
-    zIndex:
-      image === "grass.png" || image === ""
-        ? 0
-        : image === "bomb1.png"
-        ? 100
-        : 10,
   };
 
   return <img style={style} src={image} alt="" />;
