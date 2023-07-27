@@ -33,3 +33,8 @@ export function getRoundMoreToBlock(x) {
   }
   return x;
 }
+
+export function blockAt(decor, i, j) {
+  const n = getIndex(i, j);
+  return !(decor[n].image === "");
+}
