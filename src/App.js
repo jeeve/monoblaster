@@ -10,49 +10,8 @@ export default function Game() {
   const [player, setPlayer] = useState({ x: 150, y: 100 });
 
   useEffect(() => {
-    setDecor(makeDecor());
+    setDecor(Init.makeDecor());
   }, []);
-
-  function makeDecor() {
-    const sprites = [];
-    for (let i = 0; i < Init.nj; i++) {
-      for (let j = 0; j < Init.ni; j++) {
-        if (i === 0 || i === Init.nj - 1 || j === 0 || j === Init.ni - 1) {
-          sprites.push({
-            x: Util.getI(sprites.length) * 32,
-            y: Util.getJ(sprites.length) * 32,
-            image: "rock.png",
-            n: sprites.length-1
-          });
-        } else {
-          const k = Math.random();
-          if (k > 0.2 && k <= 0.3) {
-            sprites.push({
-              x: Util.getI(sprites.length) * 32,
-              y: Util.getJ(sprites.length) * 32,
-              image: "rock.png",
-              n: sprites.length-1
-            });
-          } else if (k >= 0.3 && k < 0.5) {
-            sprites.push({
-              x: Util.getI(sprites.length) * 32,
-              y: Util.getJ(sprites.length) * 32,
-              image: "brick.png",
-              n: sprites.length-1
-            });
-          } else {
-            sprites.push({
-              x: Util.getI(sprites.length) * 32,
-              y: Util.getJ(sprites.length) * 32,
-              image: "",
-              n: sprites.length-1
-            });
-          }
-        }
-      }
-    }
-    return sprites;
-  }
 
   function dropBomb() {
     const nextDecor = [...decor];
