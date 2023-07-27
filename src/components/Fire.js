@@ -3,7 +3,8 @@ import Sprite from "./Sprite";
 import * as Util from "../Util";
 
 export default function Fire({ decor, n }) {
-  const [energy, setEnergy] = useState(5);
+  const energyMax = 10;
+  const [energy, setEnergy] = useState(energyMax);
   const [spritesL, setSpritesL] = useState([]);
 
   const startTimer = () => {
@@ -13,25 +14,29 @@ export default function Fire({ decor, n }) {
   };
 
   useEffect(() => {
-    if (energy > 0) {
+    if (energy > energyMax/2) {
       setSpritesL((prevSprites) => {
         const newSprites = [...prevSprites];
         let k;
         if (newSprites.length === 0) {
-            k = n;
+          k = n;
         } else {
-            k = newSprites[newSprites.length-1].n - 1;
+          k = newSprites[newSprites.length - 1].n - 1;
         }
         newSprites.push({
           x: Util.getI(k) * 32,
           y: Util.getJ(k) * 32,
           image: energy == 1 ? "fire-h-l.png" : "fire-h.png",
-          n: k
+          n: k,
         });
         return newSprites;
       });
     } else {
-        setSpritesL([]);
+        setSpritesL((prevSprites) => {
+            const newSprites = [...prevSprites]; 
+            newSprites.shift();
+            return newSprites;  
+        });
     }
   }, [energy]);
 
@@ -45,7 +50,15 @@ export default function Fire({ decor, n }) {
 
   return (
     <div>
-      {energy > 0 ? <Sprite x={Util.getI(n) * 32} y={Util.getJ(n) * 32} image="fire-c.png" /> : <></>}
+      {energy > energyMax/2 ? (
+        <Sprite
+          x={Util.getI(n) * 32}
+          y={Util.getJ(n) * 32}
+          image="fire-c.png"
+        />
+      ) : (
+        <></>
+      )}
       <>
         {spritesL.map((sprite, n) => (
           <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
