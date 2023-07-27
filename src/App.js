@@ -61,6 +61,14 @@ export default function Game() {
     setFires(newFires);
   };
 
+  const HandleBurn = (n) => {
+    if (decor[n].image === "brick.png") {
+      const newDecor = [...decor];
+      newDecor[n].image = "";
+      setDecor(newDecor);
+    }
+  }
+
   return (
     <div onKeyDown={handleKeyDown} className="game" tabIndex="0">
       {decor.map((sprite, n) => (
@@ -90,7 +98,7 @@ export default function Game() {
           />
         ))}
       {fires.map((sprite, n) => (
-        <Fire key={n} decor={decor} n={sprite} />
+        <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
       ))}
     </div>
   );
