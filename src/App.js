@@ -241,8 +241,8 @@ export default function Game() {
         .filter((sprite) => {
           return sprite.image.includes("bomb");
         })
-        .map((sprite, n) => (
-          <Bomb key={n} x={sprite.x} y={sprite.y} n={sprite.n} onExplode={handleExplode} />
+        .map((sprite) => (
+          <Bomb key={sprite.n} x={sprite.x} y={sprite.y} n={sprite.n} onExplode={handleExplode} />
         ))}
     </div>
   );
