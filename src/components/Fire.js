@@ -6,6 +6,7 @@ export default function Fire({ decor, n, onBurn}) {
   const energyMax = 10;
   const [energy, setEnergy] = useState(energyMax);
   const [spritesL, setSpritesL] = useState([]);
+  const [nbBurnedL, setNbBurnedL] = useState(0);
 
   const startTimer = () => {
     return setInterval(() => {
@@ -29,8 +30,7 @@ export default function Fire({ decor, n, onBurn}) {
         const i = Util.getI(k) - 1;
         const j = Util.getJ(k);
         const newK = Util.getIndex(i, j);
-        onBurn(newK);
-        if (decor[newK].image === "") {
+        if (decor[newK].image === "" && nbBurnedL === 0) {
           newSprites.push({
             x: i * 32,
             y: j * 32,
@@ -39,6 +39,12 @@ export default function Fire({ decor, n, onBurn}) {
         }
         if (newSprites.length > 1) {
           newSprites[newSprites.length - 2].image = "fire-h.png";
+        }
+        if (decor[newK].image === "brick.png") {
+          setNbBurnedL((prevNbBurned) => prevNbBurned + 1);
+        }
+        if (nbBurnedL === 0) {
+          onBurn(newK);
         }
         return newSprites;
       });
