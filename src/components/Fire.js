@@ -30,6 +30,8 @@ export default function Fire({ decor, n }) {
         });
         return newSprites;
       });
+    } else {
+        setSpritesL([]);
     }
   }, [energy]);
 
@@ -43,7 +45,7 @@ export default function Fire({ decor, n }) {
 
   return (
     <div>
-      <Sprite x={Util.getI(n) * 32} y={Util.getJ(n) * 32} image="fire-c.png" />
+      {energy > 0 ? <Sprite x={Util.getI(n) * 32} y={Util.getJ(n) * 32} image="fire-c.png" /> : <></>}
       <>
         {spritesL.map((sprite, n) => (
           <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
