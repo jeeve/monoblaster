@@ -26,15 +26,21 @@ export default function Fire({ decor, n }) {
         newSprites.push({
           x: Util.getI(k) * 32,
           y: Util.getJ(k) * 32,
-          image: energy == 1 ? "fire-h-l.png" : "fire-h.png",
+          image: "fire-h-l.png",
           n: k,
         });
+        if (newSprites.length > 1) {
+            newSprites[newSprites.length-2].image = "fire-h.png";
+        }
         return newSprites;
       });
     } else {
         setSpritesL((prevSprites) => {
             const newSprites = [...prevSprites]; 
             newSprites.shift();
+            if (newSprites.length > 0) {
+                newSprites[0].image = "fire-h-r.png";
+            }
             return newSprites;  
         });
     }
@@ -50,7 +56,7 @@ export default function Fire({ decor, n }) {
 
   return (
     <div>
-      {energy > energyMax/2 ? (
+      {energy > energyMax/2 + 1 ? (
         <Sprite
           x={Util.getI(n) * 32}
           y={Util.getJ(n) * 32}
