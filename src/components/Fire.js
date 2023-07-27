@@ -3,24 +3,38 @@ import Sprite from "./Sprite";
 import * as Util from "../Util";
 
 export default function Fire({ decor, n, onBurn}) {
-  const energyMax = 10;
+  const energyMax = 4;
   const [energy, setEnergy] = useState(energyMax);
   const [spritesL, setSpritesL] = useState([]);
+  const [spritesR, setSpritesR] = useState([]);
+  const [spritesU, setSpritesU] = useState([]);
+  const [spritesD, setSpritesD] = useState([]);
   const [nbBurnedL, setNbBurnedL] = useState(0);
+  const [nbBurnedR, setNbBurnedR] = useState(0);
+  const [nbBurnedU, setNbBurnedU] = useState(0);
+  const [nbBurnedD, setNbBurnedD] = useState(0);
+
+  const getNbBurnedL = () => nbBurnedL;
+  const getNbBurnedR = () => nbBurnedR;
+  const getNbBurnedU = () => nbBurnedU;
+  const getNbBurnedD = () => nbBurnedD;
 
   const startTimer = () => {
     return setInterval(() => {
       setEnergy((prevEnergy) => prevEnergy - 1);
-    }, 50);
+    }, 100);
   };
 
   useEffect(() => {
-    spread();
+    spread(setSpritesL, setNbBurnedL, getNbBurnedL, -1, 0, "fire-h.png", "fire-h-l.png", "fire-h-r.png");
+    spread(setSpritesR, setNbBurnedR, getNbBurnedR, +1, 0, "fire-h.png", "fire-h-r.png", "fire-h-l.png");
+    spread(setSpritesU, setNbBurnedU, getNbBurnedU, 0, -1, "fire-v.png", "fire-v-u.png", "fire-v-d.png");
+    spread(setSpritesD, setNbBurnedD, getNbBurnedD, 0, +1, "fire-v.png", "fire-v-d.png", "fire-v-u.png");   
   }, [energy]);
 
-  const spread = () => {
+  const spread = (setSprites, setNbBurned, nbBurned, di, dj, image1, image2, image3) => {
     if (energy > energyMax / 2) {
-      setSpritesL((prevSprites) => {
+      setSprites((prevSprites) => {
         const newSprites = [...prevSprites];
         let k;
         if (newSprites.length === 0) {
@@ -31,33 +45,33 @@ export default function Fire({ decor, n, onBurn}) {
             Math.floor(newSprites[newSprites.length - 1].y / 32)
           );
         }
-        const i = Util.getI(k) - 1;
-        const j = Util.getJ(k);
+        const i = Util.getI(k) + di;
+        const j = Util.getJ(k) + dj;
         const newK = Util.getIndex(i, j);
-        if (decor[newK].image === "" && nbBurnedL === 0) {
+        if (decor[newK].image === "" && nbBurned() < 1) {
           newSprites.push({
             x: i * 32,
             y: j * 32,
-            image: "fire-h-l.png",
+            image: image2,
           });
         }
         if (newSprites.length > 1) {
-          newSprites[newSprites.length - 2].image = "fire-h.png";
+          newSprites[newSprites.length - 2].image = image1;
         }
         if (decor[newK].image === "brick.png") {
-          setNbBurnedL((prevNbBurned) => prevNbBurned + 1);
+          setNbBurned((prevNbBurned) => prevNbBurned + 1);
         }
-        if (nbBurnedL === 0) {
+        if (nbBurned() === 0) {
           onBurn(newK);
         }
         return newSprites;
       });
     } else {
-      setSpritesL((prevSprites) => {
+      setSprites((prevSprites) => {
         const newSprites = [...prevSprites];
         newSprites.shift();
         if (newSprites.length > 0) {
-          newSprites[0].image = "fire-h-r.png";
+          newSprites[0].image = image3;
         }
         return newSprites;
       });
@@ -87,6 +101,15 @@ export default function Fire({ decor, n, onBurn}) {
         {spritesL.map((sprite, n) => (
           <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
         ))}
+        {spritesR.map((sprite, n) => (
+          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
+        ))}
+        {spritesU.map((sprite, n) => (
+          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
+        ))}
+        {spritesD.map((sprite, n) => (
+          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
+        ))}       
       </>
     </div>
   );
