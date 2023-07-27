@@ -218,7 +218,7 @@ export default function Game() {
 
   const handleExplode = (n) => {
     const newDecor = [...decor];
-    newDecor[n].image = "grass.png"
+    newDecor[n].image = ""
     setDecor(newDecor);
   }
 
