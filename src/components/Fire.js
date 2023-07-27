@@ -15,6 +15,10 @@ export default function Fire({ decor, n, onBurn}) {
   };
 
   useEffect(() => {
+    spread();
+  }, [energy]);
+
+  const spread = () => {
     if (energy > energyMax / 2) {
       setSpritesL((prevSprites) => {
         const newSprites = [...prevSprites];
@@ -58,7 +62,7 @@ export default function Fire({ decor, n, onBurn}) {
         return newSprites;
       });
     }
-  }, [energy]);
+  }
 
   useEffect(() => {
     const interval = startTimer();
