@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import Sprite from "./components/Sprite";
 import Bomb from "./components/Bomb";
-import * as Init from "./Init"
-import * as Util from "./Util"
+import Fire from "./components/Fire";
+import * as Init from "./Init";
+import * as Util from "./Util";
 import * as Engine from "./Engine";
 
 export default function Game() {
   const [decor, setDecor] = useState([]);
   const [player, setPlayer] = useState({ x: 150, y: 100 });
+  const [fires, setFires] = useState([]);
 
   useEffect(() => {
     setDecor(Init.makeDecor());
@@ -52,9 +54,12 @@ export default function Game() {
 
   const handleExplode = (n) => {
     const newDecor = [...decor];
-    newDecor[n].image = ""
+    newDecor[n].image = "";
     setDecor(newDecor);
-  }
+    const newFires = [...fires];
+    newFires.push(n);
+    setFires(newFires);
+  };
 
   return (
     <div onKeyDown={handleKeyDown} className="game" tabIndex="0">
@@ -76,8 +81,17 @@ export default function Game() {
           return sprite.image.includes("bomb");
         })
         .map((sprite) => (
-          <Bomb key={sprite.n} x={sprite.x} y={sprite.y} n={sprite.n} onExplode={handleExplode} />
+          <Bomb
+            key={sprite.n}
+            x={sprite.x}
+            y={sprite.y}
+            n={sprite.n}
+            onExplode={handleExplode}
+          />
         ))}
+      {fires.map((sprite, n) => (
+        <Fire key={n} decor={decor} n={sprite} />
+      ))}
     </div>
   );
 }
