@@ -19,6 +19,7 @@ export default function Game() {
             x: getI(sprites.length) * 32,
             y: getJ(sprites.length) * 32,
             image: "rock.png",
+            n: sprites.length-1
           });
         } else {
           const k = Math.random();
@@ -27,18 +28,21 @@ export default function Game() {
               x: getI(sprites.length) * 32,
               y: getJ(sprites.length) * 32,
               image: "rock.png",
+              n: sprites.length-1
             });
           } else if (k >= 0.3 && k < 0.5) {
             sprites.push({
               x: getI(sprites.length) * 32,
               y: getJ(sprites.length) * 32,
               image: "brick.png",
+              n: sprites.length-1
             });
           } else {
             sprites.push({
               x: getI(sprites.length) * 32,
               y: getJ(sprites.length) * 32,
               image: "",
+              n: sprites.length-1
             });
           }
         }
@@ -187,6 +191,7 @@ export default function Game() {
         x: x,
         y: y,
         image: "bomb1.png",
+        n: n,
       };
       setDecor(nextDecor);
       setPlayer({ ...player, x, y });
@@ -211,6 +216,12 @@ export default function Game() {
     }
   }
 
+  const handleExplode = (n) => {
+    const newDecor = [...decor];
+    newDecor[n].image = "grass.png"
+    setDecor(newDecor);
+  }
+
   return (
     <div onKeyDown={handleKeyDown} className="game" tabIndex="0">
       {decor.map((sprite, n) => (
@@ -231,7 +242,7 @@ export default function Game() {
           return sprite.image.includes("bomb");
         })
         .map((sprite, n) => (
-          <Bomb key={n} x={sprite.x} y={sprite.y} />
+          <Bomb key={n} x={sprite.x} y={sprite.y} n={sprite.n} onExplode={handleExplode} />
         ))}
     </div>
   );
