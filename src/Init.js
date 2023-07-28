@@ -14,7 +14,8 @@ export function makeDecor() {
             x: Util.getI(sprites.length) * 32,
             y: Util.getJ(sprites.length) * 32,
             image: "rock.png",
-            n: sprites.length-1
+            n: sprites.length-1,
+            explode: false
           });
         } else {
           const k = Math.random();
@@ -23,21 +24,24 @@ export function makeDecor() {
               x: Util.getI(sprites.length) * 32,
               y: Util.getJ(sprites.length) * 32,
               image: "rock.png",
-              n: sprites.length-1
+              n: sprites.length-1,
+              explode: false
             });
           } else if (k >= 0.3 && k < 0.5) {
             sprites.push({
               x: Util.getI(sprites.length) * 32,
               y: Util.getJ(sprites.length) * 32,
               image: "brick.png",
-              n: sprites.length-1
+              n: sprites.length-1,
+              explode: false
             });
           } else {
             sprites.push({
               x: Util.getI(sprites.length) * 32,
               y: Util.getJ(sprites.length) * 32,
               image: "",
-              n: sprites.length-1
+              n: sprites.length-1,
+              explode: false
             });
           }
         }

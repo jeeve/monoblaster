@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function Bomb({ x, y, n, onExplode }) {
+export default function Bomb({ x, y, n, onExplode, explode }) {
 
     const [image, setImage] = useState("bomb1.png");
     const [count, setCount] = useState(5);
@@ -17,6 +17,12 @@ export default function Bomb({ x, y, n, onExplode }) {
       }, 200);
     };
  
+    useEffect(() => {
+      if (explode) {
+        onExplode(n);
+      }
+    }, [explode, onExplode]);
+
     useEffect(() => {
       const interval = startTimer();
   

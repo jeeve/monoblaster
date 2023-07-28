@@ -116,6 +116,8 @@ export default function Game() {
       const newDecor = [...decor];
       newDecor[n].image = "";
       setDecor(newDecor);
+    } else if (decor[n].image.includes("bomb")) {
+      decor[n].explode = true;
     }
   }
 
@@ -145,6 +147,7 @@ export default function Game() {
             y={sprite.y}
             n={sprite.n}
             onExplode={handleExplode}
+            explode={sprite.explode}
           />
         ))}
       {fires.map((sprite, n) => (
