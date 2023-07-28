@@ -132,7 +132,7 @@ export default function Fire({ decor, n, onBurn }) {
       return prevSprites;
     });
     setSprites((prevSprites) => {
-      if (prevSprites.length == 1) {
+      if (prevSprites.length === 1) {
         const newSprites = [...prevSprites];
         newSprites[0].image = image4;
         return newSprites;
