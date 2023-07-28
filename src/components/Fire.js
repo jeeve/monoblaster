@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Sprite from "./Sprite";
 import * as Util from "../Util";
 
-export default function Fire({ decor, n, onBurn}) {
+export default function Fire({ decor, n, onBurn }) {
   const energyMax = 4;
   const [energy, setEnergy] = useState(energyMax);
   const [spritesL, setSpritesL] = useState([]);
@@ -22,17 +22,67 @@ export default function Fire({ decor, n, onBurn}) {
   const startTimer = () => {
     return setInterval(() => {
       setEnergy((prevEnergy) => prevEnergy - 1);
-    }, 80);
+    }, 800);
   };
 
   useEffect(() => {
-    spread(setSpritesL, setNbBurnedL, getNbBurnedL, -1, 0, "fire-h.png", "fire-h-l.png", "fire-h-r.png");
-    spread(setSpritesR, setNbBurnedR, getNbBurnedR, +1, 0, "fire-h.png", "fire-h-r.png", "fire-h-l.png");
-    spread(setSpritesU, setNbBurnedU, getNbBurnedU, 0, -1, "fire-v.png", "fire-v-u.png", "fire-v-d.png");
-    spread(setSpritesD, setNbBurnedD, getNbBurnedD, 0, +1, "fire-v.png", "fire-v-d.png", "fire-v-u.png");   
+    spread(
+      setSpritesL,
+      setNbBurnedL,
+      getNbBurnedL,
+      -1,
+      0,
+      "fire-h.png",
+      "fire-h-l.png",
+      "fire-h-r.png",
+      "fire-h-e.png"
+    );
+    spread(
+      setSpritesR,
+      setNbBurnedR,
+      getNbBurnedR,
+      +1,
+      0,
+      "fire-h.png",
+      "fire-h-r.png",
+      "fire-h-l.png",
+      "fire-h-e.png"
+    );
+    spread(
+      setSpritesU,
+      setNbBurnedU,
+      getNbBurnedU,
+      0,
+      -1,
+      "fire-v.png",
+      "fire-v-u.png",
+      "fire-v-d.png",
+      "fire-v-e.png"
+    );
+    spread(
+      setSpritesD,
+      setNbBurnedD,
+      getNbBurnedD,
+      0,
+      +1,
+      "fire-v.png",
+      "fire-v-d.png",
+      "fire-v-u.png",
+      "fire-v-e.png"
+    );
   }, [energy]);
 
-  const spread = (setSprites, setNbBurned, nbBurned, di, dj, image1, image2, image3) => {
+  const spread = (
+    setSprites,
+    setNbBurned,
+    nbBurned,
+    di,
+    dj,
+    image1,
+    image2,
+    image3,
+    image4
+  ) => {
     if (energy > energyMax / 2) {
       setSprites((prevSprites) => {
         const newSprites = [...prevSprites];
@@ -75,8 +125,16 @@ export default function Fire({ decor, n, onBurn}) {
         }
         return newSprites;
       });
+      setSprites((prevSprites) => {
+        if (prevSprites.length == 1) {
+          const newSprites = [...prevSprites];
+          newSprites[0].image = image4;
+          return newSprites;
+        }
+        return prevSprites;
+      });
     }
-  }
+  };
 
   useEffect(() => {
     const interval = startTimer();
@@ -109,7 +167,7 @@ export default function Fire({ decor, n, onBurn}) {
         ))}
         {spritesD.map((sprite, n) => (
           <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
-        ))}       
+        ))}
       </>
     </div>
   );
