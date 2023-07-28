@@ -104,7 +104,7 @@ export default function Game() {
 
   const handleExplode = (n) => {
     const newDecor = [...decor];
-    newDecor[n].image = "";
+    newDecor[n].image = ""; // remove bomb
     setDecor(newDecor);
     const newFires = [...fires];
     newFires.push(n);
@@ -117,7 +117,7 @@ export default function Game() {
       newDecor[n].image = "";
       setDecor(newDecor);
     } else if (decor[n].image.includes("bomb")) {
-      decor[n].explode = true;
+      decor[n].explode = true; // chain reaction
     }
   }
 
