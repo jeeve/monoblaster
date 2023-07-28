@@ -22,7 +22,7 @@ export default function Fire({ decor, n, onBurn}) {
   const startTimer = () => {
     return setInterval(() => {
       setEnergy((prevEnergy) => prevEnergy - 1);
-    }, 50);
+    }, 80);
   };
 
   useEffect(() => {
