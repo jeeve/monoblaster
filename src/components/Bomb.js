@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 export default function Bomb({ x, y, n, onExplode }) {
 
     const [image, setImage] = useState("bomb1.png");
-    const [count, setCount] = useState(20);
+    const [count, setCount] = useState(5);
   
     const style = {
       left: x,
