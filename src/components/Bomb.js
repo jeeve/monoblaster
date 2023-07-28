@@ -29,7 +29,7 @@ export default function Bomb({ x, y, n, onExplode, explode }) {
       return () => {
         clearInterval(interval);
       };
-    }, []);
+    }, [n]);
 
     useEffect(() => {
       if (count === 0) {

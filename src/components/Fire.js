@@ -70,7 +70,7 @@ export default function Fire({ decor, n, onBurn}) {
       setSprites((prevSprites) => {
         const newSprites = [...prevSprites];
         newSprites.shift();
-        if (newSprites.length > 1) {
+        if (newSprites.length > 0) {
           newSprites[0].image = image3;
         }
         return newSprites;
@@ -84,7 +84,7 @@ export default function Fire({ decor, n, onBurn}) {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [n]);
 
   return (
     <div>
