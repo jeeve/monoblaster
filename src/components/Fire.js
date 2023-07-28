@@ -22,7 +22,7 @@ export default function Fire({ decor, n, onBurn }) {
   const startTimer = () => {
     return setInterval(() => {
       setEnergy((prevEnergy) => prevEnergy - 1);
-    }, 800);
+    }, 80);
   };
 
   useEffect(() => {
@@ -120,20 +120,25 @@ export default function Fire({ decor, n, onBurn }) {
       setSprites((prevSprites) => {
         const newSprites = [...prevSprites];
         newSprites.shift();
-        if (newSprites.length > 0) {
-          newSprites[0].image = image3;
-        }
         return newSprites;
       });
-      setSprites((prevSprites) => {
-        if (prevSprites.length == 1) {
-          const newSprites = [...prevSprites];
-          newSprites[0].image = image4;
-          return newSprites;
-        }
-        return prevSprites;
-      });
     }
+    setSprites((prevSprites) => {
+      if (prevSprites.length > 0  && energy < energyMax) {
+        const newSprites = [...prevSprites];
+        newSprites[0].image = image3;
+        return newSprites;
+      }
+      return prevSprites;
+    });
+    setSprites((prevSprites) => {
+      if (prevSprites.length == 1) {
+        const newSprites = [...prevSprites];
+        newSprites[0].image = image4;
+        return newSprites;
+      }
+      return prevSprites;
+    });
   };
 
   useEffect(() => {
