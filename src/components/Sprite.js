@@ -4,6 +4,6 @@ export default function Sprite({ x, y, image }) {
       top: y,
     };
   
-    return <img style={style} src={image} alt="" />;
+    return <img style={style} src={"/images/" + image} alt="" />;
   }
   

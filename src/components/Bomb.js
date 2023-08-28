@@ -37,5 +37,5 @@ export default function Bomb({ x, y, n, onExplode, explode }) {
       }
     }, [count]);
   
-    return <img style={style} src={image} alt="" />;
+    return <img style={style} src={"/images/" + image} alt="" />;
   }
