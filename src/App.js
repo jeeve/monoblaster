@@ -240,30 +240,59 @@ export default function Game() {
         {fires.map((sprite, n) => (
           <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
         ))}
-      </div>
-      <div id="controles">
-        <button type="button" class="controle" id="bouton-haut" onMouseDown={() => SetDisplacement(() => "up")} onMouseUp={() => SetDisplacement(() => "")} >
-          ↑
-        </button>
-        <div>
-          <button type="button" class="controle" id="bouton-gauche" onMouseDown={() => SetDisplacement(() => "left")} onMouseUp={() => SetDisplacement(() => "")} >
-            ←
+        <div id="controles">
+          <button
+            type="button"
+            class="controle"
+            id="bouton-haut"
+            onMouseDown={() => SetDisplacement(() => "up")}
+            onMouseUp={() => SetDisplacement(() => "")}
+          >
+            ↑
           </button>
-          <button type="button" class="controle" id="bouton-bombe" onMouseDown={() => dropBomb()}>
-            bomb
-          </button>
-          <button type="button" class="controle" id="bouton-droite" onMouseDown={() => SetDisplacement(() => "right")} onMouseUp={() => SetDisplacement(() => "")} >
-            →
+          <div>
+            <button
+              type="button"
+              class="controle"
+              id="bouton-gauche"
+              onMouseDown={() => SetDisplacement(() => "left")}
+              onMouseUp={() => SetDisplacement(() => "")}
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              class="controle"
+              id="bouton-bombe"
+              onMouseDown={() => dropBomb()}
+            >
+              bomb
+            </button>
+            <button
+              type="button"
+              class="controle"
+              id="bouton-droite"
+              onMouseDown={() => SetDisplacement(() => "right")}
+              onMouseUp={() => SetDisplacement(() => "")}
+            >
+              →
+            </button>
+          </div>
+          <button
+            type="button"
+            class="controle"
+            id="bouton-bas"
+            onMouseDown={() => SetDisplacement(() => "down")}
+            onMouseUp={() => SetDisplacement(() => "")}
+          >
+            ↓
           </button>
         </div>
-        <button type="button" class="controle" id="bouton-bas" onMouseDown={() => SetDisplacement(() => "down")} onMouseUp={() => SetDisplacement(() => "")} >
-          ↓
-        </button>
-      </div>
-      <div id="auteur">
-        <a href="https://greduvent.herokuapp.com/" target="_blank">
-          by jeeve
-        </a>
+        <div id="auteur">
+          <a href="https://greduvent.herokuapp.com/" target="_blank">
+            by jeeve
+          </a>
+        </div>
       </div>
     </>
   );
