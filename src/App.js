@@ -242,21 +242,21 @@ export default function Game() {
         ))}
       </div>
       <div id="controles">
-        <button type="button" class="controle" id="bouton-haut" onClick={() => SetDisplacement(() => "up")} >
+        <button type="button" class="controle" id="bouton-haut" onMouseDown={() => SetDisplacement(() => "up")} onMouseUp={() => SetDisplacement(() => "")} >
           ↑
         </button>
         <div>
-          <button type="button" class="controle" id="bouton-gauche" onClick={() => SetDisplacement(() => "left")}>
+          <button type="button" class="controle" id="bouton-gauche" onMouseDown={() => SetDisplacement(() => "left")} onMouseUp={() => SetDisplacement(() => "")} >
             ←
           </button>
-          <button type="button" class="controle" id="bouton-bombe" onClick={() => dropBomb()}>
+          <button type="button" class="controle" id="bouton-bombe" onMouseDown={() => dropBomb()}>
             bomb
           </button>
-          <button type="button" class="controle" id="bouton-droite" onClick={() => SetDisplacement(() => "right")}>
+          <button type="button" class="controle" id="bouton-droite" onMouseDown={() => SetDisplacement(() => "right")} onMouseUp={() => SetDisplacement(() => "")} >
             →
           </button>
         </div>
-        <button type="button" class="controle" id="bouton-bas" onClick={() => SetDisplacement(() => "down")}>
+        <button type="button" class="controle" id="bouton-bas" onMouseDown={() => SetDisplacement(() => "down")} onMouseUp={() => SetDisplacement(() => "")} >
           ↓
         </button>
       </div>
