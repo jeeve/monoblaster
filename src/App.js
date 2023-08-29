@@ -114,10 +114,12 @@ export default function Game() {
   }, [players, displacement]);
 
   const handleExplode = (n) => {
-    players.map((player) => {
+    const newPlayers = [...players];
+    newPlayers.map((player) => {
       if (Math.abs(player.x - Util.getI(n) * 32) < 16 && Math.abs(player.y - Util.getJ(n) * 32) < 16) {
         player.dead = true;
       }});
+    setPlayers(newPlayers);
     const newDecor = [...decor];
     newDecor[n].image = ""; // remove bomb
     setDecor(newDecor);
@@ -127,10 +129,12 @@ export default function Game() {
   };
 
   const HandleBurn = (n) => {
-    players.map((player) => {
+    const newPlayers = [...players];
+    newPlayers.map((player) => {
       if (Math.abs(player.x - Util.getI(n) * 32) < 16 && Math.abs(player.y - Util.getJ(n) * 32) < 16) {
         player.dead = true;
       }});
+    setPlayers(newPlayers);
     if (decor[n].image === "brick.png") {
       const newDecor = [...decor];
       newDecor[n].image = "";
