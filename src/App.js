@@ -8,7 +8,7 @@ import * as Engine from "./Engine";
 
 export default function Game() {
   const [decor, setDecor] = useState([]);
-  const [players, setPlayers] = useState([{ x: 150, y: 100 }, { x: 300, y: 150 }]);
+  const [players, setPlayers] = useState([{ x: 150, y: 100, dead: false }, { x: 300, y: 150, dead: false }]);
   const [numPlayer, setNumPlayer] = useState(0);
   const [fires, setFires] = useState([]);
   const [displacement, SetDisplacement] = useState("");
@@ -114,6 +114,10 @@ export default function Game() {
   }, [players, displacement]);
 
   const handleExplode = (n) => {
+    players.map((player) => {
+      if (Math.abs(player.x - Util.getI(n) * 32) < 16 && Math.abs(player.y - Util.getJ(n) * 32) < 16) {
+        player.dead = true;
+      }});
     const newDecor = [...decor];
     newDecor[n].image = ""; // remove bomb
     setDecor(newDecor);
@@ -123,6 +127,10 @@ export default function Game() {
   };
 
   const HandleBurn = (n) => {
+    players.map((player) => {
+      if (Math.abs(player.x - Util.getI(n) * 32) < 16 && Math.abs(player.y - Util.getJ(n) * 32) < 16) {
+        player.dead = true;
+      }});
     if (decor[n].image === "brick.png") {
       const newDecor = [...decor];
       newDecor[n].image = "";
@@ -146,7 +154,7 @@ export default function Game() {
           }
         />
       ))}
-      {players.map((player, n) => (
+      {players.filter((player) => { return !player.dead }).map((player, n) => (
       <Sprite x={player.x} y={player.y} image={n===0 ?"player.png" : "robot.png"} />
       ))}
       {decor
