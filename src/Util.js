@@ -39,6 +39,17 @@ export function blockAt(decor, i, j) {
   return !(decor[n].image === "");
 }
 
+export function blockOrPlayerAt(decor, players, player, i, j) {
+  const n = getIndex(i, j);
+  if (decor[n].image !== "") {
+    return true;
+  }
+  if (playerAt(players, player, i*32, j*32)) {
+    return true;
+  }
+  return false;
+}
+
 export function playerAt(players, player, x, y) {
   for (let i = 0; i < players.length; i++) {
     const p = players[i];
