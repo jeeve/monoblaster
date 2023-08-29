@@ -9,29 +9,32 @@ import * as Engine from "./Engine";
 export default function Game() {
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
-  const [players, setPlayers] = useState([{ x: 0, y: 0, dead: false }, { x: 0, y: 0, dead: false }]);
+  const [players, setPlayers] = useState([
+    { x: 0, y: 0, dead: false },
+    { x: 0, y: 0, dead: false },
+  ]);
   const [fires, setFires] = useState([]);
   const [displacement, SetDisplacement] = useState("");
 
   const myPlayer = () => {
     return players[0];
-  }
+  };
 
   const setMyPlayer = (newPlayer) => {
     const newPlayers = [...players];
     newPlayers[0] = newPlayer;
     setPlayers(newPlayers);
-  }
+  };
 
   const robot = () => {
     return players[1];
-  }
+  };
 
   const setRobot = (newPlayer) => {
     const newPlayers = [...players];
     newPlayers[1] = newPlayer;
     setPlayers(newPlayers);
-  }
+  };
 
   useEffect(() => {
     setDecor(Init.makeDecor(setDecorOK));
@@ -42,11 +45,11 @@ export default function Game() {
     const p = [...players];
     let r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[0] = { x: r.x*32, y: r.y*32, dead: false };
+      p[0] = { x: r.x * 32, y: r.y * 32, dead: false };
     }
     r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[1] = { x: r.x*32, y: r.y*32, dead: false };
+      p[1] = { x: r.x * 32, y: r.y * 32, dead: false };
     }
     setPlayers(p);
   }, [decorOK]);
@@ -87,7 +90,7 @@ export default function Game() {
       dropBomb();
     }
   }
-  
+
   function handleKeyUp(event) {
     if (event.code === "ArrowLeft" && displacement === "left") {
       SetDisplacement(() => "");
@@ -106,32 +109,45 @@ export default function Game() {
   const startTimer = () => {
     return setInterval(() => {
       switch (displacement) {
-        case "left" : { 
+        case "left": {
           Engine.tryToGoLeft(decor, players, myPlayer(), setMyPlayer);
           break;
         }
-        case "right" : {
+        case "right": {
           Engine.tryToGoRight(decor, players, myPlayer(), setMyPlayer);
           break;
         }
-        case "down" : {
+        case "down": {
           Engine.tryToGoDown(decor, players, myPlayer(), setMyPlayer);
           break;
         }
-        case "up" : {
+        case "up": {
           Engine.tryToGoUp(decor, players, myPlayer(), setMyPlayer);
           break;
         }
-        default : {
+        default: {
           break;
         }
       }
+      moveRobot();
     }, 10);
   };
 
+  function moveRobot() {
+    const r = Math.round(Math.random() * 100);
+    if (r > 0 && r <= 10) {
+      Engine.tryToGoUp(decor, players, robot(), setRobot);
+    } else if (r > 10 && r <= 20) {
+      Engine.tryToGoDown(decor, players, robot(), setRobot);
+    } else if (r > 30 && r <= 40) {
+      Engine.tryToGoLeft(decor, players, robot(), setRobot);
+    } else if (r > 40 && r <= 50) {
+      Engine.tryToGoRight(decor, players, robot(), setRobot);
+    }    
+  }
+
   useEffect(() => {
     const interval = startTimer();
-
     return () => {
       clearInterval(interval);
     };
@@ -140,9 +156,13 @@ export default function Game() {
   const handleExplode = (n) => {
     const newPlayers = [...players];
     newPlayers.map((player) => {
-      if (Math.abs(player.x - Util.getI(n) * 32) < 16 && Math.abs(player.y - Util.getJ(n) * 32) < 16) {
+      if (
+        Math.abs(player.x - Util.getI(n) * 32) < 16 &&
+        Math.abs(player.y - Util.getJ(n) * 32) < 16
+      ) {
         player.dead = true;
-      }});
+      }
+    });
     setPlayers(newPlayers);
     const newDecor = [...decor];
     newDecor[n].image = ""; // remove bomb
@@ -155,9 +175,13 @@ export default function Game() {
   const HandleBurn = (n) => {
     const newPlayers = [...players];
     newPlayers.map((player) => {
-      if (Math.abs(player.x - Util.getI(n) * 32) < 16 && Math.abs(player.y - Util.getJ(n) * 32) < 16) {
+      if (
+        Math.abs(player.x - Util.getI(n) * 32) < 16 &&
+        Math.abs(player.y - Util.getJ(n) * 32) < 16
+      ) {
         player.dead = true;
-      }});
+      }
+    });
     setPlayers(newPlayers);
     if (decor[n].image === "brick.png") {
       const newDecor = [...decor];
@@ -166,10 +190,15 @@ export default function Game() {
     } else if (decor[n].image.includes("bomb")) {
       decor[n].explode = true; // chain reaction
     }
-  }
+  };
 
   return (
-    <div onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} className="game" tabIndex="0">
+    <div
+      onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
+      className="game"
+      tabIndex="0"
+    >
       {decor.map((sprite, n) => (
         <Sprite
           key={n}
@@ -182,9 +211,17 @@ export default function Game() {
           }
         />
       ))}
-      {players.filter((player) => { return !player.dead }).map((player, n) => (
-      <Sprite x={player.x} y={player.y} image={n===0 ?"player.png" : "robot.png"} />
-      ))}
+      {players
+        .filter((player) => {
+          return !player.dead;
+        })
+        .map((player, n) => (
+          <Sprite
+            x={player.x}
+            y={player.y}
+            image={n === 0 ? "player.png" : "robot.png"}
+          />
+        ))}
       {decor
         .filter((sprite) => {
           return sprite.image.includes("bomb");
