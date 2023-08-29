@@ -5,7 +5,7 @@ export const nj = 15;
 export const dx = 5;
 export const tolx = 16;
 
-export function makeDecor() {
+export function makeDecor(decorOK) {
     const sprites = [];
     for (let i = 0; i < nj; i++) {
       for (let j = 0; j < ni; j++) {
@@ -47,5 +47,6 @@ export function makeDecor() {
         }
       }
     }
+    decorOK(true);
     return sprites;
   }

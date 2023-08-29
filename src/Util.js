@@ -39,13 +39,13 @@ export function blockAt(decor, i, j) {
   return !(decor[n].image === "");
 }
 
-export function emptyRandomPosition(decor, exceptI, exceptJ) {
+export function emptyRandomPosition(decor) {
   const maxNumberTest = 1000;
   let numberTest = 0;
   while (numberTest < maxNumberTest) {
     const i = Math.floor(Math.random() * Init.ni);
     const j = Math.floor(Math.random() * Init.nj);
-    if ((exceptI < 0 && !blockAt(decor, i, j)) || (exceptI > -1 && !blockAt(decor, i, j) && !blockAt(decor, exceptI, exceptJ))) {
+    if (!blockAt(decor, i, j)) {
       return { x: i, y: j };
     }
     numberTest++;
