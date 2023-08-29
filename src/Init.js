@@ -27,7 +27,7 @@ export function makeDecor(decorOK) {
               n: sprites.length-1,
               explode: false
             });
-          } else if (k >= 0.3 && k < 0.5) {
+          } else if (k >= 0.3 && k < 0.4) {
             sprites.push({
               x: Util.getI(sprites.length) * 32,
               y: Util.getJ(sprites.length) * 32,

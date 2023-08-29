@@ -107,19 +107,19 @@ export default function Game() {
     return setInterval(() => {
       switch (displacement) {
         case "left" : { 
-          Engine.tryToGoLeft(decor, myPlayer(), setMyPlayer);
+          Engine.tryToGoLeft(decor, players, myPlayer(), setMyPlayer);
           break;
         }
         case "right" : {
-          Engine.tryToGoRight(decor, myPlayer(), setMyPlayer);
+          Engine.tryToGoRight(decor, players, myPlayer(), setMyPlayer);
           break;
         }
         case "down" : {
-          Engine.tryToGoDown(decor, myPlayer(), setMyPlayer);
+          Engine.tryToGoDown(decor, players, myPlayer(), setMyPlayer);
           break;
         }
         case "up" : {
-          Engine.tryToGoUp(decor, myPlayer(), setMyPlayer);
+          Engine.tryToGoUp(decor, players, myPlayer(), setMyPlayer);
           break;
         }
         default : {
