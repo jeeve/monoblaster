@@ -8,16 +8,16 @@ import * as Engine from "./Engine";
 
 export default function Game() {
   const [decor, setDecor] = useState([]);
-  const [players, setPlayers] = useState([{ x: 150, y: 100 }]);
+  const [players, setPlayers] = useState([{ x: 150, y: 100 }, { x: 300, y: 150 }]);
   const [numPlayer, setNumPlayer] = useState(0);
   const [fires, setFires] = useState([]);
   const [displacement, SetDisplacement] = useState("");
 
-  const player = () => {
+  const myPlayer = () => {
     return players[numPlayer];
   }
 
-  const setPlayer = (newPlayer) => {
+  const setMyPlayer = (newPlayer) => {
     const newPlayers = [...players];
     newPlayers[numPlayer] = newPlayer;
     setPlayers(newPlayers);
@@ -29,8 +29,8 @@ export default function Game() {
 
   function dropBomb() {
     const nextDecor = [...decor];
-    const i = Math.round(player().x / 32);
-    const j = Math.round(player().y / 32);
+    const i = Math.round(myPlayer().x / 32);
+    const j = Math.round(myPlayer().y / 32);
     const n = Util.getIndex(i, j);
     if (decor[n].image === "") {
       const x = Util.getI(n) * 32;
@@ -42,7 +42,7 @@ export default function Game() {
         n: n,
       };
       setDecor(nextDecor);
-      setPlayer({ ...player(), x, y });
+      setMyPlayer({ ...myPlayer(), x, y });
     }
   }
 
@@ -83,19 +83,19 @@ export default function Game() {
     return setInterval(() => {
       switch (displacement) {
         case "left" : { 
-          Engine.tryToGoLeft(decor, player(), setPlayer);
+          Engine.tryToGoLeft(decor, myPlayer(), setMyPlayer);
           break;
         }
         case "right" : {
-          Engine.tryToGoRight(decor, player(), setPlayer);
+          Engine.tryToGoRight(decor, myPlayer(), setMyPlayer);
           break;
         }
         case "down" : {
-          Engine.tryToGoDown(decor, player(), setPlayer);
+          Engine.tryToGoDown(decor, myPlayer(), setMyPlayer);
           break;
         }
         case "up" : {
-          Engine.tryToGoUp(decor, player(), setPlayer);
+          Engine.tryToGoUp(decor, myPlayer(), setMyPlayer);
           break;
         }
         default : {
@@ -146,7 +146,9 @@ export default function Game() {
           }
         />
       ))}
-      <Sprite x={player().x} y={player().y} image="player.png" />
+      {players.map((player, n) => (
+      <Sprite x={player.x} y={player.y} image={n===0 ?"player.png" : "robot.png"} />
+      ))}
       {decor
         .filter((sprite) => {
           return sprite.image.includes("bomb");
