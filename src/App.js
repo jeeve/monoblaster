@@ -8,24 +8,45 @@ import * as Engine from "./Engine";
 
 export default function Game() {
   const [decor, setDecor] = useState([]);
-  const [players, setPlayers] = useState([{ x: 150, y: 100, dead: false }, { x: 300, y: 150, dead: false }]);
-  const [numPlayer, setNumPlayer] = useState(0);
+  const [players, setPlayers] = useState([{ x: 5*32, y: 3*32, dead: false }, { x: 10*32, y: 5*32, dead: false }]);
   const [fires, setFires] = useState([]);
   const [displacement, SetDisplacement] = useState("");
 
   const myPlayer = () => {
-    return players[numPlayer];
+    return players[0];
   }
 
   const setMyPlayer = (newPlayer) => {
     const newPlayers = [...players];
-    newPlayers[numPlayer] = newPlayer;
+    newPlayers[0] = newPlayer;
+    setPlayers(newPlayers);
+  }
+
+  const robot = () => {
+    return players[1];
+  }
+
+  const setRobot = (newPlayer) => {
+    const newPlayers = [...players];
+    newPlayers[1] = newPlayer;
     setPlayers(newPlayers);
   }
 
   useEffect(() => {
     setDecor(Init.makeDecor());
   }, []);
+
+  useEffect(() => {
+    if (decor.length === 0) return;
+    let r = Util.emptyRandomPosition(decor, -1, -1);
+    if (r.x > -1) {
+      setMyPlayer({ x: r.x*32, y: r.y*32, dead: false });
+    }
+    r = Util.emptyRandomPosition(decor, r.x, r.y);
+    if (r.x > -1) {
+      setRobot({ x: r.x*32, y: r.y*32, dead: false });
+    }
+  }, [decor]);
 
   function dropBomb() {
     const nextDecor = [...decor];

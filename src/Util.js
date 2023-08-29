@@ -38,3 +38,17 @@ export function blockAt(decor, i, j) {
   const n = getIndex(i, j);
   return !(decor[n].image === "");
 }
+
+export function emptyRandomPosition(decor, exceptI, exceptJ) {
+  const maxNumberTest = 1000;
+  let numberTest = 0;
+  while (numberTest < maxNumberTest) {
+    const i = Math.floor(Math.random() * Init.ni);
+    const j = Math.floor(Math.random() * Init.nj);
+    if ((exceptI < 0 && !blockAt(decor, i, j)) || (exceptI > -1 && !blockAt(decor, i, j) && !blockAt(decor, exceptI, exceptJ))) {
+      return { x: i, y: j };
+    }
+    numberTest++;
+  }
+  return { x: -1, y: -1 };
+}
