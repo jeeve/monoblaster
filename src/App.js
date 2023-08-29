@@ -8,9 +8,20 @@ import * as Engine from "./Engine";
 
 export default function Game() {
   const [decor, setDecor] = useState([]);
-  const [player, setPlayer] = useState({ x: 150, y: 100 });
+  const [players, setPlayers] = useState([{ x: 150, y: 100 }]);
+  const [numPlayer, setNumPlayer] = useState(0);
   const [fires, setFires] = useState([]);
   const [displacement, SetDisplacement] = useState("");
+
+  const player = () => {
+    return players[numPlayer];
+  }
+
+  const setPlayer = (newPlayer) => {
+    const newPlayers = [...players];
+    newPlayers[numPlayer] = newPlayer;
+    setPlayers(newPlayers);
+  }
 
   useEffect(() => {
     setDecor(Init.makeDecor());
@@ -18,8 +29,8 @@ export default function Game() {
 
   function dropBomb() {
     const nextDecor = [...decor];
-    const i = Math.round(player.x / 32);
-    const j = Math.round(player.y / 32);
+    const i = Math.round(player().x / 32);
+    const j = Math.round(player().y / 32);
     const n = Util.getIndex(i, j);
     if (decor[n].image === "") {
       const x = Util.getI(n) * 32;
@@ -31,7 +42,7 @@ export default function Game() {
         n: n,
       };
       setDecor(nextDecor);
-      setPlayer({ ...player, x, y });
+      setPlayer({ ...player(), x, y });
     }
   }
 
@@ -72,19 +83,19 @@ export default function Game() {
     return setInterval(() => {
       switch (displacement) {
         case "left" : { 
-          Engine.tryToGoLeft(decor, player, setPlayer);
+          Engine.tryToGoLeft(decor, player(), setPlayer);
           break;
         }
         case "right" : {
-          Engine.tryToGoRight(decor, player, setPlayer);
+          Engine.tryToGoRight(decor, player(), setPlayer);
           break;
         }
         case "down" : {
-          Engine.tryToGoDown(decor, player, setPlayer);
+          Engine.tryToGoDown(decor, player(), setPlayer);
           break;
         }
         case "up" : {
-          Engine.tryToGoUp(decor, player, setPlayer);
+          Engine.tryToGoUp(decor, player(), setPlayer);
           break;
         }
         default : {
@@ -100,7 +111,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [player, displacement]);
+  }, [players, displacement]);
 
   const handleExplode = (n) => {
     const newDecor = [...decor];
@@ -135,7 +146,7 @@ export default function Game() {
           }
         />
       ))}
-      <Sprite x={player.x} y={player.y} image="player.png" />
+      <Sprite x={player().x} y={player().y} image="player.png" />
       {decor
         .filter((sprite) => {
           return sprite.image.includes("bomb");
