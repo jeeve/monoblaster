@@ -143,7 +143,7 @@ export default function Game() {
       Engine.tryToGoLeft(decor, players, robot(), setRobot);
     } else if (r > 40 && r <= 50) {
       Engine.tryToGoRight(decor, players, robot(), setRobot);
-    }    
+    }
   }
 
   useEffect(() => {
@@ -193,52 +193,78 @@ export default function Game() {
   };
 
   return (
-    <div
-      onKeyDown={handleKeyDown}
-      onKeyUp={handleKeyUp}
-      className="game"
-      tabIndex="0"
-    >
-      {decor.map((sprite, n) => (
-        <Sprite
-          key={n}
-          x={sprite.x}
-          y={sprite.y}
-          image={
-            sprite.image === "" || sprite.image.includes("bomb")
-              ? "grass.png"
-              : sprite.image
-          }
-        />
-      ))}
-      {players
-        .filter((player) => {
-          return !player.dead;
-        })
-        .map((player, n) => (
+    <>
+      <div
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
+        className="game"
+        tabIndex="0"
+      >
+        {decor.map((sprite, n) => (
           <Sprite
-            x={player.x}
-            y={player.y}
-            image={n === 0 ? "player.png" : "robot.png"}
-          />
-        ))}
-      {decor
-        .filter((sprite) => {
-          return sprite.image.includes("bomb");
-        })
-        .map((sprite) => (
-          <Bomb
-            key={sprite.n}
+            key={n}
             x={sprite.x}
             y={sprite.y}
-            n={sprite.n}
-            onExplode={handleExplode}
-            explode={sprite.explode}
+            image={
+              sprite.image === "" || sprite.image.includes("bomb")
+                ? "grass.png"
+                : sprite.image
+            }
           />
         ))}
-      {fires.map((sprite, n) => (
-        <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
-      ))}
-    </div>
+        {players
+          .filter((player) => {
+            return !player.dead;
+          })
+          .map((player, n) => (
+            <Sprite
+              x={player.x}
+              y={player.y}
+              image={n === 0 ? "player.png" : "robot.png"}
+            />
+          ))}
+        {decor
+          .filter((sprite) => {
+            return sprite.image.includes("bomb");
+          })
+          .map((sprite) => (
+            <Bomb
+              key={sprite.n}
+              x={sprite.x}
+              y={sprite.y}
+              n={sprite.n}
+              onExplode={handleExplode}
+              explode={sprite.explode}
+            />
+          ))}
+        {fires.map((sprite, n) => (
+          <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
+        ))}
+      </div>
+      <div id="controles">
+        <button type="button" class="controle" id="bouton-haut" onClick={() => SetDisplacement(() => "up")} >
+          ↑
+        </button>
+        <div>
+          <button type="button" class="controle" id="bouton-gauche" onClick={() => SetDisplacement(() => "left")}>
+            ←
+          </button>
+          <button type="button" class="controle" id="bouton-bombe" onClick={() => dropBomb()}>
+            bomb
+          </button>
+          <button type="button" class="controle" id="bouton-droite" onClick={() => SetDisplacement(() => "right")}>
+            →
+          </button>
+        </div>
+        <button type="button" class="controle" id="bouton-bas" onClick={() => SetDisplacement(() => "down")}>
+          ↓
+        </button>
+      </div>
+      <div id="auteur">
+        <a href="https://greduvent.herokuapp.com/" target="_blank">
+          by jeeve
+        </a>
+      </div>
+    </>
   );
 }
