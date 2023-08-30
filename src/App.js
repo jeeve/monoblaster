@@ -250,7 +250,7 @@ export default function Game() {
             <Sprite
               x={player.x}
               y={player.y}
-              image={n === 0 ? "player.png" : "robot.png"}
+              image={players.length === 2 ? ( n === 0 ? "player.png" : "robot.png" ) : "robot.png" }
             />
           ))}
         {decor
