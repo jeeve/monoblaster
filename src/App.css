@@ -13,6 +13,22 @@ body {
 
 }
 
+#infos {
+  display: block;
+  height: 25px;
+  padding: 5px;
+  color: white;
+  text-align: center;
+}
+
+#titre {
+  font-size: 1.2em;
+}
+
+#board {
+  position: relative;
+}
+
 img {
   position: absolute;
 }
@@ -56,8 +72,4 @@ img {
 
 @media screen and (max-width: 767px) {
   
-  #controles .controle {
-    width: 50px;
-  }
-
 }

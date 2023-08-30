@@ -15,7 +15,10 @@ export default function Game() {
   ]);
   const [fires, setFires] = useState([]);
   const [displacement, setDisplacement] = useState("");
-  const [robotInertia, setRobotInertia] = useState({ d: "left", t: Init.robotAgitation });
+  const [robotInertia, setRobotInertia] = useState({
+    d: "left",
+    t: Init.robotAgitation,
+  });
 
   const myPlayer = () => {
     return players[0];
@@ -132,7 +135,7 @@ export default function Game() {
       }
     }, 10);
   };
-  
+
   const robotTimer = () => {
     return setInterval(() => {
       moveRobot();
@@ -146,27 +149,29 @@ export default function Game() {
       }
       if (robotInertia.d === "down") {
         Engine.tryToGoDown(decor, players, robot(), setRobot);
-      } 
+      }
       if (robotInertia.d === "left") {
         Engine.tryToGoLeft(decor, players, robot(), setRobot);
-      } 
+      }
       if (robotInertia.d === "right") {
         Engine.tryToGoRight(decor, players, robot(), setRobot);
       }
     } else {
       const r = Math.round(Math.random() * 100);
-      const t = Math.round(Math.random() * Init.robotAgitation);;
+      const t = Math.round(Math.random() * Init.robotAgitation);
       if (r > 0 && r <= 10) {
-        setRobotInertia({ d: "up", t: t});
+        setRobotInertia({ d: "up", t: t });
       } else if (r > 10 && r <= 20) {
-        setRobotInertia({ d: "down", t: t});
+        setRobotInertia({ d: "down", t: t });
       } else if (r > 30 && r <= 40) {
-        setRobotInertia({ d: "left", t: t});
+        setRobotInertia({ d: "left", t: t });
       } else if (r > 40 && r <= 50) {
-        setRobotInertia({ d: "right", t: t});
-      }    
+        setRobotInertia({ d: "right", t: t });
+      }
     }
-    setRobotInertia((old) => { return { d: old.d, t: old.t - 1 }; });
+    setRobotInertia((old) => {
+      return { d: old.d, t: old.t - 1 };
+    });
   }
 
   useEffect(() => {
@@ -230,46 +235,57 @@ export default function Game() {
         className="game"
         tabIndex="0"
       >
-        {decor.map((sprite, n) => (
-          <Sprite
-            key={n}
-            x={sprite.x}
-            y={sprite.y}
-            image={
-              sprite.image === "" || sprite.image.includes("bomb")
-                ? "grass.png"
-                : sprite.image
-            }
-          />
-        ))}
-        {players
-          .filter((player) => {
-            return !player.dead;
-          })
-          .map((player, n) => (
+        <div id="infos">
+          <span id="titre">Metablaster</span>
+        </div>
+        <div id="board">
+          {decor.map((sprite, n) => (
             <Sprite
-              x={player.x}
-              y={player.y}
-              image={players.length === 2 ? ( n === 0 ? "player.png" : "robot.png" ) : "robot.png" }
-            />
-          ))}
-        {decor
-          .filter((sprite) => {
-            return sprite.image.includes("bomb");
-          })
-          .map((sprite) => (
-            <Bomb
-              key={sprite.n}
+              key={n}
               x={sprite.x}
               y={sprite.y}
-              n={sprite.n}
-              onExplode={handleExplode}
-              explode={sprite.explode}
+              image={
+                sprite.image === "" || sprite.image.includes("bomb")
+                  ? "grass.png"
+                  : sprite.image
+              }
             />
           ))}
-        {fires.map((sprite, n) => (
-          <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
-        ))}
+          {players
+            .filter((player) => {
+              return !player.dead;
+            })
+            .map((player, n) => (
+              <Sprite
+                x={player.x}
+                y={player.y}
+                image={
+                  players.length === 2
+                    ? n === 0
+                      ? "player.png"
+                      : "robot.png"
+                    : "robot.png"
+                }
+              />
+            ))}
+          {decor
+            .filter((sprite) => {
+              return sprite.image.includes("bomb");
+            })
+            .map((sprite) => (
+              <Bomb
+                key={sprite.n}
+                x={sprite.x}
+                y={sprite.y}
+                n={sprite.n}
+                onExplode={handleExplode}
+                explode={sprite.explode}
+              />
+            ))}
+          {fires.map((sprite, n) => (
+            <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
+          ))}
+        </div>
         <div id="controles">
           <button
             type="button"
