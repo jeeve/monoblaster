@@ -6,6 +6,7 @@
 
 body {
   background-color: black;
+  height: auto;
 }
 
 .game {
@@ -51,4 +52,12 @@ img {
 
 #controles button, #controles input, #controles label {
   padding: 5px;
+}
+
+@media screen and (max-width: 767px) {
+  
+  #controles .controle {
+    width: 50px;
+  }
+
 }
