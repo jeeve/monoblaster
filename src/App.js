@@ -58,6 +58,15 @@ export default function Game() {
     setPlayers(p);
   }, [decorOK]);
 
+  useEffect(() => {
+    document.addEventListener('keyup', (event) => { handleKeyUp(event) });
+    document.addEventListener('keydown', (event) => { handleKeyDown(event) });
+    return () => {
+      document.removeEventListener('keyup', (event) => { handleKeyUp(event) });
+      document.removeEventListener('keydown', (event) => { handleKeyDown(event) });
+    };
+  }, [handleKeyDown, decor, players]);
+
   function dropBomb() {
     const nextDecor = [...decor];
     const i = Math.round(myPlayer().x / 32);
@@ -226,20 +235,6 @@ export default function Game() {
       decor[n].explode = true; // chain reaction
     }
   };
-
-  useEffect(() => {
-    document.addEventListener('keyup', (event) => { handleKeyUp(event) });
-    return () => {
-      document.removeEventListener('keyup', (event) => { handleKeyUp(event) });
-    };
-  }, [handleKeyDown]);
-
-  useEffect(() => {
-    document.addEventListener('keydown', (event) => { handleKeyDown(event) });
-    return () => {
-      document.removeEventListener('keydown', (event) => { handleKeyDown(event) });
-    };
-  }, []);
 
   return (
     <>
