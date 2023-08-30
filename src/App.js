@@ -174,7 +174,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [robotInertia]);
+  }, [players, displacement, robotInertia]);
 
   useEffect(() => {
     const interval = startTimer();
