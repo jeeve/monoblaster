@@ -277,6 +277,8 @@ export default function Game() {
             id="bouton-haut"
             onMouseDown={() => setDisplacement(() => "up")}
             onMouseUp={() => setDisplacement(() => "")}
+            onTouchStart={() => setDisplacement(() => "up")}
+            onTouchEnd={() => setDisplacement(() => "")}
           >
             ↑
           </button>
@@ -287,6 +289,8 @@ export default function Game() {
               id="bouton-gauche"
               onMouseDown={() => setDisplacement(() => "left")}
               onMouseUp={() => setDisplacement(() => "")}
+              onTouchStart={() => setDisplacement(() => "left")}
+              onTouchEnd={() => setDisplacement(() => "")}
             >
               ←
             </button>
@@ -294,7 +298,7 @@ export default function Game() {
               type="button"
               className="controle"
               id="bouton-bombe"
-              onMouseDown={() => dropBomb()}
+              onClick={() => dropBomb()}
             >
               bomb
             </button>
@@ -304,6 +308,8 @@ export default function Game() {
               id="bouton-droite"
               onMouseDown={() => setDisplacement(() => "right")}
               onMouseUp={() => setDisplacement(() => "")}
+              onTouchStart={() => setDisplacement(() => "right")}
+              onTouchEnd={() => setDisplacement(() => "")}
             >
               →
             </button>
@@ -314,6 +320,8 @@ export default function Game() {
             id="bouton-bas"
             onMouseDown={() => setDisplacement(() => "down")}
             onMouseUp={() => setDisplacement(() => "")}
+            onTouchStart={() => setDisplacement(() => "down")}
+            onTouchEnd={() => setDisplacement(() => "")}
           >
             ↓
           </button>
