@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
+import * as Init from "../Init";
 
 export default function Bomb({ x, y, n, onExplode, explode }) {
 
     const [image, setImage] = useState("bomb1.png");
     const [count, setCount] = useState(5);
   
+    const deltax = Math.floor(window.innerWidth / 2 - (Init.ni * 32) / 2);
     const style = {
-      left: x,
+      left: deltax + x,
       top: y,
     };
     

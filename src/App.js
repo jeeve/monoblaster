@@ -227,14 +227,22 @@ export default function Game() {
     }
   };
 
+  useEffect(() => {
+    document.addEventListener('keyup', (event) => { handleKeyUp(event) });
+    return () => {
+      document.removeEventListener('keyup', (event) => { handleKeyUp(event) });
+    };
+  }, [handleKeyDown]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', (event) => { handleKeyDown(event) });
+    return () => {
+      document.removeEventListener('keydown', (event) => { handleKeyDown(event) });
+    };
+  }, []);
+
   return (
     <>
-      <div
-        onKeyDown={handleKeyDown}
-        onKeyUp={handleKeyUp}
-        className="game"
-        tabIndex="0"
-      >
         <div id="infos">
           <span id="titre">Metablaster</span>
         </div>
@@ -347,7 +355,6 @@ export default function Game() {
             by jeeve
           </a>
         </div>
-      </div>
     </>
   );
 }
