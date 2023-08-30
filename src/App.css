@@ -17,7 +17,7 @@ img {
 }
 
 #auteur {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   text-align: right;
@@ -26,7 +26,7 @@ img {
 }
 
 #about {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   text-align: left;
@@ -36,7 +36,7 @@ img {
 
 #controles {
   text-align: center;
-  position: absolute;
+  position: fixed;
   bottom: -5px;
   left: 50%;
   transform: translate(-50%, -50%);
