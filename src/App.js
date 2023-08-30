@@ -169,7 +169,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [players, displacement, startTimer, moveRobot]);
+  }, [players, displacement, moveRobot]);
 
   const handleExplode = (n) => {
     const newPlayers = [...players];
