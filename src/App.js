@@ -14,7 +14,8 @@ export default function Game() {
     { x: 0, y: 0, dead: false },
   ]);
   const [fires, setFires] = useState([]);
-  const [displacement, SetDisplacement] = useState("");
+  const [displacement, setDisplacement] = useState("");
+  const [robotInertia, setRobotInertia] = useState(2);
 
   const myPlayer = () => {
     return players[0];
@@ -75,16 +76,16 @@ export default function Game() {
 
   function handleKeyDown(event) {
     if (event.code === "ArrowLeft") {
-      SetDisplacement(() => "left");
+      setDisplacement(() => "left");
     }
     if (event.code === "ArrowRight") {
-      SetDisplacement(() => "right");
+      setDisplacement(() => "right");
     }
     if (event.code === "ArrowDown") {
-      SetDisplacement(() => "down");
+      setDisplacement(() => "down");
     }
     if (event.code === "ArrowUp") {
-      SetDisplacement(() => "up");
+      setDisplacement(() => "up");
     }
     if (event.code === "Space") {
       dropBomb();
@@ -93,16 +94,16 @@ export default function Game() {
 
   function handleKeyUp(event) {
     if (event.code === "ArrowLeft" && displacement === "left") {
-      SetDisplacement(() => "");
+      setDisplacement(() => "");
     }
     if (event.code === "ArrowRight" && displacement === "right") {
-      SetDisplacement(() => "");
+      setDisplacement(() => "");
     }
     if (event.code === "ArrowDown" && displacement === "down") {
-      SetDisplacement(() => "");
+      setDisplacement(() => "");
     }
     if (event.code === "ArrowUp" && displacement === "up") {
-      SetDisplacement(() => "");
+      setDisplacement(() => "");
     }
   }
 
@@ -134,16 +135,20 @@ export default function Game() {
   };
 
   function moveRobot() {
-    const r = Math.round(Math.random() * 100);
-    if (r > 0 && r <= 10) {
-      Engine.tryToGoUp(decor, players, robot(), setRobot);
-    } else if (r > 10 && r <= 20) {
-      Engine.tryToGoDown(decor, players, robot(), setRobot);
-    } else if (r > 30 && r <= 40) {
-      Engine.tryToGoLeft(decor, players, robot(), setRobot);
-    } else if (r > 40 && r <= 50) {
-      Engine.tryToGoRight(decor, players, robot(), setRobot);
+    if (robotInertia === 0) {
+      setRobotInertia(2);
+      const r = Math.round(Math.random() * 100);
+      if (r > 0 && r <= 10) {
+        Engine.tryToGoUp(decor, players, robot(), setRobot);
+      } else if (r > 10 && r <= 20) {
+        Engine.tryToGoDown(decor, players, robot(), setRobot);
+      } else if (r > 30 && r <= 40) {
+        Engine.tryToGoLeft(decor, players, robot(), setRobot);
+      } else if (r > 40 && r <= 50) {
+        Engine.tryToGoRight(decor, players, robot(), setRobot);
+      }
     }
+    setRobotInertia((i) => { return i - 1 });
   }
 
   useEffect(() => {
@@ -243,26 +248,26 @@ export default function Game() {
         <div id="controles">
           <button
             type="button"
-            class="controle"
+            className="controle"
             id="bouton-haut"
-            onMouseDown={() => SetDisplacement(() => "up")}
-            onMouseUp={() => SetDisplacement(() => "")}
+            onMouseDown={() => setDisplacement(() => "up")}
+            onMouseUp={() => setDisplacement(() => "")}
           >
             ↑
           </button>
           <div>
             <button
               type="button"
-              class="controle"
+              className="controle"
               id="bouton-gauche"
-              onMouseDown={() => SetDisplacement(() => "left")}
-              onMouseUp={() => SetDisplacement(() => "")}
+              onMouseDown={() => setDisplacement(() => "left")}
+              onMouseUp={() => setDisplacement(() => "")}
             >
               ←
             </button>
             <button
               type="button"
-              class="controle"
+              className="controle"
               id="bouton-bombe"
               onMouseDown={() => dropBomb()}
             >
@@ -270,20 +275,20 @@ export default function Game() {
             </button>
             <button
               type="button"
-              class="controle"
+              className="controle"
               id="bouton-droite"
-              onMouseDown={() => SetDisplacement(() => "right")}
-              onMouseUp={() => SetDisplacement(() => "")}
+              onMouseDown={() => setDisplacement(() => "right")}
+              onMouseUp={() => setDisplacement(() => "")}
             >
               →
             </button>
           </div>
           <button
             type="button"
-            class="controle"
+            className="controle"
             id="bouton-bas"
-            onMouseDown={() => SetDisplacement(() => "down")}
-            onMouseUp={() => SetDisplacement(() => "")}
+            onMouseDown={() => setDisplacement(() => "down")}
+            onMouseUp={() => setDisplacement(() => "")}
           >
             ↓
           </button>
