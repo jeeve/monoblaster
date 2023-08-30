@@ -1,6 +1,7 @@
 import * as Util from "./Util"
 
-export const ni = window.innerWidth <= 767 ? Math.floor(window.innerWidth / 32) : 20;
+const ni0 = Math.floor(window.innerWidth / 32); 
+export const ni = ni0 <= 20 ? ni0 : 20;
 export const nj = 15;
 export const dx = 5;
 export const tolx = 16;
