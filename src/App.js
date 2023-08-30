@@ -170,18 +170,18 @@ export default function Game() {
   }
 
   useEffect(() => {
+    const interval = robotTimer();
+    return () => {
+      clearInterval(interval);
+    };
+  }, [robotInertia]);
+
+  useEffect(() => {
     const interval = startTimer();
     return () => {
       clearInterval(interval);
     };
   }, [players, displacement]);
-
-  useEffect(() => {
-    const interval = robotTimer();
-    return () => {
-      clearInterval(interval);
-    };
-  }, [players, displacement, robotInertia]);
 
   const handleExplode = (n) => {
     const newPlayers = [...players];
