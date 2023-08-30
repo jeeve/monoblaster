@@ -130,8 +130,13 @@ export default function Game() {
           break;
         }
       }
-      moveRobot();
     }, 10);
+  };
+  
+  const robotTimer = () => {
+    return setInterval(() => {
+      moveRobot();
+    }, 20);
   };
 
   function moveRobot() {
@@ -169,7 +174,14 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [players, displacement, moveRobot]);
+  }, [players, displacement]);
+
+  useEffect(() => {
+    const interval = robotTimer();
+    return () => {
+      clearInterval(interval);
+    };
+  }, [players, displacement, robotInertia]);
 
   const handleExplode = (n) => {
     const newPlayers = [...players];
