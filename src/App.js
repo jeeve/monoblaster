@@ -15,7 +15,7 @@ export default function Game() {
   ]);
   const [fires, setFires] = useState([]);
   const [displacement, setDisplacement] = useState("");
-  const [robotInertia, setRobotInertia] = useState(2);
+  const [robotInertia, setRobotInertia] = useState({ d: "left", t: Init.robotAgitation });
 
   const myPlayer = () => {
     return players[0];
@@ -135,20 +135,33 @@ export default function Game() {
   };
 
   function moveRobot() {
-    if (robotInertia === 0) {
-      setRobotInertia(2);
-      const r = Math.round(Math.random() * 100);
-      if (r > 0 && r <= 10) {
+    if (robotInertia.t > 0) {
+      if (robotInertia.d === "up") {
         Engine.tryToGoUp(decor, players, robot(), setRobot);
-      } else if (r > 10 && r <= 20) {
+      }
+      if (robotInertia.d === "down") {
         Engine.tryToGoDown(decor, players, robot(), setRobot);
-      } else if (r > 30 && r <= 40) {
+      } 
+      if (robotInertia.d === "left") {
         Engine.tryToGoLeft(decor, players, robot(), setRobot);
-      } else if (r > 40 && r <= 50) {
+      } 
+      if (robotInertia.d === "right") {
         Engine.tryToGoRight(decor, players, robot(), setRobot);
       }
+    } else {
+      const r = Math.round(Math.random() * 100);
+      const t = Math.round(Math.random() * Init.robotAgitation);;
+      if (r > 0 && r <= 10) {
+        setRobotInertia({ d: "up", t: t});
+      } else if (r > 10 && r <= 20) {
+        setRobotInertia({ d: "down", t: t});
+      } else if (r > 30 && r <= 40) {
+        setRobotInertia({ d: "left", t: t});
+      } else if (r > 40 && r <= 50) {
+        setRobotInertia({ d: "right", t: t});
+      }    
     }
-    setRobotInertia((i) => { return i - 1 });
+    setRobotInertia((old) => { return { d: old.d, t: old.t - 1 }; });
   }
 
   useEffect(() => {
@@ -156,7 +169,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [players, displacement]);
+  }, [players, displacement, startTimer, moveRobot]);
 
   const handleExplode = (n) => {
     const newPlayers = [...players];
