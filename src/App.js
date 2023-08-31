@@ -58,15 +58,6 @@ export default function Game() {
     setPlayers(p);
   }, [decorOK]);
 
-  useEffect(() => {
-    document.addEventListener('keyup', (event) => { handleKeyUp(event) });
-    document.addEventListener('keydown', (event) => { handleKeyDown(event) });
-    return () => {
-      document.removeEventListener('keyup', (event) => { handleKeyUp(event) });
-      document.removeEventListener('keydown', (event) => { handleKeyDown(event) });
-    };
-  }, [handleKeyDown, decor, players]);
-
   function dropBomb() {
     const nextDecor = [...decor];
     const i = Math.round(myPlayer().x / 32);
@@ -88,33 +79,42 @@ export default function Game() {
 
   function handleKeyDown(event) {
     if (event.code === "ArrowLeft") {
+      event.preventDefault();
       setDisplacement(() => "left");
     }
     if (event.code === "ArrowRight") {
+      event.preventDefault();
       setDisplacement(() => "right");
     }
     if (event.code === "ArrowDown") {
+      event.preventDefault();
       setDisplacement(() => "down");
     }
     if (event.code === "ArrowUp") {
+      event.preventDefault();
       setDisplacement(() => "up");
     }
     if (event.code === "Space") {
+      event.preventDefault();
       dropBomb();
     }
   }
 
   function handleKeyUp(event) {
     if (event.code === "ArrowLeft" && displacement === "left") {
+      event.preventDefault();
       setDisplacement(() => "");
     }
     if (event.code === "ArrowRight" && displacement === "right") {
+      event.preventDefault();
       setDisplacement(() => "");
     }
     if (event.code === "ArrowDown" && displacement === "down") {
+      event.preventDefault();
       setDisplacement(() => "");
     }
     if (event.code === "ArrowUp" && displacement === "up") {
+      event.preventDefault();
       setDisplacement(() => "");
     }
   }
@@ -236,120 +236,131 @@ export default function Game() {
     }
   };
 
+  /*
+  useEffect(() => {
+    document.addEventListener('keyup', (event) => { handleKeyUp(event) });
+    document.addEventListener('keydown', (event) => { handleKeyDown(event) });
+    return () => {
+      document.removeEventListener('keyup', (event) => { handleKeyUp(event) });
+      document.removeEventListener('keydown', (event) => { handleKeyDown(event) });
+    };
+  }, [handleKeyDown, decor, players]);
+  */
+
   return (
     <>
-        <div id="infos">
-          <span id="titre">Metablaster</span>
-        </div>
-        <div id="board">
-          {decor.map((sprite, n) => (
+      <div id="infos">
+        <span id="titre">Metablaster</span>
+      </div>
+      <div id="board" onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} tabIndex="0">
+        {decor.map((sprite, n) => (
+          <Sprite
+            key={n}
+            x={sprite.x}
+            y={sprite.y}
+            image={
+              sprite.image === "" || sprite.image.includes("bomb")
+                ? "grass.png"
+                : sprite.image
+            }
+          />
+        ))}
+        {players
+          .filter((player) => {
+            return !player.dead;
+          })
+          .map((player, n) => (
             <Sprite
-              key={n}
-              x={sprite.x}
-              y={sprite.y}
+              x={player.x}
+              y={player.y}
               image={
-                sprite.image === "" || sprite.image.includes("bomb")
-                  ? "grass.png"
-                  : sprite.image
+                players.length === 2
+                  ? n === 0
+                    ? "player.png"
+                    : "robot.png"
+                  : "robot.png"
               }
             />
           ))}
-          {players
-            .filter((player) => {
-              return !player.dead;
-            })
-            .map((player, n) => (
-              <Sprite
-                x={player.x}
-                y={player.y}
-                image={
-                  players.length === 2
-                    ? n === 0
-                      ? "player.png"
-                      : "robot.png"
-                    : "robot.png"
-                }
-              />
-            ))}
-          {decor
-            .filter((sprite) => {
-              return sprite.image.includes("bomb");
-            })
-            .map((sprite) => (
-              <Bomb
-                key={sprite.n}
-                x={sprite.x}
-                y={sprite.y}
-                n={sprite.n}
-                onExplode={handleExplode}
-                explode={sprite.explode}
-              />
-            ))}
-          {fires.map((sprite, n) => (
-            <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
+        {decor
+          .filter((sprite) => {
+            return sprite.image.includes("bomb");
+          })
+          .map((sprite) => (
+            <Bomb
+              key={sprite.n}
+              x={sprite.x}
+              y={sprite.y}
+              n={sprite.n}
+              onExplode={handleExplode}
+              explode={sprite.explode}
+            />
           ))}
-        </div>
-        <div id="controles">
+        {fires.map((sprite, n) => (
+          <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
+        ))}
+      </div>
+      <div id="controles">
+        <button
+          type="button"
+          className="controle"
+          id="bouton-haut"
+          onMouseDown={() => setDisplacement(() => "up")}
+          onMouseUp={() => setDisplacement(() => "")}
+          onTouchStart={() => setDisplacement(() => "up")}
+          onTouchEnd={() => setDisplacement(() => "")}
+        >
+          ↑
+        </button>
+        <div>
           <button
             type="button"
             className="controle"
-            id="bouton-haut"
-            onMouseDown={() => setDisplacement(() => "up")}
+            id="bouton-gauche"
+            onMouseDown={() => setDisplacement(() => "left")}
             onMouseUp={() => setDisplacement(() => "")}
-            onTouchStart={() => setDisplacement(() => "up")}
+            onTouchStart={() => setDisplacement(() => "left")}
             onTouchEnd={() => setDisplacement(() => "")}
           >
-            ↑
+            ←
           </button>
-          <div>
-            <button
-              type="button"
-              className="controle"
-              id="bouton-gauche"
-              onMouseDown={() => setDisplacement(() => "left")}
-              onMouseUp={() => setDisplacement(() => "")}
-              onTouchStart={() => setDisplacement(() => "left")}
-              onTouchEnd={() => setDisplacement(() => "")}
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              className="controle"
-              id="bouton-bombe"
-              onClick={() => dropBomb()}
-            >
-              bomb
-            </button>
-            <button
-              type="button"
-              className="controle"
-              id="bouton-droite"
-              onMouseDown={() => setDisplacement(() => "right")}
-              onMouseUp={() => setDisplacement(() => "")}
-              onTouchStart={() => setDisplacement(() => "right")}
-              onTouchEnd={() => setDisplacement(() => "")}
-            >
-              →
-            </button>
-          </div>
           <button
             type="button"
             className="controle"
-            id="bouton-bas"
-            onMouseDown={() => setDisplacement(() => "down")}
+            id="bouton-bombe"
+            onClick={() => dropBomb()}
+          >
+            bomb
+          </button>
+          <button
+            type="button"
+            className="controle"
+            id="bouton-droite"
+            onMouseDown={() => setDisplacement(() => "right")}
             onMouseUp={() => setDisplacement(() => "")}
-            onTouchStart={() => setDisplacement(() => "down")}
+            onTouchStart={() => setDisplacement(() => "right")}
             onTouchEnd={() => setDisplacement(() => "")}
           >
-            ↓
+            →
           </button>
         </div>
-        <div id="auteur">
-          <a href="https://greduvent.herokuapp.com/" target="_blank">
-            by jeeve
-          </a>
-        </div>
+        <button
+          type="button"
+          className="controle"
+          id="bouton-bas"
+          onMouseDown={() => setDisplacement(() => "down")}
+          onMouseUp={() => setDisplacement(() => "")}
+          onTouchStart={() => setDisplacement(() => "down")}
+          onTouchEnd={() => setDisplacement(() => "")}
+        >
+          ↓
+        </button>
+      </div>
+      <div id="auteur">
+        <a href="https://greduvent.herokuapp.com/" target="_blank">
+          by jeeve
+        </a>
+      </div>
     </>
   );
 }
