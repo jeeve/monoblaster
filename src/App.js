@@ -146,7 +146,7 @@ export default function Game() {
       Util.danger(Util.spriteLeft(nRobot), decor, fires) ||
       Util.danger(Util.spriteRight(nRobot), decor, fires)
     ) {
-      if (!Util.something(decor, players, robot, Util.spriteUp(nRobot))) {
+      if (!Util.something(decor, players, robot(), Util.spriteUp(nRobot))) {
         Engine.tryToGoUp(decor, players, robot(), setRobot);
       } else {
         Engine.tryToGoDown(decor, players, robot(), setRobot);
@@ -157,7 +157,7 @@ export default function Game() {
       Util.danger(Util.spriteUp(nRobot), decor, fires) ||
       Util.danger(Util.spriteDown(nRobot), decor, fires)
     ) {
-      if (!Util.something(decor, players, robot, Util.spriteLeft(nRobot))) {
+      if (!Util.something(decor, players, robot(), Util.spriteLeft(nRobot))) {
         Engine.tryToGoLeft(decor, players, robot(), setRobot);
       } else {
         Engine.tryToGoRight(decor, players, robot(), setRobot);
