@@ -73,3 +73,35 @@ export function emptyRandomPosition(decor) {
   }
   return { x: -1, y: -1 };
 }
+
+export function something(decor, players, player, n) {
+  const i = getI(n);
+  const j = getJ(n);
+  if (decor[n].image !== "") {
+    return true;
+  }
+  if (playerAt(players, player, i*32, j*32)) {
+    return true;
+  }
+  return false;
+}
+
+export function danger(n, decor, fires) {
+  return decor[n].image.includes("bomb") || fires.includes(n);
+}
+
+export function spriteLeft(n) {
+  return n - 1;
+}
+
+export function spriteRight(n) {
+  return n + 1;
+}
+
+export function spriteUp(n) {
+  return n - Init.ni;
+}
+
+export function spriteDown(n) {
+  return n + Init.ni;
+}

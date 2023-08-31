@@ -42,10 +42,11 @@ export default function Game() {
     setPlayers(newPlayers);
   };
 
-  function dropBomb() {
+  function dropBomb(player) {
+    if (player.dead) return;
     const nextDecor = [...decor];
-    const i = Math.round(myPlayer().x / 32);
-    const j = Math.round(myPlayer().y / 32);
+    const i = Math.round(player.x / 32);
+    const j = Math.round(player.y / 32);
     const n = Util.getIndex(i, j);
     if (decor[n].image === "") {
       const x = Util.getI(n) * 32;
@@ -57,7 +58,8 @@ export default function Game() {
         n: n,
       };
       setDecor(nextDecor);
-      setMyPlayer({ ...myPlayer(), x, y });
+      player.x = x;
+      player.y = y;
     }
   }
 
@@ -80,9 +82,7 @@ export default function Game() {
     }
     if (event.code === "Space") {
       event.preventDefault();
-      if (!myPlayer().dead) {
-        dropBomb();
-      }
+      dropBomb(myPlayer());
     }
   }
 
@@ -138,6 +138,32 @@ export default function Game() {
   };
 
   function moveRobot() {
+    const iRobot = Math.floor(robot().x / 32);
+    const jRobot = Math.floor(robot().y / 32);
+    const nRobot = Util.getIndex(iRobot, jRobot);
+
+    if (
+      Util.danger(Util.spriteLeft(nRobot), decor, fires) ||
+      Util.danger(Util.spriteRight(nRobot), decor, fires)
+    ) {
+      if (!Util.something(decor, players, robot, Util.spriteUp(nRobot))) {
+        Engine.tryToGoUp(decor, players, robot(), setRobot);
+      } else {
+        Engine.tryToGoDown(decor, players, robot(), setRobot);
+      }
+    }
+
+    if (
+      Util.danger(Util.spriteUp(nRobot), decor, fires) ||
+      Util.danger(Util.spriteDown(nRobot), decor, fires)
+    ) {
+      if (!Util.something(decor, players, robot, Util.spriteLeft(nRobot))) {
+        Engine.tryToGoLeft(decor, players, robot(), setRobot);
+      } else {
+        Engine.tryToGoRight(decor, players, robot(), setRobot);
+      }
+    }
+
     if (robotInertia.t > 0) {
       if (robotInertia.d === "up") {
         Engine.tryToGoUp(decor, players, robot(), setRobot);
@@ -158,10 +184,12 @@ export default function Game() {
         setRobotInertia({ d: "up", t: t });
       } else if (r > 10 && r <= 20) {
         setRobotInertia({ d: "down", t: t });
-      } else if (r > 30 && r <= 40) {
+      } else if (r > 20 && r <= 30) {
         setRobotInertia({ d: "left", t: t });
-      } else if (r > 40 && r <= 50) {
+      } else if (r > 30 && r <= 40) {
         setRobotInertia({ d: "right", t: t });
+      } else if (r > 40 && r <= 42) {
+        dropBomb(robot());
       }
     }
     setRobotInertia((old) => {
@@ -355,7 +383,9 @@ export default function Game() {
             type="button"
             className="controle"
             id="bouton-bombe"
-            onClick={() => { if (!myPlayer().dead) dropBomb(); }}
+            onClick={() => {
+              dropBomb(myPlayer());
+            }}
           >
             bomb
           </button>
