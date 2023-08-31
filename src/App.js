@@ -3,6 +3,7 @@ import Sprite from "./components/Sprite";
 import Bomb from "./components/Bomb";
 import Fire from "./components/Fire";
 import Score from "./components/Score";
+import Player from "./components/Player";
 import * as Init from "./Init";
 import * as Util from "./Util";
 import * as Engine from "./Engine";
@@ -185,6 +186,12 @@ export default function Game() {
     setFires(newFires);
   };
 
+  const handleReborn = (n) => {
+    const newPlayers = [...players];
+    newPlayers[n].dead = false;
+    setPlayers(newPlayers);  
+  }
+
   const HandleBurn = (n) => {
     const newPlayers = [...players];
     newPlayers.map((player) => {
@@ -266,15 +273,14 @@ export default function Game() {
             }
           />
         ))}
-        {players
-          .filter((player) => {
-            return !player.dead;
-          })
-          .map((player, n) => (
-            <Sprite
+        {players .map((player, n) => (
+            <Player
               x={player.x}
               y={player.y}
+              n={n}
+              dead={player.dead}
               image={player.image}
+              onReborn={handleReborn}
             />
           ))}
         {decor
