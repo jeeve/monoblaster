@@ -312,6 +312,7 @@ export default function Game() {
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
         tabIndex="0"
+        ref={input => input && input.focus()}
       >
         {decor.map((sprite, n) => (
           <Sprite
