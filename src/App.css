@@ -37,6 +37,7 @@ img {
   text-align: right;
   margin-right: 10px;
   margin-bottom: 5px;
+  user-select: none;
 }
 
 #about {
@@ -46,6 +47,7 @@ img {
   text-align: left;
   margin-left: 10px;
   margin-bottom: 5px;
+  user-select: none;
 }
 
 #controles {
@@ -62,6 +64,7 @@ img {
   margin-top: 5px;
   display: inline-block;
   width: 60px;
+  user-select: none;
 }
 
 #controles button, #controles input, #controles label {

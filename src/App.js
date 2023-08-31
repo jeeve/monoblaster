@@ -40,24 +40,6 @@ export default function Game() {
     setPlayers(newPlayers);
   };
 
-  useEffect(() => {
-    setDecor(Init.makeDecor(setDecorOK));
-  }, []);
-
-  useEffect(() => {
-    if (!decorOK) return;
-    const p = [...players];
-    let r = Util.emptyRandomPosition(decor);
-    if (r.x > -1) {
-      p[0] = { x: r.x * 32, y: r.y * 32, dead: false };
-    }
-    r = Util.emptyRandomPosition(decor);
-    if (r.x > -1) {
-      p[1] = { x: r.x * 32, y: r.y * 32, dead: false };
-    }
-    setPlayers(p);
-  }, [decorOK]);
-
   function dropBomb() {
     const nextDecor = [...decor];
     const i = Math.round(myPlayer().x / 32);
@@ -183,21 +165,7 @@ export default function Game() {
     });
   }
 
-  useEffect(() => {
-    const interval = robotTimer();
-    return () => {
-      clearInterval(interval);
-    };
-  }, [decor, players, displacement, robotInertia]);
-
-  useEffect(() => {
-    const interval = startTimer();
-    return () => {
-      clearInterval(interval);
-    };
-  }, [decor, players, displacement]);
-
-  const handleExplode = (n) => {
+   const handleExplode = (n) => {
     const newPlayers = [...players];
     newPlayers.map((player) => {
       if (
@@ -235,6 +203,38 @@ export default function Game() {
       decor[n].explode = true; // chain reaction
     }
   };
+
+  useEffect(() => {
+    setDecor(Init.makeDecor(setDecorOK));
+  }, []);
+
+  useEffect(() => {
+    if (!decorOK) return;
+    const p = [...players];
+    let r = Util.emptyRandomPosition(decor);
+    if (r.x > -1) {
+      p[0] = { x: r.x * 32, y: r.y * 32, dead: false };
+    }
+    r = Util.emptyRandomPosition(decor);
+    if (r.x > -1) {
+      p[1] = { x: r.x * 32, y: r.y * 32, dead: false };
+    }
+    setPlayers(p);
+  }, [decorOK]);
+
+  useEffect(() => {
+    const interval = robotTimer();
+    return () => {
+      clearInterval(interval);
+    };
+  }, [decor, players, displacement, robotInertia]);
+
+  useEffect(() => {
+    const interval = startTimer();
+    return () => {
+      clearInterval(interval);
+    };
+  }, [decor, players, displacement]);
 
   /*
   useEffect(() => {
