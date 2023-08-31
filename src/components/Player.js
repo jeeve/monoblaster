@@ -13,10 +13,18 @@ export default function Player({ x, y, n, image, dead, onReborn }) {
 
   const startTimer = () => {
     return setInterval(() => {
-      setCount((prevCount) => prevCount - 1);
-      setImg((prevImage) => (prevImage === "" ? image : ""));
+      if (dead) {
+        setCount((prevCount) => prevCount - 1);
+        setImg((prevImage) => (prevImage === "" ? image : ""));
+      }
     }, 200);
   };
+
+  useEffect(() => {
+    if (dead && count === 0) {
+      onReborn(n);
+    }
+  }, [dead, count]);
 
   useEffect(() => {
     if (dead) {
@@ -27,12 +35,6 @@ export default function Player({ x, y, n, image, dead, onReborn }) {
       };
     }
   }, [dead]);
-
-  useEffect(() => {
-    if (count === 0) {
-      onReborn(n);
-    }
-  }, [count, dead, n]);
 
   return <img style={style} src={"/images/" + img} alt="" />;
 }
