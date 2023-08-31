@@ -22,6 +22,18 @@ body {
   font-size: 1.2em;
 }
 
+.score1 {
+  float: left;
+  text-align: left;
+  margin-right: 10px;
+}
+
+.score2 {
+  float: right;
+  text-align: right;
+  margin-right: 10px;
+}
+
 #board {
   position: relative;
 }

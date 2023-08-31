@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Sprite from "./components/Sprite";
 import Bomb from "./components/Bomb";
 import Fire from "./components/Fire";
+import Score from "./components/Score";
 import * as Init from "./Init";
 import * as Util from "./Util";
 import * as Engine from "./Engine";
@@ -165,7 +166,7 @@ export default function Game() {
     });
   }
 
-   const handleExplode = (n) => {
+  const handleExplode = (n) => {
     const newPlayers = [...players];
     newPlayers.map((player) => {
       if (
@@ -250,9 +251,20 @@ export default function Game() {
   return (
     <>
       <div id="infos">
+        <div className="score1">
+          <Score n="0"></Score>
+        </div>
         <span id="titre">Metablaster</span>
+        <div className="score2">
+          <Score className="score2" n="0"></Score>
+        </div>
       </div>
-      <div id="board" onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} tabIndex="0">
+      <div
+        id="board"
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
+        tabIndex="0"
+      >
         {decor.map((sprite, n) => (
           <Sprite
             key={n}
