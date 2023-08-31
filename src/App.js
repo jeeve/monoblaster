@@ -11,8 +11,8 @@ export default function Game() {
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
   const [players, setPlayers] = useState([
-    { x: 0, y: 0, score: 0 },
-    { x: 0, y: 0, score: 0 },
+    { x: 0, y: 0, score: 0, dead: false },
+    { x: 0, y: 0, score: 0, dead: false },
   ]);
   const [fires, setFires] = useState([]);
   const [displacement, setDisplacement] = useState("");
@@ -173,7 +173,7 @@ export default function Game() {
         Math.abs(player.x - Util.getI(n) * 32) < 16 &&
         Math.abs(player.y - Util.getJ(n) * 32) < 16
       ) {
-        player.score = -1;
+        player.dead = true;
       }
     });
     setPlayers(newPlayers);
@@ -192,7 +192,7 @@ export default function Game() {
         Math.abs(player.x - Util.getI(n) * 32) < 16 &&
         Math.abs(player.y - Util.getJ(n) * 32) < 16
       ) {
-        player.score = -1;
+        player.dead = true;
       }
     });
     setPlayers(newPlayers);
@@ -214,11 +214,11 @@ export default function Game() {
     const p = [...players];
     let r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[0] = { x: r.x * 32, y: r.y * 32, score: 0 };
+      p[0] = { x: r.x * 32, y: r.y * 32, score: 0, dead: false };
     }
     r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[1] = { x: r.x * 32, y: r.y * 32, score: 0 };
+      p[1] = { x: r.x * 32, y: r.y * 32, score: 0, dead: false };
     }
     setPlayers(p);
   }, [decorOK]);
@@ -268,7 +268,7 @@ export default function Game() {
         ))}
         {players
           .filter((player) => {
-            return player.score > -1;
+            return !player.dead;
           })
           .map((player, n) => (
             <Sprite
