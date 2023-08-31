@@ -200,11 +200,13 @@ export default function Game() {
         Math.abs(player.x - Util.getI(n) * 32) < 16 &&
         Math.abs(player.y - Util.getJ(n) * 32) < 16
       ) {
-        player.dead = true;
-        if (player.image === "player.png") {
-          players[1].score++;
-        } else {
-          players[0].score++;
+        if (!player.dead) {
+          player.dead = true;
+          if (player.image === "player.png") {
+            players[1].score++;
+          } else {
+            players[0].score++;
+          }
         }
       }
     });
@@ -221,8 +223,8 @@ export default function Game() {
   const handleReborn = (n) => {
     const newPlayers = [...players];
     newPlayers[n].dead = false;
-    setPlayers(newPlayers);  
-  }
+    setPlayers(newPlayers);
+  };
 
   useEffect(() => {
     setDecor(Init.makeDecor(setDecorOK));
@@ -233,11 +235,23 @@ export default function Game() {
     const p = [...players];
     let r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[0] = { x: r.x * 32, y: r.y * 32, score: 0, dead: false, image: "player.png" };
+      p[0] = {
+        x: r.x * 32,
+        y: r.y * 32,
+        score: 0,
+        dead: false,
+        image: "player.png",
+      };
     }
     r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[1] = { x: r.x * 32, y: r.y * 32, score: 0, dead: false, image: "robot.png" };
+      p[1] = {
+        x: r.x * 32,
+        y: r.y * 32,
+        score: 0,
+        dead: false,
+        image: "robot.png",
+      };
     }
     setPlayers(p);
   }, [decorOK]);
@@ -285,16 +299,16 @@ export default function Game() {
             }
           />
         ))}
-        {players .map((player, n) => (
-            <Player
-              x={player.x}
-              y={player.y}
-              n={n}
-              dead={player.dead}
-              image={player.image}
-              onReborn={handleReborn}
-            />
-          ))}
+        {players.map((player, n) => (
+          <Player
+            x={player.x}
+            y={player.y}
+            n={n}
+            dead={player.dead}
+            image={player.image}
+            onReborn={handleReborn}
+          />
+        ))}
         {decor
           .filter((sprite) => {
             return sprite.image.includes("bomb");
