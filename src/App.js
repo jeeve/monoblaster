@@ -151,9 +151,7 @@ export default function Game() {
       } else {
         Engine.tryToGoDown(decor, players, robot(), setRobot);
       }
-    }
-
-    if (
+    } else if (
       Util.danger(Util.spriteUp(nRobot), decor, fires) ||
       Util.danger(Util.spriteDown(nRobot), decor, fires)
     ) {
