@@ -11,8 +11,8 @@ export default function Game() {
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
   const [players, setPlayers] = useState([
-    { x: 0, y: 0, score: 0, dead: false },
-    { x: 0, y: 0, score: 0, dead: false },
+    { x: 0, y: 0, score: 0, dead: false, image: "player.png" },
+    { x: 0, y: 0, score: 0, dead: false, image: "robot.png" },
   ]);
   const [fires, setFires] = useState([]);
   const [displacement, setDisplacement] = useState("");
@@ -214,11 +214,11 @@ export default function Game() {
     const p = [...players];
     let r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[0] = { x: r.x * 32, y: r.y * 32, score: 0, dead: false };
+      p[0] = { x: r.x * 32, y: r.y * 32, score: 0, dead: false, image: "player.png" };
     }
     r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[1] = { x: r.x * 32, y: r.y * 32, score: 0, dead: false };
+      p[1] = { x: r.x * 32, y: r.y * 32, score: 0, dead: false, image: "robot.png" };
     }
     setPlayers(p);
   }, [decorOK]);
@@ -274,13 +274,7 @@ export default function Game() {
             <Sprite
               x={player.x}
               y={player.y}
-              image={
-                players.length === 2
-                  ? n === 0
-                    ? "player.png"
-                    : "robot.png"
-                  : "robot.png"
-              }
+              image={player.image}
             />
           ))}
         {decor
