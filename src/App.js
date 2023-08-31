@@ -80,7 +80,9 @@ export default function Game() {
     }
     if (event.code === "Space") {
       event.preventDefault();
-      dropBomb();
+      if (!myPlayer().dead) {
+        dropBomb();
+      }
     }
   }
 
