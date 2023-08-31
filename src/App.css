@@ -52,7 +52,8 @@ img {
   position: fixed;
   bottom: -5px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
+  margin-bottom: 50px;
 }
 
 #controles .controle {
@@ -67,5 +68,17 @@ img {
 }
 
 @media screen and (max-width: 767px) {
+
+  #infos {
+    height: 25px;
+  }
+
+  #controles {
+    margin-bottom: 25px;
+  }
+
+  #controles .controle {
+    width: 50px;
+  }
   
 }
