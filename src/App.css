@@ -105,3 +105,15 @@ img {
   }
   
 }
+
+@media screen and (max-height: 700px) {
+
+  #infos {
+    height: 20px;
+  }
+
+  #controles {
+    margin-bottom: 10px;
+  }
+  
+}
