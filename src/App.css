@@ -22,16 +22,23 @@ body {
   font-size: 1.2em;
 }
 
+.score {
+  background-color: white;
+  font-weight: bold;
+  padding: 5px;
+  margin: 0;
+}
+
 .score1 {
   float: left;
   text-align: left;
-  margin-right: 10px;
+  color: blue;
 }
 
 .score2 {
   float: right;
   text-align: right;
-  margin-right: 10px;
+  color: red;
 }
 
 #board {

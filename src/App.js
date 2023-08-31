@@ -273,11 +273,11 @@ export default function Game() {
   return (
     <>
       <div id="infos">
-        <div className="score1">
+        <div className="score score1">
           <Score n={myPlayer().score}></Score>
         </div>
         <span id="titre">Metablaster</span>
-        <div className="score2">
+        <div className="score score2">
           <Score n={robot().score}></Score>
         </div>
       </div>
@@ -355,7 +355,7 @@ export default function Game() {
             type="button"
             className="controle"
             id="bouton-bombe"
-            onClick={() => dropBomb()}
+            onClick={() => { if (!myPlayer().dead) dropBomb(); }}
           >
             bomb
           </button>
