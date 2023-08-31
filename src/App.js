@@ -177,6 +177,11 @@ export default function Game() {
         Math.abs(player.y - Util.getJ(n) * 32) < 16
       ) {
         player.dead = true;
+        if (player.image === "player.png") {
+          players[1].score++;
+        } else {
+          players[0].score++;
+        }
       }
     });
     setPlayers(newPlayers);
@@ -188,12 +193,6 @@ export default function Game() {
     setFires(newFires);
   };
 
-  const handleReborn = (n) => {
-    const newPlayers = [...players];
-    newPlayers[n].dead = false;
-    setPlayers(newPlayers);  
-  }
-
   const HandleBurn = (n) => {
     const newPlayers = [...players];
     newPlayers.map((player) => {
@@ -202,6 +201,11 @@ export default function Game() {
         Math.abs(player.y - Util.getJ(n) * 32) < 16
       ) {
         player.dead = true;
+        if (player.image === "player.png") {
+          players[1].score++;
+        } else {
+          players[0].score++;
+        }
       }
     });
     setPlayers(newPlayers);
@@ -213,6 +217,12 @@ export default function Game() {
       decor[n].explode = true; // chain reaction
     }
   };
+
+  const handleReborn = (n) => {
+    const newPlayers = [...players];
+    newPlayers[n].dead = false;
+    setPlayers(newPlayers);  
+  }
 
   useEffect(() => {
     setDecor(Init.makeDecor(setDecorOK));
