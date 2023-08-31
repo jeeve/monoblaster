@@ -11,8 +11,8 @@ export default function Game() {
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
   const [players, setPlayers] = useState([
-    { x: 0, y: 0, dead: false },
-    { x: 0, y: 0, dead: false },
+    { x: 0, y: 0, score: 0 },
+    { x: 0, y: 0, score: 0 },
   ]);
   const [fires, setFires] = useState([]);
   const [displacement, setDisplacement] = useState("");
@@ -173,7 +173,7 @@ export default function Game() {
         Math.abs(player.x - Util.getI(n) * 32) < 16 &&
         Math.abs(player.y - Util.getJ(n) * 32) < 16
       ) {
-        player.dead = true;
+        player.score = -1;
       }
     });
     setPlayers(newPlayers);
@@ -192,7 +192,7 @@ export default function Game() {
         Math.abs(player.x - Util.getI(n) * 32) < 16 &&
         Math.abs(player.y - Util.getJ(n) * 32) < 16
       ) {
-        player.dead = true;
+        player.score = -1;
       }
     });
     setPlayers(newPlayers);
@@ -214,11 +214,11 @@ export default function Game() {
     const p = [...players];
     let r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[0] = { x: r.x * 32, y: r.y * 32, dead: false };
+      p[0] = { x: r.x * 32, y: r.y * 32, score: 0 };
     }
     r = Util.emptyRandomPosition(decor);
     if (r.x > -1) {
-      p[1] = { x: r.x * 32, y: r.y * 32, dead: false };
+      p[1] = { x: r.x * 32, y: r.y * 32, score: 0 };
     }
     setPlayers(p);
   }, [decorOK]);
@@ -237,26 +237,15 @@ export default function Game() {
     };
   }, [decor, players, displacement]);
 
-  /*
-  useEffect(() => {
-    document.addEventListener('keyup', (event) => { handleKeyUp(event) });
-    document.addEventListener('keydown', (event) => { handleKeyDown(event) });
-    return () => {
-      document.removeEventListener('keyup', (event) => { handleKeyUp(event) });
-      document.removeEventListener('keydown', (event) => { handleKeyDown(event) });
-    };
-  }, [handleKeyDown, decor, players]);
-  */
-
   return (
     <>
       <div id="infos">
         <div className="score1">
-          <Score n="0"></Score>
+          <Score n={myPlayer().score}></Score>
         </div>
         <span id="titre">Metablaster</span>
         <div className="score2">
-          <Score n="0"></Score>
+          <Score n={robot().score}></Score>
         </div>
       </div>
       <div
@@ -279,7 +268,7 @@ export default function Game() {
         ))}
         {players
           .filter((player) => {
-            return !player.dead;
+            return player.score > -1;
           })
           .map((player, n) => (
             <Sprite

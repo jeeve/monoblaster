@@ -1,4 +1,7 @@
 export default function Score({ n }) {
-  
-    return <span>{n}</span>;
+  let text = ""  
+  if (n > -1) {
+      text = n;
+    }
+    return <span>{text}</span>;
   }
