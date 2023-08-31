@@ -15,6 +15,7 @@ body {
   padding: 15px;
   color: white;
   text-align: center;
+  user-select: none;
 }
 
 #titre {
