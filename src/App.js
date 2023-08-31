@@ -256,7 +256,7 @@ export default function Game() {
         </div>
         <span id="titre">Metablaster</span>
         <div className="score2">
-          <Score className="score2" n="0"></Score>
+          <Score n="0"></Score>
         </div>
       </div>
       <div
