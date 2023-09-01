@@ -4,6 +4,24 @@ import * as Util from "./Util"
 export function tryToGoLeft(decor, players, player, setPlayer) {
     const i = Math.floor((player.x - Init.dx) / 32);
     const j = Math.floor(player.y / 32);
+    const o1 = Util.blockOrPlayerAt(decor, players, player, i, j - 1);
+    const o2 = Util.blockOrPlayerAt(decor, players, player, i, j);
+
+    if (o1 === null && o2 === null) {
+      setPlayer({ ...player, x: player.x - Init.dx });
+    } else if (o1 === null && o2 !== null) {
+      const deltax = Init.dx;
+      if (player.x - o2.x + 32 > Init.dx) {
+        deltax = 
+      }
+
+    }
+
+  
+
+
+
+
     if (player.y % 32 === 0) {
       const o = Util.blockOrPlayerAt(decor, players, player, i, j);
       if (o == null) {
