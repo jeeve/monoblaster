@@ -42,22 +42,19 @@ export function blockAt(decor, i, j) {
 export function blockOrPlayerAt(decor, players, player, i, j) {
   const n = getIndex(i, j);
   if (decor[n].image !== "") {
-    return true;
+    return decor[n];
   }
-  if (playerAt(players, player, i*32, j*32)) {
-    return true;
-  }
-  return false;
+  return playerAt(players, player, i*32, j*32);
 }
 
 export function playerAt(players, player, x, y) {
   for (let i = 0; i < players.length; i++) {
     const p = players[i];
     if ((player.x !== p.x || player.y !== p.y) && (Math.abs(p.x - x) < 32 && Math.abs(p.y - y) < 32)) {
-      return true;
+      return p;
     }
   }
-  return false;
+  return null;
 }
 
 export function emptyRandomPosition(decor) {
