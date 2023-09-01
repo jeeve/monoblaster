@@ -5,16 +5,16 @@ export function tryToGoLeft(decor, players, player, setPlayer) {
     const i = Math.floor((player.x - Init.dx) / 32);
     const j = Math.floor(player.y / 32);
     if (player.y % 32 === 0) {
-      if (!Util.blockOrPlayerAt(decor, players, player, i, j)) {
-        setPlayer({ ...player, x: Util.getRoundLessToBlock(player.x - Init.dx) });
+      const o = Util.blockOrPlayerAt(decor, players, player, i, j);
+      if (o == null) {
+        setPlayer({ ...player, x: o.x + 32 });
       }
     } else {
-      if (
-        !Util.blockOrPlayerAt(decor, players, player, i, j) &&
-        !Util.blockOrPlayerAt(decor, players, player, i, j + 1)
-      ) {
-        setPlayer({ ...player, x: Util.getRoundLessToBlock(player.x - Init.dx) });
-      } else if (player.y % 32 <= Init.tolx && !Util.blockOrPlayerAt(decor, players, player, i, j)) {
+      const o1 = Util.blockOrPlayerAt(decor, players, player, i, j);
+      const o2 = Util.blockOrPlayerAt(decor, players, player, i, j + 1);  
+      if (o1 == null && o2 == null) {
+        setPlayer({ ...player, x: o.x + 32 });
+      } else if (player.y % 32 <= Init.tolx && o1 == null) {
         setPlayer({
           ...player,
           y: Util.getRoundMore(player.y),
