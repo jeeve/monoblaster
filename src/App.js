@@ -262,7 +262,7 @@ export default function Game() {
     if (r.x > -1) {
       p[0] = {
         x: r.x * 32,
-        y: r.y * 32 + 30,
+        y: r.y * 32,
         score: 0,
         dead: false,
         image: "player.png",
