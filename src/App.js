@@ -133,7 +133,7 @@ export default function Game() {
 
   const robotTimer = () => {
     return setInterval(() => {
-      moveRobot();
+      //moveRobot();
     }, 10);
   };
 
@@ -262,7 +262,7 @@ export default function Game() {
     if (r.x > -1) {
       p[0] = {
         x: r.x * 32,
-        y: r.y * 32,
+        y: r.y * 32 + 30,
         score: 0,
         dead: false,
         image: "player.png",
