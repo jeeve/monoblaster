@@ -37,6 +37,17 @@ export function tryToGoLeft(decor, players, player, setPlayer) {
     }).length != 0;
   }
 
+    function objectAtDown(objects, o) {
+    return objects.filter((object) => {
+      if (object.x + 32 >= o.x + 32 - Init.dx && object.x + 32 <= o.x + 32) {
+        if (object.y >= o.y + 32 && object.y < o.y + 64) {
+          return true;
+        }
+      }
+      return false;
+    }).length != 0;
+  }
+
   let ok = true;
   let x = player.x;
   let y = player.y;
@@ -50,15 +61,18 @@ export function tryToGoLeft(decor, players, player, setPlayer) {
       ok = false;
       x = object.x + 32;
     }
-    if (object.y + 32 > player.y && object.y + 32 < player.y + Init.tolx) {
-      ok = true;
-      y = object.y + 32;
-    }
     if (object.y < player.y + 32 && object.y > player.y + 32 - Init.tolx) {
       ok = false;
       if (!objectAtUp(objects, object)) {
         ok = true;
         y = object.y - 32;
+      }
+    }
+    if (object.y + 32 > player.y && object.y + 32 < player.y + Init.tolx) {
+      ok = false;
+      if (!objectAtDown(objects, object)) {
+        ok = true;
+        y = object.y + 32;
       }
     }
   });
