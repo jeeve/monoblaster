@@ -29,7 +29,7 @@ export function tryToGoLeft(decor, players, player, setPlayer) {
   function objectAtUp(objects, o) {
     return objects.filter((object) => {
       if (object.x + 32 >= o.x + 32 - Init.dx && object.x + 32 <= o.x + 32) {
-        if (object.y + 32 <= o.y && object.y + 32 >= o.y - 32) {
+        if (object.y + 32 <= o.y && object.y + 32 > o.y - 32) {
           return true;
         }
       }
