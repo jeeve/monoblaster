@@ -3,54 +3,51 @@ import * as Util from "./Util";
 
 export function tryToGoLeft(decor, players, player, setPlayer) {
   function getSpritesArroundPlayer() {
+    let objects = [];
     const i = Math.floor(player.x / 32);
     const j = Math.floor(player.y / 32);
-    return [
-      Util.getIndex(i - 1, j - 1),
-      Util.getIndex(i - 1, j),
-      Util.getIndex(i - 1, j + 1),
-    ];
+    let sprite = decor[Util.getIndex(i - 1, j - 1)];
+    if (sprite.image !== "")
+      objects.push({ x: sprite.x, y: sprite.y });
+    sprite = decor[Util.getIndex(i - 1, j)];
+    if (sprite.image !== "")
+      objects.push({ x: sprite.x, y: sprite.y });
+    sprite = decor[Util.getIndex(i - 1, j + 1)];
+    if (sprite.image !== "")
+      objects.push({ x: sprite.x, y: sprite.y });
+    players.map((p) => {
+      if (p !== player) {
+        objects.push({ x: p.x, y: p.y });
+      }
+    });
+    return objects;
   }
 
   function getBlocksNear() {
-    return getSpritesArroundPlayer().filter((sprite) => {
-      if (decor[sprite].image !== "") {
-        return (
-          decor[sprite].x + 32 > player.x - Init.dx &&
-          decor[sprite].x + 32 <= player.x
-        );
-      }
-      return false;
+    return getSpritesArroundPlayer().filter((object) => {
+      return object.x + 32 > player.x - Init.dx && object.x + 32 <= player.x;
     });
   }
 
   let ok = true;
   let deltax = 0;
   let y = player.y;
-  getBlocksNear().forEach((sprite) => {
+  getBlocksNear().forEach((object) => {
     if (
-      (decor[sprite].y + 32 > player.y &&
-        decor[sprite].y + 32 < player.y + 32) ||
-      (decor[sprite].y < player.y + 32 && decor[sprite].y > player.y) ||
-      decor[sprite].y === player.y
+      (object.y + 32 > player.y && object.y + 32 < player.y + 32) ||
+      (object.y < player.y + 32 && object.y > player.y) ||
+      object.y === player.y
     ) {
       ok = false;
-      deltax = player.x - (decor[sprite].x + 32);
+      deltax = player.x - (object.x + 32);
     }
-
-    if (
-      decor[sprite].y + 32 > player.y &&
-      decor[sprite].y + 32 < player.y + Init.tolx
-    ) {
+    if (object.y + 32 > player.y && object.y + 32 < player.y + Init.tolx) {
       ok = true;
-      y = decor[sprite].y + 32;
+      y = object.y + 32;
     }
-    if (
-      decor[sprite].y < player.y + 32 &&
-      decor[sprite].y > player.y + 32 - Init.tolx
-    ) {
+    if (object.y < player.y + 32 && object.y > player.y + 32 - Init.tolx) {
       ok = true;
-      y = decor[sprite].y - 32;
+      y = object.y - 32;
     }
   });
   if (ok) {
