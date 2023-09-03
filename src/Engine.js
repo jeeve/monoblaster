@@ -104,14 +104,37 @@ export function tryToGoRight(decor, players, player, setPlayer) {
 
   function getBlocksNear() {
     return getSpritesArroundPlayer().filter((object) => {
-      return object.x < player.x + 32 + Init.dx && object.x >= player.x + 32;
+      return object.x > player.x + 32 - Init.dx && object.x <= player.x + 32;
     });
+  }
+
+  function objectAtUp(objects, o) {
+    return objects.filter((object) => {
+      if (object.x < o.x + Init.dx && object.x >= o.x) {
+        if (object.y + 32 <= o.y && object.y + 32 > o.y - 32) {
+          return true;
+        }
+      }
+      return false;
+    }).length != 0;
+  }
+
+    function objectAtDown(objects, o) {
+    return objects.filter((object) => {
+      if (object.x < o.x + Init.dx && object.x >= o.x) {
+        if (object.y >= o.y + 32 && object.y < o.y + 64) {
+          return true;
+        }
+      }
+      return false;
+    }).length != 0;
   }
 
   let ok = true;
   let x = player.x;
   let y = player.y;
-  getBlocksNear().forEach((object) => {
+  const objects = getBlocksNear();
+  objects.forEach((object) => {
     if (
       (object.y + 32 > player.y && object.y + 32 < player.y + 32) ||
       (object.y < player.y + 32 && object.y > player.y) ||
@@ -120,13 +143,19 @@ export function tryToGoRight(decor, players, player, setPlayer) {
       ok = false;
       x = object.x - 32;
     }
-    if (object.y + 32 > player.y && object.y + 32 < player.y + Init.tolx) {
-      ok = true;
-      y = object.y + 32;
-    }
     if (object.y < player.y + 32 && object.y > player.y + 32 - Init.tolx) {
-      ok = true;
-      y = object.y - 32;
+      ok = false;
+      if (!objectAtUp(objects, object)) {
+        ok = true;
+        y = object.y - 32;
+      }
+    }
+    if (object.y + 32 > player.y && object.y + 32 < player.y + Init.tolx) {
+      ok = false;
+      if (!objectAtDown(objects, object)) {
+        ok = true;
+        y = object.y + 32;
+      }
     }
   });
   if (ok) {
@@ -134,7 +163,6 @@ export function tryToGoRight(decor, players, player, setPlayer) {
   } else {
     setPlayer({ ...player, x: x });
   }
-
 }
 
 export function tryToGoUp(decor, players, player, setPlayer) {
