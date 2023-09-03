@@ -133,7 +133,7 @@ export default function Game() {
 
   const robotTimer = () => {
     return setInterval(() => {
-      //moveRobot();
+      moveRobot();
     }, 10);
   };
 
