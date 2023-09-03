@@ -36,7 +36,7 @@ export default function Bomb({ x, y, n, onExplode, explode }) {
 
   useEffect(() => {
     if (count === 0) {
-      var audio = new Audio("./sounds/explode.wav");
+      const audio = new Audio("./sounds/explode.wav");
       audio.play();
       onExplode(n);
     }
