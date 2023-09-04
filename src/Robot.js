@@ -20,7 +20,7 @@ export function moveRobot(decor, robotInertia, setRobotInertia, players, robot, 
       const iRobot = Math.floor(robot().x / 32);
       const jRobot = Math.floor(robot().y / 32);
       const nRobot = Util.getIndex(iRobot, jRobot);
-      const t = Math.round(Math.random() * Init.robotAgitation);
+      const t = Math.round(Math.random() * Init.robotAgitation) + 2;
       if (
         Util.danger(Util.spriteLeft(nRobot), decor, fires) ||
         Util.danger(Util.spriteRight(nRobot), decor, fires)

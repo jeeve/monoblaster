@@ -4,6 +4,7 @@ import Bomb from "./components/Bomb";
 import Fire from "./components/Fire";
 import Score from "./components/Score";
 import Player from "./components/Player";
+import Controls from "./components/Controls";
 import * as Init from "./Init";
 import * as Util from "./Util";
 import * as Engine from "./Engine";
@@ -62,6 +63,14 @@ export default function Game() {
       player.x = x;
       player.y = y;
     }
+  }
+
+  function handleControlDisplacement(displacement) {
+    setDisplacement(displacement);
+  }
+
+  function handleControlBomb() {
+    dropBomb(myPlayer());
   }
 
   function handleKeyDown(event) {
@@ -297,64 +306,7 @@ export default function Game() {
           <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
         ))}
       </div>
-      <div id="controles">
-        <button
-          type="button"
-          className="controle"
-          id="bouton-haut"
-          onMouseDown={() => setDisplacement(() => "up")}
-          onMouseUp={() => setDisplacement(() => "")}
-          onTouchStart={() => setDisplacement(() => "up")}
-          onTouchEnd={() => setDisplacement(() => "")}
-        >
-          ↑
-        </button>
-        <div>
-          <button
-            type="button"
-            className="controle"
-            id="bouton-gauche"
-            onMouseDown={() => setDisplacement(() => "left")}
-            onMouseUp={() => setDisplacement(() => "")}
-            onTouchStart={() => setDisplacement(() => "left")}
-            onTouchEnd={() => setDisplacement(() => "")}
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            className="controle"
-            id="bouton-bombe"
-            onClick={() => {
-              dropBomb(myPlayer());
-            }}
-          >
-            bomb
-          </button>
-          <button
-            type="button"
-            className="controle"
-            id="bouton-droite"
-            onMouseDown={() => setDisplacement(() => "right")}
-            onMouseUp={() => setDisplacement(() => "")}
-            onTouchStart={() => setDisplacement(() => "right")}
-            onTouchEnd={() => setDisplacement(() => "")}
-          >
-            →
-          </button>
-        </div>
-        <button
-          type="button"
-          className="controle"
-          id="bouton-bas"
-          onMouseDown={() => setDisplacement(() => "down")}
-          onMouseUp={() => setDisplacement(() => "")}
-          onTouchStart={() => setDisplacement(() => "down")}
-          onTouchEnd={() => setDisplacement(() => "")}
-        >
-          ↓
-        </button>
-      </div>
+      <Controls onDisplacement={handleControlDisplacement} onBomb={handleControlBomb}></Controls>    
       <div id="auteur">
         <a href="https://greduvent.herokuapp.com/" target="_blank">
           by jeeve
