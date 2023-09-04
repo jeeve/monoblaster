@@ -42,7 +42,7 @@ export default function Bomb({ x, y, n, onExplode, explode, soundOn }) {
       }
       onExplode(n);
     }
-  }, [count]);
+  }, [count, n, soundOn]);
 
   return <img style={style} src={"/images/" + image} alt="" />;
 }
