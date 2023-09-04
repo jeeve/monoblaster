@@ -6,6 +6,7 @@ export const nj = 15;
 export const dx = 5;
 export const tolx = 16;
 export const robotAgitation = 20;
+export const nbBombsMax = 1;
 
 export function makeDecor(decorOK) {
     const sprites = [];
@@ -17,7 +18,8 @@ export function makeDecor(decorOK) {
             y: Util.getJ(sprites.length) * 32,
             image: "rock.png",
             n: sprites.length-1,
-            explode: false
+            explode: false,
+            owner: -1
           });
         } else {
           const k = Math.random();
@@ -27,7 +29,8 @@ export function makeDecor(decorOK) {
               y: Util.getJ(sprites.length) * 32,
               image: "rock.png",
               n: sprites.length-1,
-              explode: false
+              explode: false,
+              owner: -1
             });
           } else if (k >= 0.3 && k < 0.4) {
             sprites.push({
@@ -35,7 +38,8 @@ export function makeDecor(decorOK) {
               y: Util.getJ(sprites.length) * 32,
               image: "brick.png",
               n: sprites.length-1,
-              explode: false
+              explode: false,
+              owner: -1
             });
           } else {
             sprites.push({
@@ -43,7 +47,8 @@ export function makeDecor(decorOK) {
               y: Util.getJ(sprites.length) * 32,
               image: "",
               n: sprites.length-1,
-              explode: false
+              explode: false,
+              owner: -1
             });
           }
         }

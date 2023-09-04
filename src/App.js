@@ -15,8 +15,8 @@ export default function Game() {
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
   const [players, setPlayers] = useState([
-    { x: 0, y: 0, score: 0, dead: false, image: "player.png" },
-    { x: 0, y: 0, score: 0, dead: false, image: "robot.png" },
+    { x: 0, y: 0, score: 0, dead: false, image: "player.png", n: 0, bombs: init.nbBombsMax },
+    { x: 0, y: 0, score: 0, dead: false, image: "robot.png", n: 1, bombs: init.nbBombsMax },
   ]);
   const [fires, setFires] = useState([]);
   const [displacement, setDisplacement] = useState("");
@@ -38,7 +38,7 @@ export default function Game() {
   };
 
   function dropBomb(player) {
-    if (player.dead) return;
+    if (player.dead || player.bombs === 0) return;
     const nextDecor = [...decor];
     const i = Math.round(player.x / 32);
     const j = Math.round(player.y / 32);
@@ -51,10 +51,14 @@ export default function Game() {
         y: y,
         image: "bomb1.png",
         n: n,
+        owner: player.n
       };
       setDecor(nextDecor);
       player.x = x;
       player.y = y;
+      if (player.bombs > 0) {
+        player.bombs--;
+      }
     }
   }
 
@@ -158,6 +162,7 @@ export default function Game() {
     setPlayers(newPlayers);
     const newDecor = [...decor];
     newDecor[n].image = ""; // remove bomb
+    players[newDecor[n].owner].bombs++; // on recredite le nombre de bombes dispo
     setDecor(newDecor);
     const newFires = [...fires];
     newFires.push(n);
@@ -209,9 +214,11 @@ export default function Game() {
       p[0] = {
         x: r.x * 32,
         y: r.y * 32,
+        n: 0,
         score: 0,
         dead: false,
         image: "player.png",
+        bombs: init.nbBombsMax
       };
     }
     r = util.emptyRandomPosition(decor);
@@ -219,9 +226,11 @@ export default function Game() {
       p[1] = {
         x: r.x * 32,
         y: r.y * 32,
+        n: 1,
         score: 0,
         dead: false,
         image: "robot.png",
+        bombs: init.nbBombsMax
       };
     }
     setPlayers(p);
