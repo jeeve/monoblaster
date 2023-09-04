@@ -1,7 +1,7 @@
 import * as Init from "./Init";
 import * as Util from "./Util";
 
-export function tryToGoLeft(decor, players, player, setPlayer) {
+export function tryToGoLeft(decor, players, player) {
   function getSpritesArroundPlayer() {
     let objects = [];
     const i = Math.floor(player.x / 32);
@@ -77,13 +77,14 @@ export function tryToGoLeft(decor, players, player, setPlayer) {
     }
   });
   if (ok) {
-    setPlayer({ ...player, x: player.x - Init.dx, y: y });
+    player.x = player.x - Init.dx
+    player.y = y ;
   } else {
-    setPlayer({ ...player, x: x });
+    player.x = x;
   }
 }
 
-export function tryToGoRight(decor, players, player, setPlayer) {
+export function tryToGoRight(decor, players, player) {
   function getSpritesArroundPlayer() {
     let objects = [];
     const i = Math.floor(player.x / 32);
@@ -159,13 +160,14 @@ export function tryToGoRight(decor, players, player, setPlayer) {
     }
   });
   if (ok) {
-    setPlayer({ ...player, x: player.x + Init.dx, y: y });
+    player.x = player.x + Init.dx;
+    player.y = y;
   } else {
-    setPlayer({ ...player, x: x });
+    player.x = x;
   }
 }
 
-export function tryToGoUp(decor, players, player, setPlayer) {
+export function tryToGoUp(decor, players, player) {
   function getSpritesArroundPlayer() {
     let objects = [];
     const i = Math.floor(player.x / 32);
@@ -241,14 +243,15 @@ export function tryToGoUp(decor, players, player, setPlayer) {
     }
   });
   if (ok) {
-    setPlayer({ ...player, x: x, y: player.y - Init.dx });
+    player.x = x;
+    player.y = player.y - Init.dx;
   } else {
-    setPlayer({ ...player, y: y });
+    player.y = y;
   }
 
 }
 
-export function tryToGoDown(decor, players, player, setPlayer) {
+export function tryToGoDown(decor, players, player) {
   function getSpritesArroundPlayer() {
     let objects = [];
     const i = Math.floor(player.x / 32);
@@ -324,9 +327,10 @@ export function tryToGoDown(decor, players, player, setPlayer) {
     }
   });
   if (ok) {
-    setPlayer({ ...player, x: x, y: player.y + Init.dx });
+    player.x = x;
+    player.y = player.y + Init.dx
   } else {
-    setPlayer({ ...player, y: y });
+    player.y = y;
   }
 
 }

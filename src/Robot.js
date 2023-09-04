@@ -2,19 +2,19 @@ import * as Init from "./Init";
 import * as Util from "./Util";
 import * as Engine from "./Engine";
 
-export function moveRobot(decor, robotInertia, setRobotInertia, players, robot, setRobot, dropBomb, fires) {
+export function moveRobot(decor, robotInertia, setRobotInertia, players, robot, dropBomb, fires) {
     if (robotInertia.t > 0) {
       if (robotInertia.d === "up") {
-        Engine.tryToGoUp(decor, players, robot(), setRobot);
+        Engine.tryToGoUp(decor, players, robot());
       }
       if (robotInertia.d === "down") {
-        Engine.tryToGoDown(decor, players, robot(), setRobot);
+        Engine.tryToGoDown(decor, players, robot());
       }
       if (robotInertia.d === "left") {
-        Engine.tryToGoLeft(decor, players, robot(), setRobot);
+        Engine.tryToGoLeft(decor, players, robot());
       }
       if (robotInertia.d === "right") {
-        Engine.tryToGoRight(decor, players, robot(), setRobot);
+        Engine.tryToGoRight(decor, players, robot());
       }
     } else {
       const iRobot = Math.floor(robot().x / 32);

@@ -124,19 +124,19 @@ export default function Game() {
     return setInterval(() => {
       switch (displacement) {
         case "left": {
-          Engine.tryToGoLeft(decor, players, myPlayer(), setMyPlayer);
+          Engine.tryToGoLeft(decor, players, myPlayer());
           break;
         }
         case "right": {
-          Engine.tryToGoRight(decor, players, myPlayer(), setMyPlayer);
+          Engine.tryToGoRight(decor, players, myPlayer());
           break;
         }
         case "down": {
-          Engine.tryToGoDown(decor, players, myPlayer(), setMyPlayer);
+          Engine.tryToGoDown(decor, players, myPlayer());
           break;
         }
         case "up": {
-          Engine.tryToGoUp(decor, players, myPlayer(), setMyPlayer);
+          Engine.tryToGoUp(decor, players, myPlayer());
           break;
         }
         default: {
@@ -148,7 +148,7 @@ export default function Game() {
 
   const robotTimer = () => {
     return setInterval(() => {
-      Robot.moveRobot(decor, robotInertia, setRobotInertia, players, robot, setRobot, dropBomb, fires);
+      Robot.moveRobot(decor, robotInertia, setRobotInertia, players, robot, dropBomb, fires);
     }, 10);
   };
 
@@ -316,7 +316,7 @@ export default function Game() {
       <div id="parameters">
           <input type="checkbox" checked={soundOn} onChange={handleSoundOnChange} name="sound" />
           <label for="sound">
-            Sound
+            sound
         </label>
       </div>
       <div id="auteur">
