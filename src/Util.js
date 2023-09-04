@@ -1,15 +1,15 @@
-import * as Init from "./Init";
+import * as init from "./init";
 
 export function getIndex(i, j) {
-  return j * Init.ni + i;
+  return j * init.ni + i;
 }
 
 export function getI(n) {
-  return n % Init.ni;
+  return n % init.ni;
 }
 
 export function getJ(n) {
-  return Math.floor(n / Init.ni);
+  return Math.floor(n / init.ni);
 }
 
 export function blockAt(decor, i, j) {
@@ -31,8 +31,8 @@ export function emptyRandomPosition(decor) {
   const maxNumberTest = 1000;
   let numberTest = 0;
   while (numberTest < maxNumberTest) {
-    const i = Math.floor(Math.random() * Init.ni);
-    const j = Math.floor(Math.random() * Init.nj);
+    const i = Math.floor(Math.random() * init.ni);
+    const j = Math.floor(Math.random() * init.nj);
     if (!blockAt(decor, i, j)) {
       return { x: i, y: j };
     }
@@ -66,9 +66,9 @@ export function spriteRight(n) {
 }
 
 export function spriteUp(n) {
-  return n - Init.ni;
+  return n - init.ni;
 }
 
 export function spriteDown(n) {
-  return n + Init.ni;
+  return n + init.ni;
 }

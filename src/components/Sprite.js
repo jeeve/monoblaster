@@ -1,7 +1,7 @@
-import * as Init from "../Init";
+import * as init from "../init";
 
 export default function Sprite({ x, y, image }) {
-  const deltax = Math.floor(window.innerWidth / 2 - (Init.ni * 32) / 2);
+  const deltax = Math.floor(window.innerWidth / 2 - (init.ni * 32) / 2);
   const style = {
     left: deltax + x,
     top: y,

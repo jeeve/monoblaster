@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import * as Init from "../Init";
+import * as init from "../init";
 
 export default function Player({ x, y, n, image, dead, onReborn }) {
   const deadTime = 20;
   const [img, setImg] = useState(image);
   const [count, setCount] = useState(deadTime);
 
-  const deltax = Math.floor(window.innerWidth / 2 - (Init.ni * 32) / 2);
+  const deltax = Math.floor(window.innerWidth / 2 - (init.ni * 32) / 2);
   const style = {
     left: deltax + x,
     top: y,

@@ -1,4 +1,4 @@
-import * as Util from "./Util"
+import * as Util from "./util"
 
 const ni0 = Math.floor(window.innerWidth / 32); 
 export const ni = ni0 <= 20 ? ni0 : 20;

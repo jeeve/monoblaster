@@ -1,40 +1,40 @@
-import * as Init from "./Init";
-import * as Util from "./Util";
-import * as Engine from "./Engine";
+import * as init from "./init";
+import * as util from "./util";
+import * as engine from "./engine";
 
 export function moveRobot(decor, robotInertia, setRobotInertia, players, robot, dropBomb, fires) {
     if (robotInertia.t > 0) {
       if (robotInertia.d === "up") {
-        Engine.tryToGoUp(decor, players, robot());
+        engine.tryToGoUp(decor, players, robot());
       }
       if (robotInertia.d === "down") {
-        Engine.tryToGoDown(decor, players, robot());
+        engine.tryToGoDown(decor, players, robot());
       }
       if (robotInertia.d === "left") {
-        Engine.tryToGoLeft(decor, players, robot());
+        engine.tryToGoLeft(decor, players, robot());
       }
       if (robotInertia.d === "right") {
-        Engine.tryToGoRight(decor, players, robot());
+        engine.tryToGoRight(decor, players, robot());
       }
     } else {
       const iRobot = Math.floor(robot().x / 32);
       const jRobot = Math.floor(robot().y / 32);
-      const nRobot = Util.getIndex(iRobot, jRobot);
-      const t = Math.round(Math.random() * Init.robotAgitation) + 2;
+      const nRobot = util.getIndex(iRobot, jRobot);
+      const t = Math.round(Math.random() * init.robotAgitation) + 2;
       if (
-        Util.danger(Util.spriteLeft(nRobot), decor, fires) ||
-        Util.danger(Util.spriteRight(nRobot), decor, fires)
+        util.danger(util.spriteLeft(nRobot), decor, fires) ||
+        util.danger(util.spriteRight(nRobot), decor, fires)
       ) {
-        if (!Util.something(decor, players, robot(), Util.spriteUp(nRobot))) {
+        if (!util.something(decor, players, robot(), util.spriteUp(nRobot))) {
           setRobotInertia({ d: "up", t: t });
         } else {
           setRobotInertia({ d: "down", t: t });
         }
       } else if (
-        Util.danger(Util.spriteUp(nRobot), decor, fires) ||
-        Util.danger(Util.spriteDown(nRobot), decor, fires)
+        util.danger(util.spriteUp(nRobot), decor, fires) ||
+        util.danger(util.spriteDown(nRobot), decor, fires)
       ) {
-        if (!Util.something(decor, players, robot(), Util.spriteLeft(nRobot))) {
+        if (!util.something(decor, players, robot(), util.spriteLeft(nRobot))) {
           setRobotInertia({ d: "left", t: t });
         } else {
           setRobotInertia({ d: "right", t: t });

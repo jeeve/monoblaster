@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Sprite from "./Sprite";
-import * as Util from "../Util";
+import * as util from "../util";
 
 export default function Fire({ decor, n, onBurn }) {
   const energyMax = 4;
@@ -90,14 +90,14 @@ export default function Fire({ decor, n, onBurn }) {
         if (newSprites.length === 0) {
           k = n;
         } else {
-          k = Util.getIndex(
+          k = util.getIndex(
             Math.floor(newSprites[newSprites.length - 1].x / 32),
             Math.floor(newSprites[newSprites.length - 1].y / 32)
           );
         }
-        const i = Util.getI(k) + di;
-        const j = Util.getJ(k) + dj;
-        const newK = Util.getIndex(i, j);
+        const i = util.getI(k) + di;
+        const j = util.getJ(k) + dj;
+        const newK = util.getIndex(i, j);
         if (decor[newK].image === "" && nbBurned() < 1) {
           newSprites.push({
             x: i * 32,
@@ -153,8 +153,8 @@ export default function Fire({ decor, n, onBurn }) {
     <div>
       {energy > energyMax / 2 + 1 ? (
         <Sprite
-          x={Util.getI(n) * 32}
-          y={Util.getJ(n) * 32}
+          x={util.getI(n) * 32}
+          y={util.getJ(n) * 32}
           image="fire-c.png"
         />
       ) : (

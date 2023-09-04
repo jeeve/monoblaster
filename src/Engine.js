@@ -1,16 +1,16 @@
-import * as Init from "./Init";
-import * as Util from "./Util";
+import * as init from "./init";
+import * as util from "./util";
 
 export function tryToGoLeft(decor, players, player) {
   function getSpritesArroundPlayer() {
     let objects = [];
     const i = Math.floor(player.x / 32);
     const j = Math.floor(player.y / 32);
-    let sprite = decor[Util.getIndex(i - 1, j - 1)];
+    let sprite = decor[util.getIndex(i - 1, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[Util.getIndex(i - 1, j)];
+    sprite = decor[util.getIndex(i - 1, j)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[Util.getIndex(i - 1, j + 1)];
+    sprite = decor[util.getIndex(i - 1, j + 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     players.map((p) => {
       if (p !== player) {
@@ -22,13 +22,13 @@ export function tryToGoLeft(decor, players, player) {
 
   function getBlocksNear() {
     return getSpritesArroundPlayer().filter((object) => {
-      return object.x + 32 > player.x - Init.dx && object.x + 32 <= player.x;
+      return object.x + 32 > player.x - init.dx && object.x + 32 <= player.x;
     });
   }
 
   function objectAtUp(objects, o) {
     return objects.filter((object) => {
-      if (object.x + 32 >= o.x + 32 - Init.dx && object.x + 32 <= o.x + 32) {
+      if (object.x + 32 >= o.x + 32 - init.dx && object.x + 32 <= o.x + 32) {
         if (object.y + 32 <= o.y && object.y + 32 > o.y - 32) {
           return true;
         }
@@ -39,7 +39,7 @@ export function tryToGoLeft(decor, players, player) {
 
     function objectAtDown(objects, o) {
     return objects.filter((object) => {
-      if (object.x + 32 >= o.x + 32 - Init.dx && object.x + 32 <= o.x + 32) {
+      if (object.x + 32 >= o.x + 32 - init.dx && object.x + 32 <= o.x + 32) {
         if (object.y >= o.y + 32 && object.y < o.y + 64) {
           return true;
         }
@@ -61,14 +61,14 @@ export function tryToGoLeft(decor, players, player) {
       ok = false;
       x = object.x + 32;
     }
-    if (object.y < player.y + 32 && object.y > player.y + 32 - Init.tolx) {
+    if (object.y < player.y + 32 && object.y > player.y + 32 - init.tolx) {
       ok = false;
       if (!objectAtUp(objects, object)) {
         ok = true;
         y = object.y - 32;
       }
     }
-    if (object.y + 32 > player.y && object.y + 32 < player.y + Init.tolx) {
+    if (object.y + 32 > player.y && object.y + 32 < player.y + init.tolx) {
       ok = false;
       if (!objectAtDown(objects, object)) {
         ok = true;
@@ -77,7 +77,7 @@ export function tryToGoLeft(decor, players, player) {
     }
   });
   if (ok) {
-    player.x = player.x - Init.dx
+    player.x = player.x - init.dx
     player.y = y ;
   } else {
     player.x = x;
@@ -89,11 +89,11 @@ export function tryToGoRight(decor, players, player) {
     let objects = [];
     const i = Math.floor(player.x / 32);
     const j = Math.floor(player.y / 32);
-    let sprite = decor[Util.getIndex(i + 1, j - 1)];
+    let sprite = decor[util.getIndex(i + 1, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[Util.getIndex(i + 1, j)];
+    sprite = decor[util.getIndex(i + 1, j)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[Util.getIndex(i + 1, j + 1)];
+    sprite = decor[util.getIndex(i + 1, j + 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     players.map((p) => {
       if (p !== player) {
@@ -105,13 +105,13 @@ export function tryToGoRight(decor, players, player) {
 
   function getBlocksNear() {
     return getSpritesArroundPlayer().filter((object) => {
-      return object.x > player.x + 32 - Init.dx && object.x <= player.x + 32;
+      return object.x > player.x + 32 - init.dx && object.x <= player.x + 32;
     });
   }
 
   function objectAtUp(objects, o) {
     return objects.filter((object) => {
-      if (object.x < o.x + Init.dx && object.x >= o.x) {
+      if (object.x < o.x + init.dx && object.x >= o.x) {
         if (object.y + 32 <= o.y && object.y + 32 > o.y - 32) {
           return true;
         }
@@ -122,7 +122,7 @@ export function tryToGoRight(decor, players, player) {
 
     function objectAtDown(objects, o) {
     return objects.filter((object) => {
-      if (object.x < o.x + Init.dx && object.x >= o.x) {
+      if (object.x < o.x + init.dx && object.x >= o.x) {
         if (object.y >= o.y + 32 && object.y < o.y + 64) {
           return true;
         }
@@ -144,14 +144,14 @@ export function tryToGoRight(decor, players, player) {
       ok = false;
       x = object.x - 32;
     }
-    if (object.y < player.y + 32 && object.y > player.y + 32 - Init.tolx) {
+    if (object.y < player.y + 32 && object.y > player.y + 32 - init.tolx) {
       ok = false;
       if (!objectAtUp(objects, object)) {
         ok = true;
         y = object.y - 32;
       }
     }
-    if (object.y + 32 > player.y && object.y + 32 < player.y + Init.tolx) {
+    if (object.y + 32 > player.y && object.y + 32 < player.y + init.tolx) {
       ok = false;
       if (!objectAtDown(objects, object)) {
         ok = true;
@@ -160,7 +160,7 @@ export function tryToGoRight(decor, players, player) {
     }
   });
   if (ok) {
-    player.x = player.x + Init.dx;
+    player.x = player.x + init.dx;
     player.y = y;
   } else {
     player.x = x;
@@ -172,11 +172,11 @@ export function tryToGoUp(decor, players, player) {
     let objects = [];
     const i = Math.floor(player.x / 32);
     const j = Math.floor(player.y / 32);
-    let sprite = decor[Util.getIndex(i - 1, j - 1)];
+    let sprite = decor[util.getIndex(i - 1, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[Util.getIndex(i, j - 1)];
+    sprite = decor[util.getIndex(i, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[Util.getIndex(i + 1, j - 1)];
+    sprite = decor[util.getIndex(i + 1, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     players.map((p) => {
       if (p !== player) {
@@ -188,13 +188,13 @@ export function tryToGoUp(decor, players, player) {
 
   function getBlocksNear() {
     return getSpritesArroundPlayer().filter((object) => {
-      return object.y + 32 > player.y - Init.dx && object.y + 32 <= player.y;
+      return object.y + 32 > player.y - init.dx && object.y + 32 <= player.y;
     });
   }
 
   function objectAtLeft(objects, o) {
     return objects.filter((object) => {
-      if (object.y + 32 >= o.y + 32 - Init.dx && object.y + 32 <= o.y + 32) {
+      if (object.y + 32 >= o.y + 32 - init.dx && object.y + 32 <= o.y + 32) {
         if (object.x + 32 <= o.x && object.x + 32 > o.x - 32) {
           return true;
         }
@@ -205,7 +205,7 @@ export function tryToGoUp(decor, players, player) {
 
     function objectAtRight(objects, o) {
     return objects.filter((object) => {
-      if (object.x + 32 >= o.x + 32 - Init.dx && object.x + 32 <= o.x + 32) {
+      if (object.x + 32 >= o.x + 32 - init.dx && object.x + 32 <= o.x + 32) {
         if (object.y >= o.y + 32 && object.y < o.y + 64) {
           return true;
         }
@@ -227,14 +227,14 @@ export function tryToGoUp(decor, players, player) {
       ok = false;
       y = object.y + 32;
     }
-    if (object.x < player.x + 32 && object.x > player.x + 32 - Init.tolx) {
+    if (object.x < player.x + 32 && object.x > player.x + 32 - init.tolx) {
       ok = false;
       if (!objectAtLeft(objects, object)) {
         ok = true;
         x = object.x - 32;
       }
     }
-    if (object.x + 32 > player.x && object.x + 32 < player.x + Init.tolx) {
+    if (object.x + 32 > player.x && object.x + 32 < player.x + init.tolx) {
       ok = false;
       if (!objectAtRight(objects, object)) {
         ok = true;
@@ -244,7 +244,7 @@ export function tryToGoUp(decor, players, player) {
   });
   if (ok) {
     player.x = x;
-    player.y = player.y - Init.dx;
+    player.y = player.y - init.dx;
   } else {
     player.y = y;
   }
@@ -256,11 +256,11 @@ export function tryToGoDown(decor, players, player) {
     let objects = [];
     const i = Math.floor(player.x / 32);
     const j = Math.floor(player.y / 32);
-    let sprite = decor[Util.getIndex(i - 1, j + 1)];
+    let sprite = decor[util.getIndex(i - 1, j + 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[Util.getIndex(i, j + 1)];
+    sprite = decor[util.getIndex(i, j + 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[Util.getIndex(i + 1, j + 1)];
+    sprite = decor[util.getIndex(i + 1, j + 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     players.map((p) => {
       if (p !== player) {
@@ -272,13 +272,13 @@ export function tryToGoDown(decor, players, player) {
 
   function getBlocksNear() {
     return getSpritesArroundPlayer().filter((object) => {
-      return object.y > player.y + 32 - Init.dx && object.y <= player.y + 32;
+      return object.y > player.y + 32 - init.dx && object.y <= player.y + 32;
     });
   }
 
   function objectAtUp(objects, o) {
     return objects.filter((object) => {
-      if (object.y < o.y + Init.dx && object.y >= o.y) {
+      if (object.y < o.y + init.dx && object.y >= o.y) {
         if (object.x + 32 <= o.x && object.x + 32 > o.x - 32) {
           return true;
         }
@@ -289,7 +289,7 @@ export function tryToGoDown(decor, players, player) {
 
     function objectAtDown(objects, o) {
     return objects.filter((object) => {
-      if (object.y < o.y + Init.dx && object.y >= o.y) {
+      if (object.y < o.y + init.dx && object.y >= o.y) {
         if (object.x >= o.x + 32 && object.x < o.x + 64) {
           return true;
         }
@@ -311,14 +311,14 @@ export function tryToGoDown(decor, players, player) {
       ok = false;
       y = object.y - 32;
     }
-    if (object.x < player.x + 32 && object.x > player.x + 32 - Init.tolx) {
+    if (object.x < player.x + 32 && object.x > player.x + 32 - init.tolx) {
       ok = false;
       if (!objectAtUp(objects, object)) {
         ok = true;
         x = object.x - 32;
       }
     }
-    if (object.x + 32 > player.x && object.x + 32 < player.x + Init.tolx) {
+    if (object.x + 32 > player.x && object.x + 32 < player.x + init.tolx) {
       ok = false;
       if (!objectAtDown(objects, object)) {
         ok = true;
@@ -328,7 +328,7 @@ export function tryToGoDown(decor, players, player) {
   });
   if (ok) {
     player.x = x;
-    player.y = player.y + Init.dx
+    player.y = player.y + init.dx
   } else {
     player.y = y;
   }
