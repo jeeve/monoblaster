@@ -59,7 +59,7 @@ img {
   user-select: none;
 }
 
-#about {
+#parameters {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -67,6 +67,11 @@ img {
   margin-left: 10px;
   margin-bottom: 5px;
   user-select: none;
+  color: white;
+}
+
+#parameters label {
+  margin-left: 5px;
 }
 
 #controles {

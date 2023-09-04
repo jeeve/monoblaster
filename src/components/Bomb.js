@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import * as Init from "../Init";
 
-export default function Bomb({ x, y, n, onExplode, explode }) {
+export default function Bomb({ x, y, n, onExplode, explode, soundOn }) {
   const [image, setImage] = useState("bomb1.png");
   const [count, setCount] = useState(5);
 
@@ -36,8 +36,10 @@ export default function Bomb({ x, y, n, onExplode, explode }) {
 
   useEffect(() => {
     if (count === 0) {
-      const audio = new Audio("./sounds/explode.wav");
-      audio.play();
+      if (soundOn) {
+        const audio = new Audio("./sounds/explode.wav");
+        audio.play();
+      }
       onExplode(n);
     }
   }, [count]);

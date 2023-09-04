@@ -11,6 +11,7 @@ import * as Engine from "./Engine";
 import * as Robot from "./Robot";
 
 export default function Game() {
+  const [soundOn, setSoundOn] = useState(false);
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
   const [players, setPlayers] = useState([
@@ -23,6 +24,10 @@ export default function Game() {
     d: "left",
     t: Init.robotAgitation,
   });
+
+  const handleSoundOnChange = () => {
+    setSoundOn(!soundOn);
+  };
 
   const myPlayer = () => {
     return players[0];
@@ -300,6 +305,7 @@ export default function Game() {
               n={sprite.n}
               onExplode={handleExplode}
               explode={sprite.explode}
+              soundOn={soundOn}
             />
           ))}
         {fires.map((sprite, n) => (
@@ -307,6 +313,12 @@ export default function Game() {
         ))}
       </div>
       <Controls onDisplacement={handleControlDisplacement} onBomb={handleControlBomb}></Controls>    
+      <div id="parameters">
+          <input type="checkbox" checked={soundOn} onChange={handleSoundOnChange} name="sound" />
+          <label for="sound">
+            Sound
+        </label>
+      </div>
       <div id="auteur">
         <a href="https://greduvent.herokuapp.com/" target="_blank">
           by jeeve
