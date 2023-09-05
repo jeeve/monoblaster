@@ -135,13 +135,13 @@ export default function Game() {
           break;
         }
       }
-    }, 20);
+    }, 15);
   };
 
   const robotTimer = () => {
     return setInterval(() => {
       robot.moveRobot(decor, robotInertia, setRobotInertia, players, theRobot, dropBomb, fires);
-    }, 20);
+    }, 15);
   };
 
   const handleExplode = (n) => {

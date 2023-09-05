@@ -73,7 +73,7 @@ export function moveRobot(
 
   const warning = flee();
 
-  if (inertia.t > 0 || warning) {
+  if (inertia.t > 0) {
     if (inertia.d === "up") {
       engine.tryToGoUp(decor, players, robot());
     }
