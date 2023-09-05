@@ -135,13 +135,13 @@ export default function Game() {
           break;
         }
       }
-    }, 15);
+    }, init.speed);
   };
 
   const robotTimer = () => {
     return setInterval(() => {
       robot.moveRobot(decor, robotInertia, setRobotInertia, players, theRobot, dropBomb, fires);
-    }, 15);
+    }, init.speed);
   };
 
   const handleExplode = (n) => {
@@ -241,7 +241,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [decor, players, displacement, robotInertia]);
+  }, [decor, players, displacement, robotInertia, fires]);
 
   useEffect(() => {
     const interval = startTimer();
