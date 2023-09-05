@@ -59,7 +59,7 @@ export default function Game() {
   }
 
   function handleControlDisplacement(displacement) {
-    myPlayer.displacement = displacement;
+    myPlayer().displacement = displacement;
   }
 
   function handleControlBomb() {
