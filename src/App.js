@@ -15,11 +15,10 @@ export default function Game() {
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
   const [players, setPlayers] = useState([
-    { x: 0, y: 0, score: 0, dead: false, image: "player.png", n: 0, bombs: init.nbBombsMax },
-    { x: 0, y: 0, score: 0, dead: false, image: "robot.png", n: 1, bombs: init.nbBombsMax },
+    { x: 0, y: 0, score: 0, dead: false, image: "player.png", n: 0, bombs: init.nbBombsMax, displacement: "" },
+    { x: 0, y: 0, score: 0, dead: false, image: "robot.png", n: 1, bombs: init.nbBombsMax, displacement: "" },
   ]);
   const [fires, setFires] = useState([]);
-  const [displacement, setDisplacement] = useState("");
   const [robotInertia, setRobotInertia] = useState({
     d: "left",
     t: init.robotAgitation,
@@ -63,7 +62,7 @@ export default function Game() {
   }
 
   function handleControlDisplacement(displacement) {
-    setDisplacement(displacement);
+    myPlayer.displacement = displacement;
   }
 
   function handleControlBomb() {
@@ -73,19 +72,19 @@ export default function Game() {
   function handleKeyDown(event) {
     if (event.code === "ArrowLeft") {
       event.preventDefault();
-      setDisplacement(() => "left");
+      myPlayer().displacement = "left";
     }
     if (event.code === "ArrowRight") {
       event.preventDefault();
-      setDisplacement(() => "right");
+      myPlayer().displacement = "right";
     }
     if (event.code === "ArrowDown") {
       event.preventDefault();
-      setDisplacement(() => "down");
+      myPlayer().displacement = "down";
     }
     if (event.code === "ArrowUp") {
       event.preventDefault();
-      setDisplacement(() => "up");
+      myPlayer().displacement = "up";
     }
     if (event.code === "Space") {
       event.preventDefault();
@@ -94,27 +93,27 @@ export default function Game() {
   }
 
   function handleKeyUp(event) {
-    if (event.code === "ArrowLeft" && displacement === "left") {
+    if (event.code === "ArrowLeft" && myPlayer().displacement === "left") {
       event.preventDefault();
-      setDisplacement(() => "");
+      myPlayer().displacement = "";
     }
-    if (event.code === "ArrowRight" && displacement === "right") {
+    if (event.code === "ArrowRight" && myPlayer().displacement === "right") {
       event.preventDefault();
-      setDisplacement(() => "");
+      myPlayer().displacement = "";
     }
-    if (event.code === "ArrowDown" && displacement === "down") {
+    if (event.code === "ArrowDown" && myPlayer().displacement === "down") {
       event.preventDefault();
-      setDisplacement(() => "");
+      myPlayer().displacement = "";
     }
-    if (event.code === "ArrowUp" && displacement === "up") {
+    if (event.code === "ArrowUp" && myPlayer().displacement === "up") {
       event.preventDefault();
-      setDisplacement(() => "");
+      myPlayer().displacement = "";
     }
   }
 
   const startTimer = () => {
     return setInterval(() => {
-      switch (displacement) {
+      switch (myPlayer().displacement) {
         case "left": {
           engine.tryToGoLeft(decor, players, myPlayer());
           break;
@@ -218,7 +217,8 @@ export default function Game() {
         score: 0,
         dead: false,
         image: "player.png",
-        bombs: init.nbBombsMax
+        bombs: init.nbBombsMax,
+        displacement: ""
       };
     }
     r = util.emptyRandomPosition(decor);
@@ -230,7 +230,8 @@ export default function Game() {
         score: 0,
         dead: false,
         image: "robot.png",
-        bombs: init.nbBombsMax
+        bombs: init.nbBombsMax,
+        displacement: ""
       };
     }
     setPlayers(p);
@@ -241,14 +242,14 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [decor, players, displacement, robotInertia, fires]);
+  }, [decor, players, robotInertia, fires]);
 
   useEffect(() => {
     const interval = startTimer();
     return () => {
       clearInterval(interval);
     };
-  }, [decor, players, displacement]);
+  }, [decor, players]);
 
   return (
     <>
