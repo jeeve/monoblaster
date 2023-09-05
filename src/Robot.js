@@ -18,31 +18,31 @@ export function moveRobot(
       return decor[n].image.includes("bomb") || fires.includes(n);
     }
     let warning = false;
-    const iRobot = Math.floor(robot().x / 32);
-    const jRobot = Math.floor(robot().y / 32);
-    const n = util.getIndex(iRobot, jRobot);
-    if (danger(n)) {
-      if (!something(util.spriteUp(n))) {
+    const iRobot = Math.round(robot().x / 32);
+    const jRobot = Math.round(robot().y / 32);
+    const nRobot = util.getIndex(iRobot, jRobot);
+    if (danger(nRobot)) {
+      if (!something(util.spriteUp(nRobot))) {
         inertia.d = "up";
-      } else if (!something(util.spriteDown(n))) {
+      } else if (!something(util.spriteDown(nRobot))) {
         inertia.d = "down";
-      } else if (!something(util.spriteLeft(n))) {
+      } else if (!something(util.spriteLeft(nRobot))) {
         inertia.d = "left";
       } else {
         inertia.d = "right";
       }
       warning = true;
     }
-    if (danger(util.spriteLeft(n)) || danger(util.spriteRight(n))) {
-      if (!something(util.spriteUp(n))) {
+    if (danger(util.spriteLeft(nRobot)) || danger(util.spriteRight(nRobot))) {
+      if (!something(util.spriteUp(nRobot))) {
         inertia.d = "up";
       } else {
         inertia.d = "down";
       }
       warning = true;
     }
-    if (danger(util.spriteUp(n)) || danger(util.spriteDown(n))) {
-      if (!something(util.spriteLeft(n))) {
+    if (danger(util.spriteUp(nRobot)) || danger(util.spriteDown(nRobot))) {
+      if (!something(util.spriteLeft(nRobot))) {
         inertia.d = "left";
       } else {
         inertia.d = "right";
