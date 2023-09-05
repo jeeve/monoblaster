@@ -11,7 +11,7 @@ export function moveRobot(
   dropBomb,
   fires
 ) {
-  let inertia = { ...robotInertia };
+  let inertia = robotInertia;
 
   function flee() {
     function danger(n) {
@@ -23,29 +23,29 @@ export function moveRobot(
     const nRobot = util.getIndex(iRobot, jRobot);
     if (danger(nRobot)) {
       if (!something(util.spriteUp(nRobot))) {
-        inertia.d = "up";
+        robot().displacement = "up";
       } else if (!something(util.spriteDown(nRobot))) {
-        inertia.d = "down";
+        robot().displacement = "down";
       } else if (!something(util.spriteLeft(nRobot))) {
-        inertia.d = "left";
+        robot().displacement = "left";
       } else {
-        inertia.d = "right";
+        robot().displacement = "right";
       }
       warning = true;
     }
     if (danger(util.spriteLeft(nRobot)) || danger(util.spriteRight(nRobot))) {
       if (!something(util.spriteUp(nRobot))) {
-        inertia.d = "up";
+        robot().displacement = "up";
       } else {
-        inertia.d = "down";
+        robot().displacement = "down";
       }
       warning = true;
     }
     if (danger(util.spriteUp(nRobot)) || danger(util.spriteDown(nRobot))) {
       if (!something(util.spriteLeft(nRobot))) {
-        inertia.d = "left";
+        robot().displacement = "left";
       } else {
-        inertia.d = "right";
+        robot().displacement = "right";
       }
       warning = true;
     }
@@ -73,40 +73,25 @@ export function moveRobot(
 
   const warning = flee();
 
-  if (inertia.t > 0) {
-    if (inertia.d === "up") {
-      engine.tryToGoUp(decor, players, robot());
-    }
-    if (inertia.d === "down") {
-      engine.tryToGoDown(decor, players, robot());
-    }
-    if (inertia.d === "left") {
-      engine.tryToGoLeft(decor, players, robot());
-    }
-    if (inertia.d === "right") {
-      engine.tryToGoRight(decor, players, robot());
-    }
-  } else {
-    if (!warning) {
-      const r = Math.round(Math.random() * 100);
-      if (r > 0 && r <= 10) {
-        inertia.d = "up";
-      } else if (r > 10 && r <= 20) {
-        inertia.d = "down";
-      } else if (r > 20 && r <= 30) {
-        inertia.d = "left";
-      } else if (r > 30 && r <= 40) {
-        inertia.d = "right";
-      } else if (r > 40 && r <= 50) {
-        dropBomb(robot());
-      }
+  if (!warning && inertia === 0) {
+    const r = Math.round(Math.random() * 100);
+    if (r > 0 && r <= 10) {
+      robot().displacement = "up";
+    } else if (r > 10 && r <= 20) {
+      robot().displacement = "down";
+    } else if (r > 20 && r <= 30) {
+      robot().displacement = "left";
+    } else if (r > 30 && r <= 40) {
+      robot().displacement = "right";
+    } else if (r > 40 && r <= 50) {
+      dropBomb(robot());
     }
   }
 
-  if (inertia.t === 0) {
-    inertia.t = Math.round(Math.random()*init.robotAgitation);
+  if (inertia === 0) {
+    inertia = Math.round(Math.random() * init.robotAgitation);
   } else {
-    inertia.t--;
+    inertia--;
   }
 
   setRobotInertia(inertia);

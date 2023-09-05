@@ -19,10 +19,7 @@ export default function Game() {
     { x: 0, y: 0, score: 0, dead: false, image: "robot.png", n: 1, bombs: init.nbBombsMax, displacement: "" },
   ]);
   const [fires, setFires] = useState([]);
-  const [robotInertia, setRobotInertia] = useState({
-    d: "left",
-    t: init.robotAgitation,
-  });
+  const [robotInertia, setRobotInertia] = useState(init.robotAgitation);
 
   const handleSoundOnChange = () => {
     setSoundOn(!soundOn);
@@ -140,6 +137,27 @@ export default function Game() {
   const robotTimer = () => {
     return setInterval(() => {
       robot.moveRobot(decor, robotInertia, setRobotInertia, players, theRobot, dropBomb, fires);
+      switch (theRobot().displacement) {
+        case "left": {
+          engine.tryToGoLeft(decor, players, theRobot());
+          break;
+        }
+        case "right": {
+          engine.tryToGoRight(decor, players, theRobot());
+          break;
+        }
+        case "down": {
+          engine.tryToGoDown(decor, players, theRobot());
+          break;
+        }
+        case "up": {
+          engine.tryToGoUp(decor, players, theRobot());
+          break;
+        }
+        default: {
+          break;
+        }
+      }
     }, init.speed);
   };
 
