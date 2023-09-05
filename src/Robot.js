@@ -38,54 +38,70 @@ export function moveRobot(
   const jRobot = Math.floor(robot().y / 32);
   const nRobot = util.getIndex(iRobot, jRobot);
   const t = Math.round(Math.random() * init.robotAgitation) + 2;
-  if (
-    danger(util.spriteLeft(nRobot)) ||
-    danger(util.spriteRight(nRobot))
-  ) {
+
+  if (danger(nRobot)) {
+    if (!something(util.spriteUp(nRobot))) {
+      engine.tryToGoUp(decor, players, robot());
+    } else if (!something(util.spriteDown(nRobot))) {
+      engine.tryToGoDown(decor, players, robot());
+    } else if (!something(util.spriteLeft(nRobot))) {
+      engine.tryToGoLeft(decor, players, robot());
+    } else {
+      engine.tryToGoRight(decor, players, robot());
+    }
+  }
+
+  if (danger(util.spriteLeft(nRobot)) || danger(util.spriteRight(nRobot))) {
     if (!something(util.spriteUp(nRobot))) {
       engine.tryToGoUp(decor, players, robot());
     } else {
       engine.tryToGoDown(decor, players, robot());
     }
-  } else if (
-    danger(util.spriteUp(nRobot)) ||
-    danger(util.spriteDown(nRobot))
-  ) {
+  }
+
+  if (danger(util.spriteUp(nRobot)) || danger(util.spriteDown(nRobot))) {
     if (!something(util.spriteLeft(nRobot))) {
       engine.tryToGoLeft(decor, players, robot());
     } else {
       engine.tryToGoRight(decor, players, robot());
     }
+  }
+
+  if (robotInertia.t > 0) {
+    if (robotInertia.d === "up") {
+      engine.tryToGoUp(decor, players, robot());
+    }
+    if (robotInertia.d === "down") {
+      engine.tryToGoDown(decor, players, robot());
+    }
+    if (robotInertia.d === "left") {
+      engine.tryToGoLeft(decor, players, robot());
+    }
+    if (robotInertia.d === "right") {
+      engine.tryToGoRight(decor, players, robot());
+    }
   } else {
-    if (robotInertia.t > 0) {
-      if (robotInertia.d === "up") {
-        engine.tryToGoUp(decor, players, robot());
-      }
-      if (robotInertia.d === "down") {
-        engine.tryToGoDown(decor, players, robot());
-      }
-      if (robotInertia.d === "left") {
-        engine.tryToGoLeft(decor, players, robot());
-      }
-      if (robotInertia.d === "right") {
-        engine.tryToGoRight(decor, players, robot());
-      }
-    } else {
-      const r = Math.round(Math.random() * 100);
-      if (r > 0 && r <= 10) {
-        setRobotInertia({ d: "up", t: t });
-      } else if (r > 10 && r <= 20) {
-        setRobotInertia({ d: "down", t: t });
-      } else if (r > 20 && r <= 30) {
-        setRobotInertia({ d: "left", t: t });
-      } else if (r > 30 && r <= 40) {
-        setRobotInertia({ d: "right", t: t });
-      } else if (r > 40 && r <= 42) {
-        dropBomb(robot());
-      }
+    const r = Math.round(Math.random() * 100);
+    if (r > 0 && r <= 10) {
+      setRobotInertia({ d: "up", t: t });
+    } else if (r > 10 && r <= 20) {
+      setRobotInertia({ d: "down", t: t });
+    } else if (r > 20 && r <= 30) {
+      setRobotInertia({ d: "left", t: t });
+    } else if (r > 30 && r <= 40) {
+      setRobotInertia({ d: "right", t: t });
+    } else if (r > 40 && r <= 42) {
+      dropBomb(robot());
     }
   }
   setRobotInertia((old) => {
-    return { d: old.d, t: old.t - 1 };
+    if (old.t === 0) {
+      return {
+        d: old.d,
+        t: Math.round(Math.random() * init.robotAgitation) + 2,
+      };
+    } else {
+      return { d: old.d, t: old.t - 1 };
+    }
   });
 }
