@@ -281,7 +281,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [decor, players]);
+  }, [decor, players, fires]);
 
   return (
     <>
