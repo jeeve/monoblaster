@@ -13,9 +13,11 @@ export function moveRobot(
   let inertia = robotInertia;
 
   function flee() {
+    
     function danger(n) {
       return decor[n].image.includes("bomb") || fires.includes(n);
     }
+    
     let warning = false;
     const iRobot = Math.round(robot().x / 32);
     const jRobot = Math.round(robot().y / 32);
