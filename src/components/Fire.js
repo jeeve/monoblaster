@@ -156,14 +156,14 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
   }, []);
 
   useEffect(() => {
+    reaction.map((i) => { onBurn(i) });
+  }, [reaction]);
+
+  useEffect(() => {
     if (end && spritesD.length ===0 && spritesL.length === 0 && spritesR.length === 0 && spritesU.length === 0) {
       onEnd(n);
     }
   }, [end, spritesD, spritesL, spritesR, spritesU]);
-
-  useEffect(() => {
-    reaction.map((i) => { onBurn(i) });
-  }, [reaction]);
 
   return (
     <div>
