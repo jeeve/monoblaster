@@ -363,7 +363,7 @@ export default function Game() {
           onChange={handleSoundOnChange}
           name="sound"
         />
-        <label for="sound">sound</label>
+        <label htmlFor="sound">sound</label>
       </div>
       <div id="auteur">
         <a href="https://greduvent.herokuapp.com/" target="_blank">
