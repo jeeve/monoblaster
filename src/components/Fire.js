@@ -147,7 +147,7 @@ export default function Fire({ decor, n, onBurn }) {
     return () => {
       clearInterval(interval);
     };
-  }, [n]);
+  }, []);
 
   return (
     <div>
