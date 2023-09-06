@@ -315,6 +315,7 @@ export default function Game() {
         ))}
         {players.map((player, n) => (
           <Player
+            key={n}
             x={player.x}
             y={player.y}
             n={n}
