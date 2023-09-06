@@ -5,6 +5,7 @@ import * as util from "../util";
 export default function Fire({ decor, n, onBurn }) {
   const energyMax = 4;
   const [energy, setEnergy] = useState(energyMax);
+  const [reaction, setReaction] = useState([]);
   const [spritesL, setSpritesL] = useState([]);
   const [spritesR, setSpritesR] = useState([]);
   const [spritesU, setSpritesU] = useState([]);
@@ -112,7 +113,10 @@ export default function Fire({ decor, n, onBurn }) {
           setNbBurned((prevNbBurned) => prevNbBurned + 1);
         }
         if (nbBurned() === 0) {
-          onBurn(newK);
+          const newReaction = [...reaction]; 
+          newReaction.push(newK);
+          setReaction(newReaction);
+          //onBurn(newK);
         }
         return newSprites;
       });
@@ -148,6 +152,10 @@ export default function Fire({ decor, n, onBurn }) {
       clearInterval(interval);
     };
   }, []);
+
+  useEffect(() => {
+    reaction.map((n) => onBurn(n));
+  }, [reaction]);
 
   return (
     <div>
