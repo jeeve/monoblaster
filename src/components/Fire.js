@@ -4,6 +4,7 @@ import * as util from "../util";
 
 export default function Fire({ decor, n, onBurn }) {
   const energyMax = 4;
+  const [end, setEnd] = useState(false);
   const [energy, setEnergy] = useState(energyMax);
   const [reaction, setReaction] = useState([]);
   const [spritesL, setSpritesL] = useState([]);
@@ -71,6 +72,7 @@ export default function Fire({ decor, n, onBurn }) {
       "fire-v-u.png",
       "fire-v-e.png"
     );
+    setEnd(true);
   }, [energy]);
 
   const spread = (
@@ -154,8 +156,10 @@ export default function Fire({ decor, n, onBurn }) {
   }, []);
 
   useEffect(() => {
-    reaction.map((n) => onBurn(n));
-  }, [reaction]);
+    if (end) {
+      reaction.map((i) => { onBurn(i, n) });
+    }
+  }, [end]);
 
   return (
     <div>

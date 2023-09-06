@@ -149,8 +149,8 @@ export default function Game() {
     setFires(newFires);
   };
 
-  function HandleBurn(n) {
-    const newFires = [...fires].filter(elt => elt !== n);
+  function HandleBurn(n, fireOrigin) {
+    const newFires = [...fires].filter(elt => elt !== fireOrigin);
     setFires(newFires); // on supprime le fire
     const newPlayers = [...players];
     newPlayers.map((player) => {
