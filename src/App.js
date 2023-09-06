@@ -15,8 +15,26 @@ export default function Game() {
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
   const [players, setPlayers] = useState([
-    { x: 0, y: 0, score: 0, dead: false, image: "player.png", n: 0, bombs: init.nbBombsMax, displacement: "" },
-    { x: 0, y: 0, score: 0, dead: false, image: "robot.png", n: 1, bombs: init.nbBombsMax, displacement: "" },
+    {
+      x: 0,
+      y: 0,
+      score: 0,
+      dead: false,
+      image: "player.png",
+      n: 0,
+      bombs: init.nbBombsMax,
+      displacement: "",
+    },
+    {
+      x: 0,
+      y: 0,
+      score: 0,
+      dead: false,
+      image: "robot.png",
+      n: 1,
+      bombs: init.nbBombsMax,
+      displacement: "",
+    },
   ]);
   const [fires, setFires] = useState([]);
   const [robotInertia, setRobotInertia] = useState(init.robotAgitation);
@@ -47,7 +65,7 @@ export default function Game() {
         y: y,
         image: "bomb1.png",
         n: n,
-        owner: player.n
+        owner: player.n,
       };
       setDecor(nextDecor);
       player.x = x;
@@ -108,59 +126,6 @@ export default function Game() {
     }
   }
 
-  const startTimer = () => {
-    return setInterval(() => {
-      switch (myPlayer().displacement) {
-        case "left": {
-          engine.tryToGoLeft(decor, players, myPlayer());
-          break;
-        }
-        case "right": {
-          engine.tryToGoRight(decor, players, myPlayer());
-          break;
-        }
-        case "down": {
-          engine.tryToGoDown(decor, players, myPlayer());
-          break;
-        }
-        case "up": {
-          engine.tryToGoUp(decor, players, myPlayer());
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    }, init.speed);
-  };
-
-  const robotTimer = () => {
-    return setInterval(() => {
-      robot.moveRobot(decor, robotInertia, setRobotInertia, players, theRobot, dropBomb, fires);
-      switch (theRobot().displacement) {
-        case "left": {
-          engine.tryToGoLeft(decor, players, theRobot());
-          break;
-        }
-        case "right": {
-          engine.tryToGoRight(decor, players, theRobot());
-          break;
-        }
-        case "down": {
-          engine.tryToGoDown(decor, players, theRobot());
-          break;
-        }
-        case "up": {
-          engine.tryToGoUp(decor, players, theRobot());
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    }, init.speed);
-  };
-
   const handleExplode = (n) => {
     const newPlayers = [...players];
     newPlayers.map((player) => {
@@ -177,10 +142,8 @@ export default function Game() {
       }
     });
     setPlayers(newPlayers);
-    const newDecor = [...decor];
-    newDecor[n].image = ""; // remove bomb
-    players[newDecor[n].owner].bombs++; // on recredite le nombre de bombes dispo
-    setDecor(newDecor);
+    decor[n].image = ""; // remove bomb
+    players[decor[n].owner].bombs++; // on recredite le nombre de bombes dispo
     const newFires = [...fires];
     newFires.push(n);
     setFires(newFires);
@@ -205,9 +168,7 @@ export default function Game() {
     });
     setPlayers(newPlayers);
     if (decor[n].image === "brick.png") {
-      const newDecor = [...decor];
-      newDecor[n].image = "";
-      setDecor(newDecor);
+      decor[n].image = "";
     } else if (decor[n].image.includes("bomb")) {
       decor[n].explode = true; // chain reaction
     }
@@ -236,7 +197,7 @@ export default function Game() {
         dead: false,
         image: "player.png",
         bombs: init.nbBombsMax,
-        displacement: ""
+        displacement: "",
       };
     }
     r = util.emptyRandomPosition(decor);
@@ -249,21 +210,74 @@ export default function Game() {
         dead: false,
         image: "robot.png",
         bombs: init.nbBombsMax,
-        displacement: ""
+        displacement: "",
       };
     }
     setPlayers(p);
   }, [decorOK]);
 
   useEffect(() => {
-    const interval = robotTimer();
+    const interval = setInterval(() => {
+      robot.moveRobot(
+        decor,
+        robotInertia,
+        setRobotInertia,
+        players,
+        theRobot,
+        dropBomb,
+        fires
+      );
+      switch (theRobot().displacement) {
+        case "left": {
+          engine.tryToGoLeft(decor, players, theRobot());
+          break;
+        }
+        case "right": {
+          engine.tryToGoRight(decor, players, theRobot());
+          break;
+        }
+        case "down": {
+          engine.tryToGoDown(decor, players, theRobot());
+          break;
+        }
+        case "up": {
+          engine.tryToGoUp(decor, players, theRobot());
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }, init.speed);
     return () => {
       clearInterval(interval);
     };
   }, [decor, players, robotInertia, fires]);
 
   useEffect(() => {
-    const interval = startTimer();
+    const interval = setInterval(() => {
+      switch (myPlayer().displacement) {
+        case "left": {
+          engine.tryToGoLeft(decor, players, myPlayer());
+          break;
+        }
+        case "right": {
+          engine.tryToGoRight(decor, players, myPlayer());
+          break;
+        }
+        case "down": {
+          engine.tryToGoDown(decor, players, myPlayer());
+          break;
+        }
+        case "up": {
+          engine.tryToGoUp(decor, players, myPlayer());
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }, init.speed);
     return () => {
       clearInterval(interval);
     };
@@ -328,12 +342,18 @@ export default function Game() {
           <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
         ))}
       </div>
-      <Controls onDisplacement={handleControlDisplacement} onBomb={handleControlBomb}></Controls>    
+      <Controls
+        onDisplacement={handleControlDisplacement}
+        onBomb={handleControlBomb}
+      ></Controls>
       <div id="parameters">
-          <input type="checkbox" checked={soundOn} onChange={handleSoundOnChange} name="sound" />
-          <label for="sound">
-            sound
-        </label>
+        <input
+          type="checkbox"
+          checked={soundOn}
+          onChange={handleSoundOnChange}
+          name="sound"
+        />
+        <label for="sound">sound</label>
       </div>
       <div id="auteur">
         <a href="https://greduvent.herokuapp.com/" target="_blank">

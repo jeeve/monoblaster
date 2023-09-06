@@ -1,6 +1,5 @@
 import * as init from "./init";
 import * as util from "./util";
-import * as engine from "./engine";
 
 export function moveRobot(
   decor,
