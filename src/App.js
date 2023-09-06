@@ -133,12 +133,16 @@ export default function Game() {
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        player.dead = true;
-        if (player.image === "player.png") {
+        const p = {...player };
+        p.dead = true;
+        if (p.image === "player.png") {
           players[1].score++;
         } else {
           players[0].score++;
         }
+        return p;
+      } else {
+        return player;
       }
     });
     setPlayers(newPlayers);
@@ -157,13 +161,18 @@ export default function Game() {
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
         if (!player.dead) {
-          player.dead = true;
-          if (player.image === "player.png") {
+          const p = { ...player };
+          p.dead = true;
+          if (p.image === "player.png") {
             players[1].score++;
           } else {
             players[0].score++;
           }
+          return p;
         }
+        return player;
+      } else {
+        return player;
       }
     });
     setPlayers(newPlayers);
