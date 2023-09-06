@@ -149,9 +149,7 @@ export default function Game() {
     setFires(newFires);
   };
 
-  function HandleBurn(n, fireOrigin) {
-    const newFires = [...fires].filter(elt => elt !== fireOrigin);
-    setFires(newFires); // on supprime le fire
+  function HandleBurn(n) {
     const newPlayers = [...players];
     newPlayers.map((player) => {
       if (
@@ -175,6 +173,11 @@ export default function Game() {
       decor[n].explode = true; // chain reaction
     }
   };
+
+  function handleFireEnd(n) {
+    const newFires = [...fires].filter(elt => elt !== n);
+    setFires(newFires); // on supprime le fire
+  }
 
   const handleReborn = (n) => {
     const newPlayers = [...players];
@@ -342,7 +345,7 @@ export default function Game() {
             />
           ))}
         {fires.map((sprite, n) => (
-          <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} />
+          <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} onEnd={handleFireEnd} />
         ))}
       </div>
       <Controls

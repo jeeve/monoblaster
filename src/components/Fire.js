@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Sprite from "./Sprite";
 import * as util from "../util";
 
-export default function Fire({ decor, n, onBurn }) {
+export default function Fire({ decor, n, onBurn, onEnd }) {
   const energyMax = 4;
   const [end, setEnd] = useState(false);
   const [energy, setEnergy] = useState(energyMax);
@@ -157,9 +157,13 @@ export default function Fire({ decor, n, onBurn }) {
 
   useEffect(() => {
     if (end && spritesD.length ===0 && spritesL.length === 0 && spritesR.length === 0 && spritesU.length === 0) {
-      reaction.map((i) => { onBurn(i, n) });
+      onEnd(n);
     }
   }, [end, spritesD, spritesL, spritesR, spritesU]);
+
+  useEffect(() => {
+    reaction.map((i) => { onBurn(i) });
+  }, [reaction]);
 
   return (
     <div>
