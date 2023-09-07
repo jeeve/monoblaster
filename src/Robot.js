@@ -14,9 +14,7 @@ export function moveRobot(
     return decor[n].image.includes("bomb") || fires.includes(n);
   }
 
-  let inertia = robotInertia;
-
-  function flee(n) {
+  function flee(n, go) {
     let d = "";
 
     if (danger(n)) {
@@ -31,17 +29,33 @@ export function moveRobot(
       }
     }
     if (danger(util.spriteLeft(n)) || danger(util.spriteRight(n))) {
-      if (!something(util.spriteUp(n))) {
-        d = "up";
+      if (go.y < 0) {
+        if (!something(util.spriteUp(n))) {
+          d = "up";
+        } else {
+          d = "down";
+        }
       } else {
-        d = "down";
+        if (!something(util.spriteDown(n))) {
+          d = "down";
+        } else {
+          d = "up";
+        }
       }
     }
     if (danger(util.spriteUp(n)) || danger(util.spriteDown(n))) {
-      if (!something(util.spriteLeft(n))) {
-        d = "left";
+      if (go.x > 0) {
+        if (!something(util.spriteRight(n))) {
+          d = "right";
+        } else {
+          d = "left";
+        }
       } else {
-        d = "right";
+        if (!something(util.spriteLeft(n))) {
+          d = "left";
+        } else {
+          d = "right";
+        }       
       }
     }
     return d;
@@ -66,16 +80,34 @@ export function moveRobot(
     return false;
   }
 
+  function goTo() {
+    const go = { x: 0, y: 0 };
+    if (players[0].x > robot().x) {
+      go.x = 1;
+    } else if (players[0].x < robot().x) {
+      go.x = -1;
+    }
+    if (players[0].y > robot().y) {
+      go.y = 1;
+    } else if (players[0].y < robot().y) {
+      go.y = -1;
+    }
+    return go;
+  }
+
+  let inertia = robotInertia;
+  const go = goTo();
   const iRobot = Math.round(robot().x / 32);
   const jRobot = Math.round(robot().y / 32);
   const nRobot = util.getIndex(iRobot, jRobot);
   let d1 = "";
   let d2 = "";
+
   if (danger(nRobot)) {
-    robot().displacement = flee(nRobot);
+    robot().displacement = flee(nRobot, go);
     d1 = "danger";
   } else {
-    d1 = flee(nRobot);
+    d1 = flee(nRobot, go);
     d2 = "";
     switch (d1) {
       case "up":
@@ -105,15 +137,15 @@ export function moveRobot(
 
   if (d1 === "" && d2 === "" && inertia === 0) {
     const r = Math.round(Math.random() * 100);
-    if (r > 0 && r <= 10) {
+    if (r > 0 && (r <= (go.y <  0 ? 15 : 10))) {
       robot().displacement = "up";
-    } else if (r > 10 && r <= 20) {
+    } else if (r > 20 && (r <= (go.y > 0 ? 35 : 30))) {
       robot().displacement = "down";
-    } else if (r > 20 && r <= 30) {
+    } else if (r > 40 && (r <= (go.x < 0 ? 55 : 50))) {
       robot().displacement = "left";
-    } else if (r > 30 && r <= 40) {
+    } else if (r > 60 && (r <= (go.x > 0 ? 75 : 70))) {
       robot().displacement = "right";
-    } else if (r > 40 && r <= 50) {
+    } else if (r > 80 && r <= 90) {
       dropBomb(robot());
     }
   }
