@@ -149,7 +149,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [n]);
 
   useEffect(() => {
     if (end && spritesD.length ===0 && spritesL.length === 0 && spritesR.length === 0 && spritesU.length === 0) {

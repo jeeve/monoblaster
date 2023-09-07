@@ -12,45 +12,39 @@ export function moveRobot(
 ) {
   let inertia = robotInertia;
 
-  function flee() {
-    
+  function flee(n) {
     function danger(n) {
       return decor[n].image.includes("bomb") || fires.includes(n);
     }
-    
-    let warning = false;
-    const iRobot = Math.round(robot().x / 32);
-    const jRobot = Math.round(robot().y / 32);
-    const nRobot = util.getIndex(iRobot, jRobot);
-    if (danger(nRobot)) {
-      if (!something(util.spriteUp(nRobot))) {
-        robot().displacement = "up";
-      } else if (!something(util.spriteDown(nRobot))) {
-        robot().displacement = "down";
-      } else if (!something(util.spriteLeft(nRobot))) {
-        robot().displacement = "left";
+
+    let d = "";
+
+    if (danger(n)) {
+      if (!something(util.spriteUp(n))) {
+        d = "up";
+      } else if (!something(util.spriteDown(n))) {
+        d = "down";
+      } else if (!something(util.spriteLeft(n))) {
+        d = "left";
       } else {
-        robot().displacement = "right";
+        d = "right";
       }
-      warning = true;
     }
-    if (danger(util.spriteLeft(nRobot)) || danger(util.spriteRight(nRobot))) {
-      if (!something(util.spriteUp(nRobot))) {
-        robot().displacement = "up";
+    if (danger(util.spriteLeft(n)) || danger(util.spriteRight(n))) {
+      if (!something(util.spriteUp(n))) {
+        d = "up";
       } else {
-        robot().displacement = "down";
+        d = "down";
       }
-      warning = true;
     }
-    if (danger(util.spriteUp(nRobot)) || danger(util.spriteDown(nRobot))) {
-      if (!something(util.spriteLeft(nRobot))) {
-        robot().displacement = "left";
+    if (danger(util.spriteUp(n)) || danger(util.spriteDown(n))) {
+      if (!something(util.spriteLeft(n))) {
+        d = "left";
       } else {
-        robot().displacement = "right";
+        d = "right";
       }
-      warning = true;
     }
-    return warning;
+    return d;
   }
 
   function something(n) {
@@ -72,9 +66,37 @@ export function moveRobot(
     return false;
   }
 
-  const warning = flee();
+  const iRobot = Math.round(robot().x / 32);
+  const jRobot = Math.round(robot().y / 32);
+  const nRobot = util.getIndex(iRobot, jRobot);
+  const d1 = flee(nRobot);
+  let d2 = "";
+  switch (d1) {
+    case "up":
+      d2 = flee(util.spriteUp(nRobot));
+      break;
+    case "down":
+      d2 = flee(util.spriteDown(nRobot));
+      break;
+    case "left":
+      d2 = flee(util.spriteLeft(nRobot));
+      break;
+    case "right":
+      d2 = flee(util.spriteRight(nRobot));
+      break;
+    default:
+      break;
+  }
 
-  if (!warning && inertia === 0) {
+  if (d2 != "") {
+    robot().displacement = d2;
+  } else {
+    if (d1 != "") {
+      robot().displacement = d1;
+    }
+  }
+
+  if (d1 === "" && d2 === "" && inertia === 0) {
     const r = Math.round(Math.random() * 100);
     if (r > 0 && r <= 10) {
       robot().displacement = "up";
