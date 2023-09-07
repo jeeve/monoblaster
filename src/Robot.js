@@ -84,8 +84,8 @@ export function moveRobot(
       robot().displacement = "left";
     } else if (r > 30 && r <= 40) {
       robot().displacement = "right";
-    } else if (r > 40 && r <= 50) {
-      //dropBomb(robot());
+    } else if (r > 40 && r <= 42) {
+      dropBomb(robot());
     }
   }
 
