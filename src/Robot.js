@@ -10,13 +10,13 @@ export function moveRobot(
   dropBomb,
   fires
 ) {
+  function danger(n) {
+    return decor[n].image.includes("bomb") || fires.includes(n);
+  }
+
   let inertia = robotInertia;
 
   function flee(n) {
-    function danger(n) {
-      return decor[n].image.includes("bomb") || fires.includes(n);
-    }
-
     let d = "";
 
     if (danger(n)) {
@@ -69,30 +69,37 @@ export function moveRobot(
   const iRobot = Math.round(robot().x / 32);
   const jRobot = Math.round(robot().y / 32);
   const nRobot = util.getIndex(iRobot, jRobot);
-  const d1 = flee(nRobot);
+  let d1 = "";
   let d2 = "";
-  switch (d1) {
-    case "up":
-      d2 = flee(util.spriteUp(nRobot));
-      break;
-    case "down":
-      d2 = flee(util.spriteDown(nRobot));
-      break;
-    case "left":
-      d2 = flee(util.spriteLeft(nRobot));
-      break;
-    case "right":
-      d2 = flee(util.spriteRight(nRobot));
-      break;
-    default:
-      break;
-  }
-
-  if (d2 !== "") {
-    robot().displacement = d2;
+  if (danger(nRobot)) {
+    robot().displacement = flee(nRobot);
+    d1 = "danger";
   } else {
-    if (d1 !== "") {
-      robot().displacement = d1;
+    d1 = flee(nRobot);
+    d2 = "";
+    switch (d1) {
+      case "up":
+        d2 = flee(util.spriteUp(nRobot));
+        break;
+      case "down":
+        d2 = flee(util.spriteDown(nRobot));
+        break;
+      case "left":
+        d2 = flee(util.spriteLeft(nRobot));
+        break;
+      case "right":
+        d2 = flee(util.spriteRight(nRobot));
+        break;
+      default:
+        break;
+    }
+
+    if (d2 !== "") {
+      robot().displacement = d2;
+    } else {
+      if (d1 !== "") {
+        robot().displacement = d1;
+      }
     }
   }
 
@@ -106,7 +113,7 @@ export function moveRobot(
       robot().displacement = "left";
     } else if (r > 30 && r <= 40) {
       robot().displacement = "right";
-    } else if (r > 40 && r <= 42) {
+    } else if (r > 40 && r <= 50) {
       dropBomb(robot());
     }
   }
