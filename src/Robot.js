@@ -88,10 +88,10 @@ export function moveRobot(
       break;
   }
 
-  if (d2 != "") {
+  if (d2 !== "") {
     robot().displacement = d2;
   } else {
-    if (d1 != "") {
+    if (d1 !== "") {
       robot().displacement = d1;
     }
   }
