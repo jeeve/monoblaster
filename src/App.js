@@ -178,8 +178,7 @@ export default function Game() {
   };
 
   function handleFireEnd(n) {
-    const newFires = [...fires].filter(elt => elt !== n);
-    setFires(newFires); // on supprime le fire
+    setFires(fires.filter(elt => elt !== n)); // on supprime le fire
   }
 
   const handleReborn = (n) => {
