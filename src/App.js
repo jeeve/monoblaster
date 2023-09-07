@@ -171,6 +171,9 @@ export default function Game() {
       decor[n].image = "";
     } else if (decor[n].image.includes("bomb")) {
       decor[n].explode = true; // chain reaction
+      const newFires = [...fires];
+      fires.push(n);
+      setFires(newFires);
     }
   };
 

@@ -6,7 +6,7 @@ export const nj = 15;
 export const dx = 5;
 export const tolx = 16;
 export const robotAgitation = 10;
-export const nbBombsMax = 10;
+export const nbBombsMax = 5;
 export const speed = 17;
 
 export function makeDecor(decorOK) {

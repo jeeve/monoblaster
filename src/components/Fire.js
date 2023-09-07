@@ -6,7 +6,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
   const energyMax = 4;
   const [end, setEnd] = useState(false);
   const [energy, setEnergy] = useState(energyMax);
-  const [reaction, setReaction] = useState([]);
   const [spritesL, setSpritesL] = useState([]);
   const [spritesR, setSpritesR] = useState([]);
   const [spritesU, setSpritesU] = useState([]);
@@ -115,10 +114,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
           setNbBurned((prevNbBurned) => prevNbBurned + 1);
         }
         if (nbBurned() === 0) {
-          const newReaction = [...reaction]; 
-          newReaction.push(newK);
-          setReaction(newReaction);
-          //onBurn(newK);
+          onBurn(newK);
         }
         return newSprites;
       });
@@ -154,10 +150,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       clearInterval(interval);
     };
   }, []);
-
-  useEffect(() => {
-    reaction.map((i) => { onBurn(i) });
-  }, [reaction]);
 
   useEffect(() => {
     if (end && spritesD.length ===0 && spritesL.length === 0 && spritesR.length === 0 && spritesU.length === 0) {
