@@ -8,6 +8,7 @@ export const tolx = 16;
 export const robotAgitation = 10;
 export const nbBombsMax = 5;
 export const speed = 20;
+export const energyMax = 4;
 
 export function makeDecor(decorOK) {
     const sprites = [];

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import Sprite from "./Sprite";
+import * as init from "../init";
 import * as util from "../util";
 
 export default function Fire({ decor, n, onBurn, onEnd }) {
-  const energyMax = 4;
   const [end, setEnd] = useState(false);
-  const [energy, setEnergy] = useState(energyMax);
+  const [energy, setEnergy] = useState(init.energyMax);
   const [spritesL, setSpritesL] = useState([]);
   const [spritesR, setSpritesR] = useState([]);
   const [spritesU, setSpritesU] = useState([]);
@@ -85,7 +85,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
     image3,
     image4
   ) => {
-    if (energy > energyMax / 2) {
+    if (energy > init.energyMax / 2) {
       setSprites((prevSprites) => {
         const newSprites = [...prevSprites];
         let k;
@@ -126,7 +126,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       });
     }
     setSprites((prevSprites) => {
-      if (prevSprites.length > 0  && energy < energyMax) {
+      if (prevSprites.length > 0  && energy < init.energyMax) {
         const newSprites = [...prevSprites];
         newSprites[0].image = image3;
         return newSprites;
@@ -159,7 +159,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
 
   return (
     <div>
-      {energy > energyMax / 2 + 1 ? (
+      {energy > init.energyMax / 2 + 1 ? (
         <Sprite
           x={util.getI(n) * 32}
           y={util.getJ(n) * 32}
