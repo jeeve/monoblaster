@@ -79,6 +79,27 @@ export function moveRobot(
     return go;
   }
 
+  function nDirection(d, n) {
+    let n2;
+    switch (d) {
+      case "up":
+        n2 = util.spriteUp(n);
+        break;
+      case "down":
+        n2 = util.spriteDown(n);
+        break;
+      case "left":
+        n2 = util.spriteLeft(n);
+        break;
+      case "right":
+        n2 = util.spriteRight(n);
+        break;
+      default:
+        break;
+    }
+    return n;
+  }
+
   let inertia = robotInertia;
   const iRobot = Math.round(robot().x / 32);
   const jRobot = Math.round(robot().y / 32);
@@ -91,23 +112,7 @@ export function moveRobot(
     d1 = "danger";
   } else {
     d1 = flee(nRobot);
-    d2 = "";
-    switch (d1) {
-      case "up":
-        d2 = flee(util.spriteUp(nRobot));
-        break;
-      case "down":
-        d2 = flee(util.spriteDown(nRobot));
-        break;
-      case "left":
-        d2 = flee(util.spriteLeft(nRobot));
-        break;
-      case "right":
-        d2 = flee(util.spriteRight(nRobot));
-        break;
-      default:
-        break;
-    }
+    d2 = flee(nDirection(d1, nRobot));
 
     if (d2 !== "") {
       robot().displacement = d2;
@@ -129,7 +134,7 @@ export function moveRobot(
       robot().displacement = "left";
     } else if (r > 60 && (r <= (go.x > 0 ? 75 : 70))) {
       robot().displacement = "right";
-    } else if (r > 80 && r <= 90) {
+    } else if (r > 80 && r <= 85) {
       dropBomb(robot());
     }
   }
