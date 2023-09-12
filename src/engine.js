@@ -22,32 +22,30 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
 
   function getBlocksNear() {
     return getSpritesArroundPlayer().filter((object) => {
-      return (
-        object.x >= player.x - init.dx - 32 && object.x + 32 <= player.x
-      );
+      return object.x + 32 > player.x - init.dx && object.x + 32 <= player.x;
     });
   }
 
   function objectAtUp(objects, o) {
-    return (
-      objects.filter((object) => {
+    return objects.filter((object) => {
+      if (object.x + 32 >= o.x + 32 - init.dx && object.x + 32 <= o.x + 32) {
         if (object.y + 32 <= o.y && object.y + 32 > o.y - 32) {
           return true;
         }
-        return false;
-      }).length != 0
-    );
+      }
+      return false;
+    }).length != 0;
   }
 
-  function objectAtDown(objects, o) {
-    return (
-      objects.filter((object) => {
+    function objectAtDown(objects, o) {
+    return objects.filter((object) => {
+      if (object.x + 32 >= o.x + 32 - init.dx && object.x + 32 <= o.x + 32) {
         if (object.y >= o.y + 32 && object.y < o.y + 64) {
           return true;
         }
-        return false;
-      }).length != 0
-    );
+      }
+      return false;
+    }).length != 0;
   }
 
   let ok = true;
@@ -108,33 +106,30 @@ export function tryToGoRight(decor, players, player, setPlayers) {
 
   function getBlocksNear() {
     return getSpritesArroundPlayer().filter((object) => {
-      return (
-        object.x >= player.x - init.dx + 32 &&
-        object.x <= player.x - init.dx + 64
-      );
+      return object.x > player.x + 32 - init.dx && object.x <= player.x + 32;
     });
   }
 
   function objectAtUp(objects, o) {
-    return (
-      objects.filter((object) => {
+    return objects.filter((object) => {
+      if (object.x < o.x + init.dx && object.x >= o.x) {
         if (object.y + 32 <= o.y && object.y + 32 > o.y - 32) {
           return true;
         }
-        return false;
-      }).length != 0
-    );
+      }
+      return false;
+    }).length != 0;
   }
 
-  function objectAtDown(objects, o) {
-    return (
-      objects.filter((object) => {
+    function objectAtDown(objects, o) {
+    return objects.filter((object) => {
+      if (object.x < o.x + init.dx && object.x >= o.x) {
         if (object.y >= o.y + 32 && object.y < o.y + 64) {
           return true;
         }
-        return false;
-      }).length != 0
-    );
+      }
+      return false;
+    }).length != 0;
   }
 
   let ok = true;
@@ -166,12 +161,12 @@ export function tryToGoRight(decor, players, player, setPlayers) {
     }
   });
   if (ok) {
-      x = player.x + init.dx;
-    }
-    const newPlayers = Object.assign([], players);
-    newPlayers[player.n].x = x;
-    newPlayers[player.n].y = y;
-    setPlayers(newPlayers);
+    x = player.x + init.dx;
+  }
+  const newPlayers = Object.assign([], players);
+  newPlayers[player.n].x = x;
+  newPlayers[player.n].y = y;
+  setPlayers(newPlayers);
 }
 
 export function tryToGoUp(decor, players, player, setPlayers) {
@@ -195,32 +190,30 @@ export function tryToGoUp(decor, players, player, setPlayers) {
 
   function getBlocksNear() {
     return getSpritesArroundPlayer().filter((object) => {
-      return (
-        object.y + 32 > player.y - 32 - init.dx && object.y + 32 <= player.y
-      );
+      return object.y + 32 > player.y - init.dx && object.y + 32 <= player.y;
     });
   }
 
   function objectAtLeft(objects, o) {
-    return (
-      objects.filter((object) => {
-        if (object.x >= o.x - 32 - init.dx && object.x + 32 <= o.x) {
+    return objects.filter((object) => {
+      if (object.y + 32 >= o.y + 32 - init.dx && object.y + 32 <= o.y + 32) {
+        if (object.x + 32 <= o.x && object.x + 32 > o.x - 32) {
           return true;
         }
-        return false;
-      }).length != 0
-    );
+      }
+      return false;
+    }).length != 0;
   }
 
-  function objectAtRight(objects, o) {
-    return (
-      objects.filter((object) => {
-        if (object.x >= o.x + 32 - init.dx && object.x + 32 <= o.x + 64) {
+    function objectAtRight(objects, o) {
+    return objects.filter((object) => {
+      if (object.x + 32 >= o.x + 32 - init.dx && object.x + 32 <= o.x + 32) {
+        if (object.y >= o.y + 32 && object.y < o.y + 64) {
           return true;
         }
-        return false;
-      }).length != 0
-    );
+      }
+      return false;
+    }).length != 0;
   }
 
   let ok = true;
@@ -252,12 +245,12 @@ export function tryToGoUp(decor, players, player, setPlayers) {
     }
   });
   if (ok) {
-      y = player.y - init.dx;
-    }
-    const newPlayers = Object.assign([], players);
-    newPlayers[player.n].x = x;
-    newPlayers[player.n].y = y;
-    setPlayers(newPlayers);
+    y = player.y - init.dx;
+  }
+  const newPlayers = Object.assign([], players);
+  newPlayers[player.n].x = x;
+  newPlayers[player.n].y = y;
+  setPlayers(newPlayers);
 }
 
 export function tryToGoDown(decor, players, player, setPlayers) {
@@ -285,26 +278,26 @@ export function tryToGoDown(decor, players, player, setPlayers) {
     });
   }
 
-  function objectAtLeft(objects, o) {
-    return (
-      objects.filter((object) => {
-        if (object.x >= o.x - 32 - init.dx && object.x + 32 <= o.x) {
+  function objectAtUp(objects, o) {
+    return objects.filter((object) => {
+      if (object.y < o.y + init.dx && object.y >= o.y) {
+        if (object.x + 32 <= o.x && object.x + 32 > o.x - 32) {
           return true;
         }
-        return false;
-      }).length != 0
-    );
+      }
+      return false;
+    }).length != 0;
   }
 
-  function objectAtRight(objects, o) {
-    return (
-      objects.filter((object) => {
-        if (object.x >= o.x + 32 - init.dx && object.x + 32 <= o.x + 64) {
+    function objectAtDown(objects, o) {
+    return objects.filter((object) => {
+      if (object.y < o.y + init.dx && object.y >= o.y) {
+        if (object.x >= o.x + 32 && object.x < o.x + 64) {
           return true;
         }
-        return false;
-      }).length != 0
-    );
+      }
+      return false;
+    }).length != 0;
   }
 
   let ok = true;
@@ -322,24 +315,24 @@ export function tryToGoDown(decor, players, player, setPlayers) {
     }
     if (object.x < player.x + 32 && object.x > player.x + 32 - init.tolx) {
       ok = false;
-      if (!objectAtLeft(objects, object)) {
+      if (!objectAtUp(objects, object)) {
         ok = true;
         x = object.x - 32;
       }
     }
     if (object.x + 32 > player.x && object.x + 32 < player.x + init.tolx) {
       ok = false;
-      if (!objectAtRight(objects, object)) {
+      if (!objectAtDown(objects, object)) {
         ok = true;
         x = object.x + 32;
       }
     }
   });
   if (ok) {
-      y = player.y + init.dx;
-    }
-    const newPlayers = Object.assign([], players);
-    newPlayers[player.n].x = x;
-    newPlayers[player.n].y = y;
-    setPlayers(newPlayers);
+    y = player.y + init.dx;
+  }
+  const newPlayers = Object.assign([], players);
+  newPlayers[player.n].x = x;
+  newPlayers[player.n].y = y;
+  setPlayers(newPlayers);
 }
