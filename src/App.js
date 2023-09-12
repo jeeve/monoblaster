@@ -53,7 +53,7 @@ export default function Game() {
 
   function dropBomb(player) {
     if (player.dead || player.bombs === 0) return;
-    const nextDecor = [...decor];
+    const nextDecor = Object.assign([], decor);
     const i = Math.round(player.x / 32);
     const j = Math.round(player.y / 32);
     const n = util.getIndex(i, j);
@@ -167,7 +167,7 @@ export default function Game() {
     const newDecor = Object.assign([], decor);
     newDecor[n].image = ""; // remove bomb
     setDecor(newDecor);
-    newPlayers[newDecor[n].owner].bombs++; // on recredite le nombre de bombes dispo
+    newPlayers[decor[n].owner].bombs++; // on recredite le nombre de bombes dispo
     newPlayers[myPlayer().n].score = myPlayerScore;
     newPlayers[theRobot().n].score = theRobotScore;
     setPlayers(newPlayers);
