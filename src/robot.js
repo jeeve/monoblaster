@@ -135,7 +135,7 @@ export function moveRobot(
     } else if (r > 60 && (r <= (go.x > 0 ? 75 : 70))) {
       robot().displacement = "right";
     } else if (r > 80 && r <= 85) {
-      dropBomb(robot());
+      //dropBomb(robot());
     }
   }
 
