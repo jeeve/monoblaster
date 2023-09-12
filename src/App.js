@@ -281,7 +281,7 @@ export default function Game() {
           break;
         }
       }
-    }, 100);
+    }, init.speed);
     return () => {
       clearInterval(interval);
     };
