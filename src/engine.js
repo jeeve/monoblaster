@@ -6,15 +6,11 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
     let objects = [];
     const i = Math.floor(player.x / 32);
     const j = Math.floor(player.y / 32);
-    let sprite = decor[util.getIndex(i - 1, j - 2)];
-    if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[util.getIndex(i - 1, j - 1)];
+    let sprite = decor[util.getIndex(i - 1, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     sprite = decor[util.getIndex(i - 1, j)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     sprite = decor[util.getIndex(i - 1, j + 1)];
-    if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[util.getIndex(i - 1, j + 2)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     players.map((p) => {
       if (p !== player) {
@@ -27,7 +23,7 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
   function getBlocksNear() {
     return getSpritesArroundPlayer().filter((object) => {
       return (
-        object.x + 32 >= player.x + init.dx - 32 && object.x + 32 <= player.x
+        object.x >= player.x - init.dx - 32 && object.x + 32 <= player.x
       );
     });
   }
@@ -83,10 +79,12 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
     }
   });
   if (ok) {
-    const newPlayers = Object.assign([], players);
-    newPlayers[player.n]. x = player.x - init.dx;
-    setPlayers(newPlayers);
+    x = player.x - init.dx;
   }
+  const newPlayers = Object.assign([], players);
+  newPlayers[player.n].x = x;
+  newPlayers[player.n].y = y;
+  setPlayers(newPlayers);
 }
 
 export function tryToGoRight(decor, players, player, setPlayers) {
@@ -94,15 +92,11 @@ export function tryToGoRight(decor, players, player, setPlayers) {
     let objects = [];
     const i = Math.floor(player.x / 32);
     const j = Math.floor(player.y / 32);
-    let sprite = decor[util.getIndex(i + 1, j - 2)];
-    if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[util.getIndex(i + 1, j - 1)];
+    let sprite = decor[util.getIndex(i + 1, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     sprite = decor[util.getIndex(i + 1, j)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     sprite = decor[util.getIndex(i + 1, j + 1)];
-    if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[util.getIndex(i + 1, j + 2)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     players.map((p) => {
       if (p !== player) {
@@ -172,10 +166,12 @@ export function tryToGoRight(decor, players, player, setPlayers) {
     }
   });
   if (ok) {
+      x = player.x + init.dx;
+    }
     const newPlayers = Object.assign([], players);
-    newPlayers[player.n]. x = player.x + init.dx;
+    newPlayers[player.n].x = x;
+    newPlayers[player.n].y = y;
     setPlayers(newPlayers);
-  }
 }
 
 export function tryToGoUp(decor, players, player, setPlayers) {
@@ -183,15 +179,11 @@ export function tryToGoUp(decor, players, player, setPlayers) {
     let objects = [];
     const i = Math.floor(player.x / 32);
     const j = Math.floor(player.y / 32);
-    let sprite = decor[util.getIndex(i - 2, j - 1)];
-    if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[util.getIndex(i - 1, j - 1)];
+    let sprite = decor[util.getIndex(i - 1, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     sprite = decor[util.getIndex(i, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     sprite = decor[util.getIndex(i + 1, j - 1)];
-    if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[util.getIndex(i + 2, j - 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     players.map((p) => {
       if (p !== player) {
@@ -260,10 +252,12 @@ export function tryToGoUp(decor, players, player, setPlayers) {
     }
   });
   if (ok) {
+      y = player.y - init.dx;
+    }
     const newPlayers = Object.assign([], players);
-    newPlayers[player.n]. y = player.y - init.dx;
+    newPlayers[player.n].x = x;
+    newPlayers[player.n].y = y;
     setPlayers(newPlayers);
-  }
 }
 
 export function tryToGoDown(decor, players, player, setPlayers) {
@@ -271,15 +265,11 @@ export function tryToGoDown(decor, players, player, setPlayers) {
     let objects = [];
     const i = Math.floor(player.x / 32);
     const j = Math.floor(player.y / 32);
-    let sprite = decor[util.getIndex(i - 2, j - 1)];
-    if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[util.getIndex(i - 1, j + 1)];
+    let sprite = decor[util.getIndex(i - 1, j + 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     sprite = decor[util.getIndex(i, j + 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     sprite = decor[util.getIndex(i + 1, j + 1)];
-    if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
-    sprite = decor[util.getIndex(i + 2, j + 1)];
     if (sprite.image !== "") objects.push({ x: sprite.x, y: sprite.y });
     players.map((p) => {
       if (p !== player) {
@@ -346,8 +336,10 @@ export function tryToGoDown(decor, players, player, setPlayers) {
     }
   });
   if (ok) {
+      y = player.y + init.dx;
+    }
     const newPlayers = Object.assign([], players);
-    newPlayers[player.n]. y = player.y + init.dx;
+    newPlayers[player.n].x = x;
+    newPlayers[player.n].y = y;
     setPlayers(newPlayers);
-  }
 }
