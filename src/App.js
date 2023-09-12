@@ -147,51 +147,59 @@ export default function Game() {
   }
 
   const handleExplode = (n) => {
-    const newPlayers = [...players];
-    newPlayers.map((player) => {
+    let myPlayerScore = myPlayer().score;
+    let theRobotScore = theRobot().score;
+    const newPlayers = players.map((player) => {
       const newPlayer = { ...player };
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
         newPlayer.dead = true;
-        const newPlayers = Object.assign([], players);
         if (player.image === "player.png") {
-          newPlayers[1].score++;
+          theRobotScore++;
         } else {
-          newPlayers[0].score++;
+          myPlayerScore++;
         }
       }
       return newPlayer;
     });
+    const newDecor = Object.assign([], decor);
+    newDecor[n].image = ""; // remove bomb
+    setDecor(newDecor);
+    newPlayers[newDecor[n].owner].bombs++; // on recredite le nombre de bombes dispo
+    newPlayers[myPlayer().n].score = myPlayerScore;
+    newPlayers[theRobot().n].score = theRobotScore;
     setPlayers(newPlayers);
-    decor[n].image = ""; // remove bomb
-    players[decor[n].owner].bombs++; // on recredite le nombre de bombes dispo
     const newFires = [...fires];
     newFires.push(n);
     setFires(newFires);
   };
 
   function HandleBurn(n) {
-    const newPlayers = [...players];
-    newPlayers.map((player) => {
+    let myPlayerScore = myPlayer().score;
+    let theRobotScore = theRobot().score;
+    const newPlayers = players.map((player) => {
+      const newPlayer = { ...player };
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
         if (!player.dead) {
-          player.dead = true;
+          newPlayer.dead = true;
           if (player.image === "player.png") {
-            players[1].score++;
+            theRobotScore++;
           } else {
-            players[0].score++;
+            myPlayerScore++;
           }
         }
       }
+      return newPlayer;
     });
+    newPlayers[myPlayer().n].score = myPlayerScore;
+    newPlayers[theRobot().n].score = theRobotScore;
     setPlayers(newPlayers);
     const newDecor = Object.assign([], decor);
-    setPlayers(newPlayers);
     if (decor[n].image === "brick.png") {
       newDecor[n].image = "";
     } else if (decor[n].image.includes("bomb")) {
@@ -208,7 +216,7 @@ export default function Game() {
   }
 
   const handleReborn = (n) => {
-    const newPlayers = [...players];
+    const newPlayers = Object.assign([], players);
     newPlayers[n].dead = false;
     setPlayers(newPlayers);
   };

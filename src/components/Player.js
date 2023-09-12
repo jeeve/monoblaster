@@ -18,7 +18,7 @@ export default function Player({ x, y, n, image, dead, onReborn }) {
     return setInterval(() => {
       if (dead) {
         setCount((prevCount) => prevCount - 1);
-        setOpacity((prevOpacity) => (prevOpacity === 1 ? 0 : 1));
+        setOpacity((prevOpacity) => (prevOpacity === 0 ? 1 : 0));
       }
     }, 200);
   };
