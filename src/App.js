@@ -68,16 +68,20 @@ export default function Game() {
         owner: player.n,
       };
       setDecor(nextDecor);
-      player.x = x;
-      player.y = y;
+      const newPlayers = Object.assign([], players);
+      newPlayers[player.n]. x = x;
+      newPlayers[player.n]. y = y;
       if (player.bombs > 0) {
-        player.bombs--;
+        newPlayers[player.n].bombs--;
       }
+      setPlayers(newPlayers);
     }
   }
 
   function handleControlDisplacement(displacement) {
-    myPlayer().displacement = displacement;
+    const newPlayers = Object.assign([], players);
+    newPlayers[myPlayer().n].displacement = displacement;
+    setPlayers(newPlayers);
   }
 
   function handleControlBomb() {
@@ -87,19 +91,27 @@ export default function Game() {
   function handleKeyDown(event) {
     if (event.code === "ArrowLeft") {
       event.preventDefault();
-      myPlayer().displacement = "left";
+      const newPlayers = Object.assign([], players);
+      newPlayers[myPlayer().n].displacement = "left";
+      setPlayers(newPlayers);
     }
     if (event.code === "ArrowRight") {
       event.preventDefault();
-      myPlayer().displacement = "right";
+      const newPlayers = Object.assign([], players);
+      newPlayers[myPlayer().n].displacement = "right";
+      setPlayers(newPlayers);
     }
     if (event.code === "ArrowDown") {
       event.preventDefault();
-      myPlayer().displacement = "down";
+      const newPlayers = Object.assign([], players);
+      newPlayers[myPlayer().n].displacement = "down";
+      setPlayers(newPlayers);
     }
     if (event.code === "ArrowUp") {
       event.preventDefault();
-      myPlayer().displacement = "up";
+      const newPlayers = Object.assign([], players);
+      newPlayers[myPlayer().n].displacement = "up";
+      setPlayers(newPlayers);
     }
     if (event.code === "Space") {
       event.preventDefault();
@@ -110,36 +122,47 @@ export default function Game() {
   function handleKeyUp(event) {
     if (event.code === "ArrowLeft" && myPlayer().displacement === "left") {
       event.preventDefault();
-      myPlayer().displacement = "";
+      const newPlayers = Object.assign([], players);
+      newPlayers[myPlayer().n].displacement = "";
+      setPlayers(newPlayers);
     }
     if (event.code === "ArrowRight" && myPlayer().displacement === "right") {
       event.preventDefault();
-      myPlayer().displacement = "";
+      const newPlayers = Object.assign([], players);
+      newPlayers[myPlayer().n].displacement = "";
+      setPlayers(newPlayers);
     }
     if (event.code === "ArrowDown" && myPlayer().displacement === "down") {
       event.preventDefault();
-      myPlayer().displacement = "";
+      const newPlayers = Object.assign([], players);
+      newPlayers[myPlayer().n].displacement = "";
+      setPlayers(newPlayers);
     }
     if (event.code === "ArrowUp" && myPlayer().displacement === "up") {
       event.preventDefault();
-      myPlayer().displacement = "";
+      const newPlayers = Object.assign([], players);
+      newPlayers[myPlayer().n].displacement = "";
+      setPlayers(newPlayers);
     }
   }
 
   const handleExplode = (n) => {
     const newPlayers = [...players];
     newPlayers.map((player) => {
+      const newPlayer = { ...player };
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        player.dead = true;
+        newPlayer.dead = true;
+        const newPlayers = Object.assign([], players);
         if (player.image === "player.png") {
-          players[1].score++;
+          newPlayers[1].score++;
         } else {
-          players[0].score++;
+          newPlayers[0].score++;
         }
       }
+      return newPlayer;
     });
     setPlayers(newPlayers);
     decor[n].image = ""; // remove bomb
@@ -167,14 +190,17 @@ export default function Game() {
       }
     });
     setPlayers(newPlayers);
+    const newDecor = Object.assign([], decor);
+    setPlayers(newPlayers);
     if (decor[n].image === "brick.png") {
-      decor[n].image = "";
+      newDecor[n].image = "";
     } else if (decor[n].image.includes("bomb")) {
-      decor[n].explode = true; // chain reaction
+      newDecor[n].explode = true; // chain reaction
       const newFires = [...fires];
       fires.push(n);
       setFires(newFires);
     }
+    setDecor(newDecor);
   };
 
   function handleFireEnd(n) {
@@ -236,19 +262,19 @@ export default function Game() {
       );
       switch (theRobot().displacement) {
         case "left": {
-          engine.tryToGoLeft(decor, players, theRobot());
+          engine.tryToGoLeft(decor, players, theRobot(), setPlayers);
           break;
         }
         case "right": {
-          engine.tryToGoRight(decor, players, theRobot());
+          engine.tryToGoRight(decor, players, theRobot(), setPlayers);
           break;
         }
         case "down": {
-          engine.tryToGoDown(decor, players, theRobot());
+          engine.tryToGoDown(decor, players, theRobot(), setPlayers);
           break;
         }
         case "up": {
-          engine.tryToGoUp(decor, players, theRobot());
+          engine.tryToGoUp(decor, players, theRobot(), setPlayers);
           break;
         }
         default: {
@@ -265,19 +291,19 @@ export default function Game() {
     const interval = setInterval(() => {
       switch (myPlayer().displacement) {
         case "left": {
-          engine.tryToGoLeft(decor, players, myPlayer());
+          engine.tryToGoLeft(decor, players, myPlayer(), setPlayers);
           break;
         }
         case "right": {
-          engine.tryToGoRight(decor, players, myPlayer());
+          engine.tryToGoRight(decor, players, myPlayer(), setPlayers);
           break;
         }
         case "down": {
-          engine.tryToGoDown(decor, players, myPlayer());
+          engine.tryToGoDown(decor, players, myPlayer(), setPlayers);
           break;
         }
         case "up": {
-          engine.tryToGoUp(decor, players, myPlayer());
+          engine.tryToGoUp(decor, players, myPlayer(), setPlayers);
           break;
         }
         default: {

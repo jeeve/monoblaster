@@ -1,7 +1,7 @@
 import * as init from "./init";
 import * as util from "./util";
 
-export function tryToGoLeft(decor, players, player) {
+export function tryToGoLeft(decor, players, player, setPlayers) {
   function getSpritesArroundPlayer() {
     let objects = [];
     const i = Math.floor(player.x / 32);
@@ -83,14 +83,13 @@ export function tryToGoLeft(decor, players, player) {
     }
   });
   if (ok) {
-    player.x = player.x - init.dx;
-    player.y = y;
-  } else {
-    player.x = x;
+    const newPlayers = Object.assign([], players);
+    newPlayers[player.n]. x = player.x - init.dx;
+    setPlayers(newPlayers);
   }
 }
 
-export function tryToGoRight(decor, players, player) {
+export function tryToGoRight(decor, players, player, setPlayers) {
   function getSpritesArroundPlayer() {
     let objects = [];
     const i = Math.floor(player.x / 32);
@@ -173,14 +172,13 @@ export function tryToGoRight(decor, players, player) {
     }
   });
   if (ok) {
-    player.x = player.x + init.dx;
-    player.y = y;
-  } else {
-    player.x = x;
+    const newPlayers = Object.assign([], players);
+    newPlayers[player.n]. x = player.x + init.dx;
+    setPlayers(newPlayers);
   }
 }
 
-export function tryToGoUp(decor, players, player) {
+export function tryToGoUp(decor, players, player, setPlayers) {
   function getSpritesArroundPlayer() {
     let objects = [];
     const i = Math.floor(player.x / 32);
@@ -262,14 +260,13 @@ export function tryToGoUp(decor, players, player) {
     }
   });
   if (ok) {
-    player.x = x;
-    player.y = player.y - init.dx;
-  } else {
-    player.y = y;
+    const newPlayers = Object.assign([], players);
+    newPlayers[player.n]. y = player.y - init.dx;
+    setPlayers(newPlayers);
   }
 }
 
-export function tryToGoDown(decor, players, player) {
+export function tryToGoDown(decor, players, player, setPlayers) {
   function getSpritesArroundPlayer() {
     let objects = [];
     const i = Math.floor(player.x / 32);
@@ -349,9 +346,8 @@ export function tryToGoDown(decor, players, player) {
     }
   });
   if (ok) {
-    player.x = x;
-    player.y = player.y + init.dx;
-  } else {
-    player.y = y;
+    const newPlayers = Object.assign([], players);
+    newPlayers[player.n]. y = player.y + init.dx;
+    setPlayers(newPlayers);
   }
 }
