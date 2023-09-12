@@ -3,13 +3,14 @@ import * as init from "../init";
 
 export default function Player({ x, y, n, image, dead, onReborn }) {
   const deadTime = 20;
-  const [img, setImg] = useState(image);
+  const [opacity, setOpacity] = useState(1);
   const [count, setCount] = useState(deadTime);
 
   const deltax = Math.floor(window.innerWidth / 2 - (init.ni * 32) / 2);
   const style = {
     left: deltax + x,
     top: y,
+    opacity: opacity
   };
   let interval;
 
@@ -17,7 +18,7 @@ export default function Player({ x, y, n, image, dead, onReborn }) {
     return setInterval(() => {
       if (dead) {
         setCount((prevCount) => prevCount - 1);
-        setImg((prevImage) => (prevImage === "" ? image : ""));
+        setOpacity((prevOpacity) => (prevOpacity === 1 ? 0 : 1));
       }
     }, 200);
   };
@@ -40,5 +41,5 @@ export default function Player({ x, y, n, image, dead, onReborn }) {
     }
   }, [dead, count]);
 
-  return <img style={style} src={"/images/" + img} alt="" />;
+  return <img style={style} src={"/images/" + image} alt="" />;
 }
