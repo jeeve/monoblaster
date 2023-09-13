@@ -287,7 +287,7 @@ export function tryToGoDown(decor, players, player, setPlayers) {
       if (Math.abs(objects[i].x - objects[i + 1].x) >= 64) {
         if (
           x >= objects[i].x + 32 - init.tolx &&
-          x + 32 <= objects[i + 1] + init.tolx
+          x + 32 <= objects[i + 1].x + init.tolx
         ) {
           return [objects[i], objects[i + 1]];
         }
