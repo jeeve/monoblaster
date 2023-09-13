@@ -259,7 +259,7 @@ export function tryToGoDown(decor, players, player, setPlayers) {
       sprite.x <= player.x + 64 &&
       sprite.x >= player.x - 64 &&
       sprite.y >= player.y + 32 &&
-      sprite.y <= player.y + 32 + init.dx
+      sprite.y < player.y + 32 + init.dx
     );
   }
 
@@ -297,11 +297,11 @@ export function tryToGoDown(decor, players, player, setPlayers) {
   }
 
   function getSpaceAtLeft(objects, x) {
-    const liste = objects.filter((object) => {
+    const list = objects.filter((object) => {
       return object.x >= x + 32 - init.tolx && object.x <= x + 32;
     });
-    if (liste.length > 0) {
-      const obj = liste[0];
+    if (list.length > 0) {
+      const obj = list[0];
       if (
         objects.filter((object) => {
           return object.x + 32 <= obj.x && object.x + 32 >= obj.x - 32;
@@ -314,11 +314,11 @@ export function tryToGoDown(decor, players, player, setPlayers) {
   }
 
   function getSpaceAtRight(objects, x) {
-    const liste = objects.filter((object) => {
+    const list = objects.filter((object) => {
       return object.x + 32 >= x && object.x + 32 <= x + init.tolx;
     });
-    if (liste.length > 0) {
-      const obj = liste[0];
+    if (list.length > 0) {
+      const obj = list[0];
       if (
         objects.filter((object) => {
           return object.x >= obj.x + 32 && object.x <= obj.x + 32;
@@ -326,6 +326,19 @@ export function tryToGoDown(decor, players, player, setPlayers) {
       ) {
         return obj;
       }
+    }
+    return null;
+  }
+
+  function getObjectAtBottom(objects, x) {
+    const list = objects.filter((object) => {
+      return (object.x + 32 >= x && object.x + 32 <= x + 32) || (object.x <= x + 32 && object.x >= x);
+    });
+    list.sort((a, b) => {
+      return a.y - b.y;
+    });
+    if (list.length > 0) {
+      return list[0];
     }
     return null;
   }
@@ -365,6 +378,12 @@ export function tryToGoDown(decor, players, player, setPlayers) {
         if (object !== null) {
           ok = true;
           x = object.x + 32;
+        } else {
+          object = getObjectAtBottom(objects, player.x);
+          if (object !== null) {
+            ok = true;
+            y = object.y - 32;
+          }
         }
       }
     }
