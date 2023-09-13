@@ -69,8 +69,8 @@ export default function Game() {
       };
       setDecor(nextDecor);
       const newPlayers = Object.assign([], players);
-      newPlayers[player.n]. x = x;
-      newPlayers[player.n]. y = y;
+      newPlayers[player.n].x = x;
+      newPlayers[player.n].y = y;
       if (player.bombs > 0) {
         newPlayers[player.n].bombs--;
       }
@@ -177,7 +177,6 @@ export default function Game() {
   };
 
   const HandleBurn = (n) => {
-    //console.log("burn " + n)
     let myPlayerScore = myPlayer().score;
     let theRobotScore = theRobot().score;
     const newPlayers = players.map((player) => {
@@ -186,8 +185,8 @@ export default function Game() {
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        console.log("touché ")
         if (!player.dead) {
+          console.log("touché ");
           newPlayer.dead = true;
           if (player.image === "player.png") {
             theRobotScore++;
@@ -215,7 +214,7 @@ export default function Game() {
   };
 
   function handleFireEnd(n) {
-    setFires(fires.filter(elt => elt !== n)); // on supprime le fire
+    setFires(fires.filter((elt) => elt !== n)); // on supprime le fire
   }
 
   const handleReborn = (n) => {
@@ -384,7 +383,13 @@ export default function Game() {
             />
           ))}
         {fires.map((sprite, n) => (
-          <Fire key={n} decor={decor} n={sprite} onBurn={HandleBurn} onEnd={handleFireEnd} />
+          <Fire
+            key={n}
+            decor={decor}
+            n={sprite}
+            onBurn={HandleBurn}
+            onEnd={handleFireEnd}
+          />
         ))}
       </div>
       <Controls
