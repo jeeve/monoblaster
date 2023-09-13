@@ -301,7 +301,14 @@ export function tryToGoDown(decor, players, player, setPlayers) {
       return object.x >= x + 32 - init.tolx && object.x <= x + 32;
     });
     if (liste.length > 0) {
-      return liste[0];
+      const obj = liste[0];
+      if (
+        objects.filter((object) => {
+          return object.x + 32 <= obj.x && object.x + 32 >= obj.x - 32;
+        }).length === 0
+      ) {
+        return obj;
+      }
     }
     return null;
   }
@@ -311,7 +318,14 @@ export function tryToGoDown(decor, players, player, setPlayers) {
       return object.x + 32 >= x && object.x + 32 <= x + init.tolx;
     });
     if (liste.length > 0) {
-      return liste[0];
+      const obj = liste[0];
+      if (
+        objects.filter((object) => {
+          return object.x >= obj.x + 32 && object.x <= obj.x + 32;
+        }).length === 0
+      ) {
+        return obj;
+      }
     }
     return null;
   }
