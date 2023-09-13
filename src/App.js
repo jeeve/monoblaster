@@ -176,7 +176,7 @@ export default function Game() {
     setFires(newFires);
   };
 
-  function HandleBurn(n) {
+  const HandleBurn = (n) => {
     //console.log("burn " + n)
     let myPlayerScore = myPlayer().score;
     let theRobotScore = theRobot().score;
