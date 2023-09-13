@@ -270,16 +270,50 @@ export function tryToGoDown(decor, players, player, setPlayers) {
         }
       }
     });
+
+    objects.sort((a, b) => {
+      return a.x - b.x;
+    })
     return objects;
   }
 
+  function getCouplesWithSpace(objects) {
+    const list = [];
+    if (objects.length < 2) return list;
+    for (let i = 0; i < objects.length - 1; i++) {
+      if (Math.abs(objects[i].x - objects[i + 1].x) >= 64) {
+        list.push([objects[i], objects[i + 1]]);
+      }
+    }
+    return list;
+  }
+
+  let x = player.x;
+  let y = player.y;
   const objects = getObjectsArroundPlayer();
   let ok = objects.filter((o) => {
     return o.x + 32 > player.x && o.x < player.x + 32
   }).length === 0; 
+  if (!ok) {
+    const couples = getCouplesWithSpace(objects);
 
-  let x = player.x;
-  let y = player.y;
+    const couplesWithSpaceLeft = couples.filter((couple) => {
+      return couple[0].x + 32 <= player.x + init.tolx && couple[0].x + 32 >= player.x;
+    });
+    if (couplesWithSpaceLeft.length > 0) {
+      ok = true;
+      x = couplesWithSpaceLeft[0][0].x + 32;
+    } else {
+      const couplesWithSpaceRight = couples.filter((couple) => {
+        return couple[1].x >= player.x + 32 - init.tolx && couple[1].x <= player.x + 32;
+      });
+      if (couplesWithSpaceRight.length > 0) {
+        ok = true;
+        x = couplesWithSpaceRight[0][1].x - 32;
+      }
+    }
+  }
+
   if (ok) {
     y = player.y + init.dx;
   }

@@ -255,7 +255,7 @@ export default function Game() {
     }
     setPlayers(p);
   }, [decorOK]);
-
+/*
   useEffect(() => {
     const interval = setInterval(() => {
       robot.moveRobot(
@@ -293,7 +293,7 @@ export default function Game() {
       clearInterval(interval);
     };
   }, [decor, players, robotInertia, fires]);
-
+*/
   useEffect(() => {
     const interval = setInterval(() => {
       switch (myPlayer().displacement) {
