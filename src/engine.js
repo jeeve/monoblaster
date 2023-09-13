@@ -256,7 +256,7 @@ export function tryToGoUp(decor, players, player, setPlayers) {
 export function tryToGoDown(decor, players, player, setPlayers) {
 
   function isInZonePlayer(sprite) {
-    return sprite.x <= player.x + 64 && sprite.x >= player.x - 32 && sprite.y >= player.y + 32 && sprite.y <= player.y + 32 + init.dx;
+    return sprite.x <= player.x + 64 && sprite.x >= player.x - 64 && sprite.y >= player.y + 32 && sprite.y <= player.y + 32 + init.dx;
   }
 
   function getObjectsArroundPlayer() {
