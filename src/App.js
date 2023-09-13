@@ -177,7 +177,7 @@ export default function Game() {
   };
 
   function HandleBurn(n) {
-    console.log("burn " + n)
+    //console.log("burn " + n)
     let myPlayerScore = myPlayer().score;
     let theRobotScore = theRobot().score;
     const newPlayers = players.map((player) => {
