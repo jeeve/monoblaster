@@ -34,7 +34,7 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
         }
       }
       return false;
-    }).length != 0;
+    }).length !== 0;
   }
 
     function objectAtDown(objects, o) {
@@ -45,7 +45,7 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
         }
       }
       return false;
-    }).length != 0;
+    }).length !== 0;
   }
 
   let ok = true;
@@ -118,7 +118,7 @@ export function tryToGoRight(decor, players, player, setPlayers) {
         }
       }
       return false;
-    }).length != 0;
+    }).length !== 0;
   }
 
     function objectAtDown(objects, o) {
@@ -129,7 +129,7 @@ export function tryToGoRight(decor, players, player, setPlayers) {
         }
       }
       return false;
-    }).length != 0;
+    }).length !== 0;
   }
 
   let ok = true;
@@ -202,7 +202,7 @@ export function tryToGoUp(decor, players, player, setPlayers) {
         }
       }
       return false;
-    }).length != 0;
+    }).length !== 0;
   }
 
     function objectAtRight(objects, o) {
@@ -213,7 +213,7 @@ export function tryToGoUp(decor, players, player, setPlayers) {
         }
       }
       return false;
-    }).length != 0;
+    }).length !== 0;
   }
 
   let ok = true;
@@ -286,7 +286,7 @@ export function tryToGoDown(decor, players, player, setPlayers) {
         }
       }
       return false;
-    }).length != 0;
+    }).length !== 0;
   }
 
     function objectAtDown(objects, o) {
@@ -297,7 +297,7 @@ export function tryToGoDown(decor, players, player, setPlayers) {
         }
       }
       return false;
-    }).length != 0;
+    }).length !== 0;
   }
 
   let ok = true;
