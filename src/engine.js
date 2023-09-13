@@ -254,9 +254,13 @@ export function tryToGoUp(decor, players, player, setPlayers) {
 }
 
 export function tryToGoDown(decor, players, player, setPlayers) {
-
   function isInZonePlayer(sprite) {
-    return sprite.x <= player.x + 64 && sprite.x >= player.x - 64 && sprite.y >= player.y + 32 && sprite.y <= player.y + 32 + init.dx;
+    return (
+      sprite.x <= player.x + 64 &&
+      sprite.x >= player.x - 64 &&
+      sprite.y >= player.y + 32 &&
+      sprite.y <= player.y + 32 + init.dx
+    );
   }
 
   function getObjectsArroundPlayer() {
@@ -273,48 +277,84 @@ export function tryToGoDown(decor, players, player, setPlayers) {
 
     objects.sort((a, b) => {
       return a.x - b.x;
-    })
+    });
     return objects;
   }
 
-  function getCouplesWithSpace(objects) {
-    const list = [];
-    if (objects.length < 2) return list;
+  function getCoupleWithSpace(objects, x) {
+    if (objects.length < 2) return null;
     for (let i = 0; i < objects.length - 1; i++) {
       if (Math.abs(objects[i].x - objects[i + 1].x) >= 64) {
-        list.push([objects[i], objects[i + 1]]);
+        if (
+          x >= objects[i].x + 32 - init.tolx &&
+          x + 32 <= objects[i + 1] + init.tolx
+        ) {
+          return [objects[i], objects[i + 1]];
+        }
       }
     }
-    return list;
+    return null;
+  }
+
+  function getSpaceAtLeft(objects, x) {
+    const liste = objects.filter((object) => {
+      return object.x >= x + 32 - init.tolx && object.x <= x + 32;
+    });
+    if (liste.length > 0) {
+      return liste[0];
+    }
+    return null;
+  }
+
+  function getSpaceAtRight(objects, x) {
+    const liste = objects.filter((object) => {
+      return object.x + 32 >= x && object.x + 32 <= x + init.tolx;
+    });
+    if (liste.length > 0) {
+      return liste[0];
+    }
+    return null;
   }
 
   let x = player.x;
   let y = player.y;
   const objects = getObjectsArroundPlayer();
-  let ok = objects.filter((o) => {
-    return o.x + 32 > player.x && o.x < player.x + 32
-  }).length === 0; 
+  let ok =
+    objects.filter((o) => {
+      return o.x + 32 > player.x && o.x < player.x + 32;
+    }).length === 0;
   if (!ok) {
-    const couples = getCouplesWithSpace(objects);
-
-    const couplesWithSpaceLeft = couples.filter((couple) => {
-      return couple[0].x + 32 <= player.x + init.tolx && couple[0].x + 32 >= player.x;
-    });
-    if (couplesWithSpaceLeft.length > 0) {
-      ok = true;
-      x = couplesWithSpaceLeft[0][0].x + 32;
-    } else {
-      const couplesWithSpaceRight = couples.filter((couple) => {
-        return couple[1].x >= player.x + 32 - init.tolx && couple[1].x <= player.x + 32;
-      });
-      if (couplesWithSpaceRight.length > 0) {
+    const couple = getCoupleWithSpace(objects, player.x);
+    if (couple !== null) {
+      if (
+        couple[0].x + 32 <= player.x + init.tolx &&
+        couple[0].x + 32 >= player.x
+      ) {
         ok = true;
-        x = couplesWithSpaceRight[0][1].x - 32;
+        x = couple[0].x + 32;
+      } else {
+        if (
+          couple[1].x >= player.x + 32 - init.tolx &&
+          couple[1].x <= player.x + 32
+        ) {
+          ok = true;
+          x = couple[1].x - 32;
+        }
+      }
+    } else {
+      let object = getSpaceAtLeft(objects, player.x);
+      if (object !== null) {
+        ok = true;
+        x = object.x - 32;
+      } else {
+        object = getSpaceAtRight(objects, player.x);
+        if (object !== null) {
+          ok = true;
+          x = object.x + 32;
+        }
       }
     }
-  }
-
-  if (ok) {
+  } else {
     y = player.y + init.dx;
   }
   const newPlayers = Object.assign([], players);
