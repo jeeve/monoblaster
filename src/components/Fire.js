@@ -74,7 +74,8 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       "fire-v.png",
       "fire-v-d.png",
       "fire-v-u.png",
-      "fire-v-e.png", newBurned
+      "fire-v-e.png", 
+      newBurned
     );
     setBurned(newBurned);
     setEnd(true);
@@ -121,7 +122,8 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
           setNbBurned((prevNbBurned) => prevNbBurned + 1);
         }
         if (nbBurned() === 0) {
-          burned.push(newK);
+          //burned.push(newK);
+          onBurn(newK);
         }
         return newSprites;
       });
@@ -152,7 +154,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
 
   useEffect(() => {
     burned.map((i) => {
-      onBurn(i);
+    //  onBurn(i);
     })
   }, [burned]);
  

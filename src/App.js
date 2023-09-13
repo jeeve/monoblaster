@@ -179,15 +179,13 @@ export default function Game() {
   const HandleBurn = (n) => {
     let myPlayerScore = myPlayer().score;
     let theRobotScore = theRobot().score;
-    const newPlayers = players.map((player) => {
-      const newPlayer = { ...player };
+    players.map((player) => {
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
         if (!player.dead) {
-          console.log("touché ");
-          newPlayer.dead = true;
+          player.dead = true;
           if (player.image === "player.png") {
             theRobotScore++;
           } else {
@@ -195,11 +193,10 @@ export default function Game() {
           }
         }
       }
-      return newPlayer;
     });
-    newPlayers[myPlayer().n].score = myPlayerScore;
-    newPlayers[theRobot().n].score = theRobotScore;
-    setPlayers(newPlayers);
+    players[myPlayer().n].score = myPlayerScore;
+    players[theRobot().n].score = theRobotScore;
+    //setPlayers(newPlayers);
     const newDecor = Object.assign([], decor);
     if (decor[n].image === "brick.png") {
       newDecor[n].image = "";
