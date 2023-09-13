@@ -177,6 +177,7 @@ export default function Game() {
   };
 
   function HandleBurn(n) {
+    console.log("burn " + n)
     let myPlayerScore = myPlayer().score;
     let theRobotScore = theRobot().score;
     const newPlayers = players.map((player) => {
@@ -185,6 +186,7 @@ export default function Game() {
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
+        console.log("touché ")
         if (!player.dead) {
           newPlayer.dead = true;
           if (player.image === "player.png") {
@@ -202,13 +204,14 @@ export default function Game() {
     const newDecor = Object.assign([], decor);
     if (decor[n].image === "brick.png") {
       newDecor[n].image = "";
+      setDecor(newDecor);
     } else if (decor[n].image.includes("bomb")) {
       newDecor[n].explode = true; // chain reaction
+      setDecor(newDecor);
       const newFires = [...fires];
       fires.push(n);
       setFires(newFires);
     }
-    setDecor(newDecor);
   };
 
   function handleFireEnd(n) {
