@@ -28,7 +28,7 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
 
   function objectAtUp(objects, o) {
     return objects.filter((object) => {
-      if (object.x + 32 >= o.x + 32 - init.dx && object.x + 32 <= o.x + 32) {
+      if (true) {
         if (object.y + 32 <= o.y && object.y + 32 > o.y - 32) {
           return true;
         }
@@ -39,7 +39,7 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
 
     function objectAtDown(objects, o) {
     return objects.filter((object) => {
-      if (object.x + 32 >= o.x + 32 - init.dx && object.x + 32 <= o.x + 32) {
+      if (true) {
         if (object.y >= o.y + 32 && object.y < o.y + 64) {
           return true;
         }
@@ -112,7 +112,7 @@ export function tryToGoRight(decor, players, player, setPlayers) {
 
   function objectAtUp(objects, o) {
     return objects.filter((object) => {
-      if (object.x < o.x + init.dx && object.x >= o.x) {
+      if (true) {
         if (object.y + 32 <= o.y && object.y + 32 > o.y - 32) {
           return true;
         }
@@ -123,7 +123,7 @@ export function tryToGoRight(decor, players, player, setPlayers) {
 
     function objectAtDown(objects, o) {
     return objects.filter((object) => {
-      if (object.x < o.x + init.dx && object.x >= o.x) {
+      if (true) {
         if (object.y >= o.y + 32 && object.y < o.y + 64) {
           return true;
         }
@@ -196,7 +196,7 @@ export function tryToGoUp(decor, players, player, setPlayers) {
 
   function objectAtLeft(objects, o) {
     return objects.filter((object) => {
-      if (object.y + 32 >= o.y + 32 - init.dx && object.y + 32 <= o.y + 32) {
+      if (true) {
         if (object.x + 32 <= o.x && object.x + 32 > o.x - 32) {
           return true;
         }
@@ -207,8 +207,8 @@ export function tryToGoUp(decor, players, player, setPlayers) {
 
     function objectAtRight(objects, o) {
     return objects.filter((object) => {
-      if (object.x + 32 >= o.x + 32 - init.dx && object.x + 32 <= o.x + 32) {
-        if (object.y >= o.y + 32 && object.y < o.y + 64) {
+      if (object.x >= o.x + 32 && object.x < o.x + 64) {
+        if (true) {
           return true;
         }
       }
@@ -278,9 +278,9 @@ export function tryToGoDown(decor, players, player, setPlayers) {
     });
   }
 
-  function objectAtUp(objects, o) {
+  function objectAtLeft(objects, o) {
     return objects.filter((object) => {
-      if (object.y < o.y + init.dx && object.y >= o.y) {
+      if (true) {
         if (object.x + 32 <= o.x && object.x + 32 > o.x - 32) {
           return true;
         }
@@ -289,9 +289,9 @@ export function tryToGoDown(decor, players, player, setPlayers) {
     }).length !== 0;
   }
 
-    function objectAtDown(objects, o) {
+    function objectAtRight(objects, o) {
     return objects.filter((object) => {
-      if (object.y < o.y + init.dx && object.y >= o.y) {
+      if (true) {
         if (object.x >= o.x + 32 && object.x < o.x + 64) {
           return true;
         }
@@ -315,14 +315,14 @@ export function tryToGoDown(decor, players, player, setPlayers) {
     }
     if (object.x < player.x + 32 && object.x > player.x + 32 - init.tolx) {
       ok = false;
-      if (!objectAtUp(objects, object)) {
+      if (!objectAtLeft(objects, object)) {
         ok = true;
         x = object.x - 32;
       }
     }
     if (object.x + 32 > player.x && object.x + 32 < player.x + init.tolx) {
       ok = false;
-      if (!objectAtDown(objects, object)) {
+      if (!objectAtRight(objects, object)) {
         ok = true;
         x = object.x + 32;
       }
