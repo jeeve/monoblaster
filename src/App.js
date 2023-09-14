@@ -253,7 +253,7 @@ export default function Game() {
       switch (theRobot().displacement) {
         case "left": {
           engine
-            .tryToGoLeft(decor, players, theRobot(), setPlayers)
+            .tryToGoLeft(decor, players, theRobot())
             .then((response) => {
               const newPlayers = Object.assign([], players);
               newPlayers[theRobot().n].x = response.x;
@@ -264,7 +264,7 @@ export default function Game() {
         }
         case "right": {
           engine
-            .tryToGoRight(decor, players, theRobot(), setPlayers)
+            .tryToGoRight(decor, players, theRobot())
             .then((response) => {
               const newPlayers = Object.assign([], players);
               newPlayers[theRobot().n].x = response.x;
@@ -275,7 +275,7 @@ export default function Game() {
         }
         case "down": {
           engine
-            .tryToGoDown(decor, players, theRobot(), setPlayers)
+            .tryToGoDown(decor, players, theRobot())
             .then((response) => {
               const newPlayers = Object.assign([], players);
               newPlayers[theRobot().n].x = response.x;
@@ -286,7 +286,7 @@ export default function Game() {
         }
         case "up": {
           engine
-            .tryToGoUp(decor, players, theRobot(), setPlayers)
+            .tryToGoUp(decor, players, theRobot())
             .then((response) => {
               const newPlayers = Object.assign([], players);
               newPlayers[theRobot().n].x = response.x;
@@ -310,7 +310,7 @@ export default function Game() {
       switch (myPlayer().displacement) {
         case "left": {
           engine
-            .tryToGoLeft(decor, players, myPlayer(), setPlayers)
+            .tryToGoLeft(decor, players, myPlayer())
             .then((response) => {
               const newPlayers = Object.assign([], players);
               newPlayers[myPlayer().n].x = response.x;
@@ -321,7 +321,7 @@ export default function Game() {
         }
         case "right": {
           engine
-            .tryToGoRight(decor, players, myPlayer(), setPlayers)
+            .tryToGoRight(decor, players, myPlayer())
             .then((response) => {
               const newPlayers = Object.assign([], players);
               newPlayers[myPlayer().n].x = response.x;
@@ -332,7 +332,7 @@ export default function Game() {
         }
         case "down": {
           engine
-            .tryToGoDown(decor, players, myPlayer(), setPlayers)
+            .tryToGoDown(decor, players, myPlayer())
             .then((response) => {
               const newPlayers = Object.assign([], players);
               newPlayers[myPlayer().n].x = response.x;
@@ -343,7 +343,7 @@ export default function Game() {
         }
         case "up": {
           engine
-            .tryToGoUp(decor, players, myPlayer(), setPlayers)
+            .tryToGoUp(decor, players, myPlayer())
             .then((response) => {
               const newPlayers = Object.assign([], players);
               newPlayers[myPlayer().n].x = response.x;

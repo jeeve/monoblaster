@@ -1,19 +1,17 @@
 import * as init from "./init";
 
-function getObjectsNearPlayer(decor, players, player) {
+function getObjectsNearXY(decor, players, x, y) {
   const objects = decor.filter((sprite) => {
     return (
       sprite.image !== "" &&
       Math.sqrt(
-        Math.pow(sprite.x - player.x, 2) + Math.pow(sprite.y - player.y, 2) <=
+        Math.pow(sprite.x - x, 2) + Math.pow(sprite.y - y, 2) <=
           91
       )
     );
   });
   players.map((p) => {
-    if (p !== player) {
-      objects.push(p);
-    }
+    objects.push(p);
   });
   return objects;
 }
@@ -31,11 +29,11 @@ function isOkForXY(objects, x, y) {
         pointInObject(object, x + 32, y + 32) ||
         pointInObject(object, x, y + 32)
       );
-    }).length === 0
+    }).length == 0
   );
 }
 
-export function tryToGoLeft(decor, players, player, setPlayers) {
+export function tryToGoLeft(decor, players, player) {
   function isInZonePlayer(sprite) {
     return (
       sprite.y <= player.y + 64 &&
@@ -176,13 +174,13 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
     } else {
       x = player.x - init.dx;
     }
-    if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+    if (isOkForXY(getObjectsNearXY(decor, players, x, y), x, y)) {
       resolve({ x, y });
     }
   });
 }
 
-export function tryToGoRight(decor, players, player, setPlayers) {
+export function tryToGoRight(decor, players, player) {
   function isInZonePlayer(sprite) {
     return (
       sprite.y <= player.y + 64 &&
@@ -323,13 +321,13 @@ export function tryToGoRight(decor, players, player, setPlayers) {
     } else {
       x = player.x + init.dx;
     }
-    if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+    if (isOkForXY(getObjectsNearXY(decor, players, x, y), x, y)) {
       resolve({ x, y });
     }
   });
 }
 
-export function tryToGoUp(decor, players, player, setPlayers) {
+export function tryToGoUp(decor, players, player) {
   function isInZonePlayer(sprite) {
     return (
       sprite.x <= player.x + 64 &&
@@ -470,13 +468,13 @@ export function tryToGoUp(decor, players, player, setPlayers) {
     } else {
       y = player.y - init.dx;
     }
-    if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+    if (isOkForXY(getObjectsNearXY(decor, players, x, y), x, y)) {
       resolve({ x, y });
     }
   });
 }
 
-export function tryToGoDown(decor, players, player, setPlayers) {
+export function tryToGoDown(decor, players, player) {
   function isInZonePlayer(sprite) {
     return (
       sprite.x <= player.x + 64 &&
@@ -617,7 +615,7 @@ export function tryToGoDown(decor, players, player, setPlayers) {
     } else {
       y = player.y + init.dx;
     }
-    if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+    if (isOkForXY(getObjectsNearXY(decor, players, x, y), x, y)) {
       resolve({ x, y });
     }
   });
