@@ -29,7 +29,7 @@ function isOkForXY(objects, x, y) {
         pointInObject(object, x + 32, y + 32) ||
         pointInObject(object, x, y + 32)
       );
-    }).length == 0
+    }).length === 0
   );
 }
 
