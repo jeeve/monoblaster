@@ -19,21 +19,7 @@ function getObjectsNearPlayer(decor, players, player) {
 }
 
 function pointInObject(object, x, y) {
-  return (
-    (object.x + 32 > x &&
-      object.x + 32 < x + 32 &&
-      object.y + 32 > y &&
-      object.y + 32 < y + 32) ||
-    (object.x < x + 32 &&
-      object.x > x &&
-      object.y + 32 > y &&
-      object.y + 32 < y + 32) ||
-    (object.x < x + 32 && object.x > x && object.y < y + 32 && object.y > y) ||
-    (object.x + 32 > x &&
-      object.x + 32 < x + 32 &&
-      object.y < y + 32 &&
-      object.y > y)
-  );
+  return x > object.x && x < object.x + 32 && y > object.y && y < object.y + 32;
 }
 
 function isOkForXY(objects, x, y) {
