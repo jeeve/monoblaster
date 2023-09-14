@@ -1,5 +1,40 @@
 import * as init from "./init";
-import * as util from "./util";
+
+function getObjectsNearPlayer(decor, players, player) {
+  const objects = decor.filter((sprite) => {
+    return sprite.image !== "" && Math.sqrt(
+      Math.pow(sprite.x - player.x, 2) + Math.pow(sprite.y - player.y, 2) <= 64+32);
+  });
+  players.map((p) => {
+    objects.push(p);
+  });
+  return objects;
+}
+
+function isOkForXY(objects, x, y) {
+  return (
+    objects.filter((object) => {
+      return (
+        (object.x + 32 > x &&
+          object.x + 32 < x + 32 &&
+          object.y + 32 > y &&
+          object.y + 32 < y + 32) ||
+        (object.x < x + 32 &&
+          object.x > x &&
+          object.y + 32 > y &&
+          object.y + 32 < y + 32) ||
+        (object.x < x + 32 &&
+          object.x > x &&
+          object.y < y + 32 &&
+          object.y > y) ||
+        (object.x + 32 > x &&
+          object.x + 32 < x + 32 &&
+          object.y < y + 32 &&
+          object.y > y)
+      );
+    }).length === 0
+  );
+}
 
 export function tryToGoLeft(decor, players, player, setPlayers) {
   function isInZonePlayer(sprite) {
@@ -80,7 +115,10 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
 
   function getObjectAtTop(objects, y) {
     const list = objects.filter((object) => {
-      return (object.y + 32 >= y && object.y + 32 <= y + 32) || (object.y <= y + 32 && object.y >= y);
+      return (
+        (object.y + 32 >= y && object.y + 32 <= y + 32) ||
+        (object.y <= y + 32 && object.y >= y)
+      );
     });
     list.sort((a, b) => {
       return b.x - a.x;
@@ -89,16 +127,6 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
       return list[0];
     }
     return null;
-  }
-
-  function isOkForY(objects, x, y) {
-    return objects.filter((object) => {
-      return (
-        object.x + 32 < x + 32 &&
-        object.x + 32 > x &&
-        Math.abs(object.y - y) < init.dx
-      );
-    }).length === 0;
   }
 
   let x = player.x;
@@ -115,35 +143,27 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
         couple[0].y + 32 <= player.y + init.tolx &&
         couple[0].y + 32 >= player.y
       ) {
-        if (isOkForY(objects, player.x, couple[0].y + 32)) {
         ok = true;
         y = couple[0].y + 32;
-        }
       } else {
         if (
           couple[1].y >= player.y + 32 - init.tolx &&
           couple[1].y <= player.y + 32
         ) {
-          if (isOkForY(objects, player.x, couple[1].y - 32)) {
           ok = true;
           y = couple[1].y - 32;
-          }
         }
       }
     } else {
       let object = getSpaceAtLeft(objects, player.y);
       if (object !== null) {
-        if (isOkForY(objects, player.x, object.y - 32)) {
         ok = true;
         y = object.y - 32;
-        }
       } else {
         object = getSpaceAtRight(objects, player.y);
         if (object !== null) {
-          if (isOkForY(objects, player.x, object.y + 32)) {
           ok = true;
           y = object.y + 32;
-          }
         } else {
           object = getObjectAtTop(objects, player.y);
           if (object !== null) {
@@ -156,10 +176,12 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
   } else {
     x = player.x - init.dx;
   }
-  const newPlayers = Object.assign([], players);
-  newPlayers[player.n].x = x;
-  newPlayers[player.n].y = y;
-  setPlayers(newPlayers);
+  if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+    const newPlayers = Object.assign([], players);
+    newPlayers[player.n].x = x;
+    newPlayers[player.n].y = y;
+    setPlayers(newPlayers);
+  }
 }
 
 export function tryToGoRight(decor, players, player, setPlayers) {
@@ -241,7 +263,10 @@ export function tryToGoRight(decor, players, player, setPlayers) {
 
   function getObjectAtRight(objects, y) {
     const list = objects.filter((object) => {
-      return (object.y + 32 >= y && object.y + 32 <= y + 32) || (object.y <= y + 32 && object.y >= y);
+      return (
+        (object.y + 32 >= y && object.y + 32 <= y + 32) ||
+        (object.y <= y + 32 && object.y >= y)
+      );
     });
     list.sort((a, b) => {
       return a.x - b.x;
@@ -250,16 +275,6 @@ export function tryToGoRight(decor, players, player, setPlayers) {
       return list[0];
     }
     return null;
-  }
-
-  function isOkForY(objects, x, y) {
-    return objects.filter((object) => {
-      return (
-        object.x + 32 < x + 32 &&
-        object.x + 32 > x &&
-        Math.abs(object.y - y) < init.dx
-      );
-    }).length === 0;
   }
 
   let x = player.x;
@@ -276,35 +291,27 @@ export function tryToGoRight(decor, players, player, setPlayers) {
         couple[0].y + 32 <= player.y + init.tolx &&
         couple[0].y + 32 >= player.y
       ) {
-        if (isOkForY(objects, player.x, couple[0].y + 32)) {
         ok = true;
         y = couple[0].y + 32;
-        }
       } else {
         if (
           couple[1].y >= player.y + 32 - init.tolx &&
           couple[1].y <= player.y + 32
         ) {
-          if (isOkForY(objects, player.x, couple[1].y - 32)) {
           ok = true;
           y = couple[1].y - 32;
-          }
         }
       }
     } else {
       let object = getSpaceAtLeft(objects, player.y);
       if (object !== null) {
-        if (isOkForY(objects, player.x, object.y - 32)) {
         ok = true;
         y = object.y - 32;
-        }
       } else {
         object = getSpaceAtRight(objects, player.y);
         if (object !== null) {
-          if (isOkForY(objects, player.x, object.y + 32)) {
           ok = true;
           y = object.y + 32;
-          }
         } else {
           object = getObjectAtRight(objects, player.y);
           if (object !== null) {
@@ -317,10 +324,12 @@ export function tryToGoRight(decor, players, player, setPlayers) {
   } else {
     x = player.x + init.dx;
   }
-  const newPlayers = Object.assign([], players);
-  newPlayers[player.n].x = x;
-  newPlayers[player.n].y = y;
-  setPlayers(newPlayers);
+  if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+    const newPlayers = Object.assign([], players);
+    newPlayers[player.n].x = x;
+    newPlayers[player.n].y = y;
+    setPlayers(newPlayers);
+  }
 }
 
 export function tryToGoUp(decor, players, player, setPlayers) {
@@ -402,7 +411,10 @@ export function tryToGoUp(decor, players, player, setPlayers) {
 
   function getObjectAtTop(objects, x) {
     const list = objects.filter((object) => {
-      return (object.x + 32 >= x && object.x + 32 <= x + 32) || (object.x <= x + 32 && object.x >= x);
+      return (
+        (object.x + 32 >= x && object.x + 32 <= x + 32) ||
+        (object.x <= x + 32 && object.x >= x)
+      );
     });
     list.sort((a, b) => {
       return b.y - a.y;
@@ -411,16 +423,6 @@ export function tryToGoUp(decor, players, player, setPlayers) {
       return list[0];
     }
     return null;
-  }
-
-  function isOkForX(objects, x, y) {
-    return objects.filter((object) => {
-      return (
-        object.y + 32 < y + 32 &&
-        object.y + 32 > y &&
-        Math.abs(object.x - x) < init.dx
-      );
-    }).length === 0;
   }
 
   let x = player.x;
@@ -437,35 +439,27 @@ export function tryToGoUp(decor, players, player, setPlayers) {
         couple[0].x + 32 <= player.x + init.tolx &&
         couple[0].x + 32 >= player.x
       ) {
-        if (isOkForX(objects, couple[0].x + 32, player.y)) {
         ok = true;
         x = couple[0].x + 32;
-      }
       } else {
         if (
           couple[1].x >= player.x + 32 - init.tolx &&
           couple[1].x <= player.x + 32
         ) {
-          if (isOkForX(objects, couple[1].x - 32, player.y)) {
           ok = true;
           x = couple[1].x - 32;
-          }
         }
       }
     } else {
       let object = getSpaceAtLeft(objects, player.x);
       if (object !== null) {
-        if (isOkForX(objects, object.x - 32, player.y)) {
         ok = true;
         x = object.x - 32;
-        }
       } else {
         object = getSpaceAtRight(objects, player.x);
         if (object !== null) {
-          if (isOkForX(objects, object.x + 32, player.y)) {
           ok = true;
           x = object.x + 32;
-          }
         } else {
           object = getObjectAtTop(objects, player.x);
           if (object !== null) {
@@ -478,10 +472,12 @@ export function tryToGoUp(decor, players, player, setPlayers) {
   } else {
     y = player.y - init.dx;
   }
-  const newPlayers = Object.assign([], players);
-  newPlayers[player.n].x = x;
-  newPlayers[player.n].y = y;
-  setPlayers(newPlayers);
+  if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+    const newPlayers = Object.assign([], players);
+    newPlayers[player.n].x = x;
+    newPlayers[player.n].y = y;
+    setPlayers(newPlayers);
+  }
 }
 
 export function tryToGoDown(decor, players, player, setPlayers) {
@@ -563,7 +559,10 @@ export function tryToGoDown(decor, players, player, setPlayers) {
 
   function getObjectAtBottom(objects, x) {
     const list = objects.filter((object) => {
-      return (object.x + 32 >= x && object.x + 32 <= x + 32) || (object.x <= x + 32 && object.x >= x);
+      return (
+        (object.x + 32 >= x && object.x + 32 <= x + 32) ||
+        (object.x <= x + 32 && object.x >= x)
+      );
     });
     list.sort((a, b) => {
       return a.y - b.y;
@@ -572,16 +571,6 @@ export function tryToGoDown(decor, players, player, setPlayers) {
       return list[0];
     }
     return null;
-  }
-
-  function isOkForX(objects, x, y) {
-    return objects.filter((object) => {
-      return (
-        object.y + 32 < y + 32 &&
-        object.y + 32 > y &&
-        Math.abs(object.x - x) < init.dx
-      );
-    }).length === 0;
   }
 
   let x = player.x;
@@ -598,35 +587,27 @@ export function tryToGoDown(decor, players, player, setPlayers) {
         couple[0].x + 32 <= player.x + init.tolx &&
         couple[0].x + 32 >= player.x
       ) {
-        if (isOkForX(objects, couple[0].x + 32, player.y)) {
         ok = true;
         x = couple[0].x + 32;
-        }
       } else {
         if (
           couple[1].x >= player.x + 32 - init.tolx &&
           couple[1].x <= player.x + 32
         ) {
-          if (isOkForX(objects, couple[1].x - 32, player.y)) {
           ok = true;
           x = couple[1].x - 32;
-          }
         }
       }
     } else {
       let object = getSpaceAtLeft(objects, player.x);
       if (object !== null) {
-        if (isOkForX(objects, object.x - 32, player.y)) {
         ok = true;
         x = object.x - 32;
-        }
       } else {
         object = getSpaceAtRight(objects, player.x);
         if (object !== null) {
-          if (isOkForX(objects, object.x + 32, player.y)) {
           ok = true;
           x = object.x + 32;
-          }
         } else {
           object = getObjectAtBottom(objects, player.x);
           if (object !== null) {
@@ -639,8 +620,10 @@ export function tryToGoDown(decor, players, player, setPlayers) {
   } else {
     y = player.y + init.dx;
   }
-  const newPlayers = Object.assign([], players);
-  newPlayers[player.n].x = x;
-  newPlayers[player.n].y = y;
-  setPlayers(newPlayers);
+  if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+    const newPlayers = Object.assign([], players);
+    newPlayers[player.n].x = x;
+    newPlayers[player.n].y = y;
+    setPlayers(newPlayers);
+  }
 }
