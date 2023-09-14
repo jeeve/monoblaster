@@ -3,7 +3,7 @@ import * as init from "./init";
 function getObjectsNearPlayer(decor, players, player) {
   const objects = decor.filter((sprite) => {
     return sprite.image !== "" && Math.sqrt(
-      Math.pow(sprite.x - player.x, 2) + Math.pow(sprite.y - player.y, 2) <= 64+32);
+      Math.pow(sprite.x - player.x, 2) + Math.pow(sprite.y - player.y, 2) <= 91);
   });
   players.map((p) => {
     objects.push(p);
