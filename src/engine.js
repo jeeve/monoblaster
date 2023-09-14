@@ -128,59 +128,58 @@ export function tryToGoLeft(decor, players, player, setPlayers) {
     return null;
   }
 
-  let x = player.x;
-  let y = player.y;
-  const objects = getObjectsArroundPlayer();
-  let ok =
-    objects.filter((o) => {
-      return o.y + 32 > player.y && o.y < player.y + 32;
-    }).length === 0;
-  if (!ok) {
-    const couple = getCoupleWithSpace(objects, player.y);
-    if (couple !== null) {
-      if (
-        couple[0].y + 32 <= player.y + init.tolx &&
-        couple[0].y + 32 >= player.y
-      ) {
-        ok = true;
-        y = couple[0].y + 32;
-      } else {
+  return new Promise((resolve, reject) => {
+    let x = player.x;
+    let y = player.y;
+    const objects = getObjectsArroundPlayer();
+    let ok =
+      objects.filter((o) => {
+        return o.y + 32 > player.y && o.y < player.y + 32;
+      }).length === 0;
+    if (!ok) {
+      const couple = getCoupleWithSpace(objects, player.y);
+      if (couple !== null) {
         if (
-          couple[1].y >= player.y + 32 - init.tolx &&
-          couple[1].y <= player.y + 32
+          couple[0].y + 32 <= player.y + init.tolx &&
+          couple[0].y + 32 >= player.y
         ) {
           ok = true;
-          y = couple[1].y - 32;
+          y = couple[0].y + 32;
+        } else {
+          if (
+            couple[1].y >= player.y + 32 - init.tolx &&
+            couple[1].y <= player.y + 32
+          ) {
+            ok = true;
+            y = couple[1].y - 32;
+          }
         }
-      }
-    } else {
-      let object = getSpaceAtLeft(objects, player.y);
-      if (object !== null) {
-        ok = true;
-        y = object.y - 32;
       } else {
-        object = getSpaceAtRight(objects, player.y);
+        let object = getSpaceAtLeft(objects, player.y);
         if (object !== null) {
           ok = true;
-          y = object.y + 32;
+          y = object.y - 32;
         } else {
-          object = getObjectAtTop(objects, player.y);
+          object = getSpaceAtRight(objects, player.y);
           if (object !== null) {
             ok = true;
-            x = object.x + 32;
+            y = object.y + 32;
+          } else {
+            object = getObjectAtTop(objects, player.y);
+            if (object !== null) {
+              ok = true;
+              x = object.x + 32;
+            }
           }
         }
       }
+    } else {
+      x = player.x - init.dx;
     }
-  } else {
-    x = player.x - init.dx;
-  }
-  if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
-    const newPlayers = Object.assign([], players);
-    newPlayers[player.n].x = x;
-    newPlayers[player.n].y = y;
-    setPlayers(newPlayers);
-  }
+    if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+      resolve({ x, y });
+    }
+  });
 }
 
 export function tryToGoRight(decor, players, player, setPlayers) {
@@ -276,59 +275,58 @@ export function tryToGoRight(decor, players, player, setPlayers) {
     return null;
   }
 
-  let x = player.x;
-  let y = player.y;
-  const objects = getObjectsArroundPlayer();
-  let ok =
-    objects.filter((o) => {
-      return o.y + 32 > player.y && o.y < player.y + 32;
-    }).length === 0;
-  if (!ok) {
-    const couple = getCoupleWithSpace(objects, player.y);
-    if (couple !== null) {
-      if (
-        couple[0].y + 32 <= player.y + init.tolx &&
-        couple[0].y + 32 >= player.y
-      ) {
-        ok = true;
-        y = couple[0].y + 32;
-      } else {
+  return new Promise((resolve, reject) => {
+    let x = player.x;
+    let y = player.y;
+    const objects = getObjectsArroundPlayer();
+    let ok =
+      objects.filter((o) => {
+        return o.y + 32 > player.y && o.y < player.y + 32;
+      }).length === 0;
+    if (!ok) {
+      const couple = getCoupleWithSpace(objects, player.y);
+      if (couple !== null) {
         if (
-          couple[1].y >= player.y + 32 - init.tolx &&
-          couple[1].y <= player.y + 32
+          couple[0].y + 32 <= player.y + init.tolx &&
+          couple[0].y + 32 >= player.y
         ) {
           ok = true;
-          y = couple[1].y - 32;
+          y = couple[0].y + 32;
+        } else {
+          if (
+            couple[1].y >= player.y + 32 - init.tolx &&
+            couple[1].y <= player.y + 32
+          ) {
+            ok = true;
+            y = couple[1].y - 32;
+          }
         }
-      }
-    } else {
-      let object = getSpaceAtLeft(objects, player.y);
-      if (object !== null) {
-        ok = true;
-        y = object.y - 32;
       } else {
-        object = getSpaceAtRight(objects, player.y);
+        let object = getSpaceAtLeft(objects, player.y);
         if (object !== null) {
           ok = true;
-          y = object.y + 32;
+          y = object.y - 32;
         } else {
-          object = getObjectAtRight(objects, player.y);
+          object = getSpaceAtRight(objects, player.y);
           if (object !== null) {
             ok = true;
-            x = object.x - 32;
+            y = object.y + 32;
+          } else {
+            object = getObjectAtRight(objects, player.y);
+            if (object !== null) {
+              ok = true;
+              x = object.x - 32;
+            }
           }
         }
       }
+    } else {
+      x = player.x + init.dx;
     }
-  } else {
-    x = player.x + init.dx;
-  }
-  if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
-    const newPlayers = Object.assign([], players);
-    newPlayers[player.n].x = x;
-    newPlayers[player.n].y = y;
-    setPlayers(newPlayers);
-  }
+    if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+      resolve({ x, y });
+    }
+  });
 }
 
 export function tryToGoUp(decor, players, player, setPlayers) {
@@ -424,59 +422,58 @@ export function tryToGoUp(decor, players, player, setPlayers) {
     return null;
   }
 
-  let x = player.x;
-  let y = player.y;
-  const objects = getObjectsArroundPlayer();
-  let ok =
-    objects.filter((o) => {
-      return o.x + 32 > player.x && o.x < player.x + 32;
-    }).length === 0;
-  if (!ok) {
-    const couple = getCoupleWithSpace(objects, player.x);
-    if (couple !== null) {
-      if (
-        couple[0].x + 32 <= player.x + init.tolx &&
-        couple[0].x + 32 >= player.x
-      ) {
-        ok = true;
-        x = couple[0].x + 32;
-      } else {
+  return new Promise((resolve, reject) => {
+    let x = player.x;
+    let y = player.y;
+    const objects = getObjectsArroundPlayer();
+    let ok =
+      objects.filter((o) => {
+        return o.x + 32 > player.x && o.x < player.x + 32;
+      }).length === 0;
+    if (!ok) {
+      const couple = getCoupleWithSpace(objects, player.x);
+      if (couple !== null) {
         if (
-          couple[1].x >= player.x + 32 - init.tolx &&
-          couple[1].x <= player.x + 32
+          couple[0].x + 32 <= player.x + init.tolx &&
+          couple[0].x + 32 >= player.x
         ) {
           ok = true;
-          x = couple[1].x - 32;
+          x = couple[0].x + 32;
+        } else {
+          if (
+            couple[1].x >= player.x + 32 - init.tolx &&
+            couple[1].x <= player.x + 32
+          ) {
+            ok = true;
+            x = couple[1].x - 32;
+          }
         }
-      }
-    } else {
-      let object = getSpaceAtLeft(objects, player.x);
-      if (object !== null) {
-        ok = true;
-        x = object.x - 32;
       } else {
-        object = getSpaceAtRight(objects, player.x);
+        let object = getSpaceAtLeft(objects, player.x);
         if (object !== null) {
           ok = true;
-          x = object.x + 32;
+          x = object.x - 32;
         } else {
-          object = getObjectAtTop(objects, player.x);
+          object = getSpaceAtRight(objects, player.x);
           if (object !== null) {
             ok = true;
-            y = object.y + 32;
+            x = object.x + 32;
+          } else {
+            object = getObjectAtTop(objects, player.x);
+            if (object !== null) {
+              ok = true;
+              y = object.y + 32;
+            }
           }
         }
       }
+    } else {
+      y = player.y - init.dx;
     }
-  } else {
-    y = player.y - init.dx;
-  }
-  if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
-    const newPlayers = Object.assign([], players);
-    newPlayers[player.n].x = x;
-    newPlayers[player.n].y = y;
-    setPlayers(newPlayers);
-  }
+    if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+      resolve({ x, y });
+    }
+  });
 }
 
 export function tryToGoDown(decor, players, player, setPlayers) {
@@ -572,57 +569,56 @@ export function tryToGoDown(decor, players, player, setPlayers) {
     return null;
   }
 
-  let x = player.x;
-  let y = player.y;
-  const objects = getObjectsArroundPlayer();
-  let ok =
-    objects.filter((o) => {
-      return o.x + 32 > player.x && o.x < player.x + 32;
-    }).length === 0;
-  if (!ok) {
-    const couple = getCoupleWithSpace(objects, player.x);
-    if (couple !== null) {
-      if (
-        couple[0].x + 32 <= player.x + init.tolx &&
-        couple[0].x + 32 >= player.x
-      ) {
-        ok = true;
-        x = couple[0].x + 32;
-      } else {
+  return new Promise((resolve, reject) => {
+    let x = player.x;
+    let y = player.y;
+    const objects = getObjectsArroundPlayer();
+    let ok =
+      objects.filter((o) => {
+        return o.x + 32 > player.x && o.x < player.x + 32;
+      }).length === 0;
+    if (!ok) {
+      const couple = getCoupleWithSpace(objects, player.x);
+      if (couple !== null) {
         if (
-          couple[1].x >= player.x + 32 - init.tolx &&
-          couple[1].x <= player.x + 32
+          couple[0].x + 32 <= player.x + init.tolx &&
+          couple[0].x + 32 >= player.x
         ) {
           ok = true;
-          x = couple[1].x - 32;
+          x = couple[0].x + 32;
+        } else {
+          if (
+            couple[1].x >= player.x + 32 - init.tolx &&
+            couple[1].x <= player.x + 32
+          ) {
+            ok = true;
+            x = couple[1].x - 32;
+          }
         }
-      }
-    } else {
-      let object = getSpaceAtLeft(objects, player.x);
-      if (object !== null) {
-        ok = true;
-        x = object.x - 32;
       } else {
-        object = getSpaceAtRight(objects, player.x);
+        let object = getSpaceAtLeft(objects, player.x);
         if (object !== null) {
           ok = true;
-          x = object.x + 32;
+          x = object.x - 32;
         } else {
-          object = getObjectAtBottom(objects, player.x);
+          object = getSpaceAtRight(objects, player.x);
           if (object !== null) {
             ok = true;
-            y = object.y - 32;
+            x = object.x + 32;
+          } else {
+            object = getObjectAtBottom(objects, player.x);
+            if (object !== null) {
+              ok = true;
+              y = object.y - 32;
+            }
           }
         }
       }
+    } else {
+      y = player.y + init.dx;
     }
-  } else {
-    y = player.y + init.dx;
-  }
-  if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
-    const newPlayers = Object.assign([], players);
-    newPlayers[player.n].x = x;
-    newPlayers[player.n].y = y;
-    setPlayers(newPlayers);
-  }
+    if (isOkForXY(getObjectsNearPlayer(decor, players, player), x, y)) {
+      resolve({ x, y });
+    }
+  });
 }

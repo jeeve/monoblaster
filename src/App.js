@@ -249,21 +249,50 @@ export default function Game() {
         dropBomb,
         fires
       );
+
       switch (theRobot().displacement) {
         case "left": {
-          engine.tryToGoLeft(decor, players, theRobot(), setPlayers);
+          engine
+            .tryToGoLeft(decor, players, theRobot(), setPlayers)
+            .then((response) => {
+              const newPlayers = Object.assign([], players);
+              newPlayers[theRobot().n].x = response.x;
+              newPlayers[theRobot().n].y = response.y;
+              setPlayers(newPlayers);
+            });
           break;
         }
         case "right": {
-          engine.tryToGoRight(decor, players, theRobot(), setPlayers);
+          engine
+            .tryToGoRight(decor, players, theRobot(), setPlayers)
+            .then((response) => {
+              const newPlayers = Object.assign([], players);
+              newPlayers[theRobot().n].x = response.x;
+              newPlayers[theRobot().n].y = response.y;
+              setPlayers(newPlayers);
+            });
           break;
         }
         case "down": {
-          engine.tryToGoDown(decor, players, theRobot(), setPlayers);
+          engine
+            .tryToGoDown(decor, players, theRobot(), setPlayers)
+            .then((response) => {
+              const newPlayers = Object.assign([], players);
+              newPlayers[theRobot().n].x = response.x;
+              newPlayers[theRobot().n].y = response.y;
+              setPlayers(newPlayers);
+            });
           break;
         }
         case "up": {
-          engine.tryToGoUp(decor, players, theRobot(), setPlayers);
+          engine
+            .tryToGoUp(decor, players, theRobot(), setPlayers)
+            .then((response) => {
+              const newPlayers = Object.assign([], players);
+              newPlayers[theRobot().n].x = response.x;
+              newPlayers[theRobot().n].y = response.y;
+              setPlayers(newPlayers);
+            });
           break;
         }
         default: {
@@ -280,19 +309,47 @@ export default function Game() {
     const interval = setInterval(() => {
       switch (myPlayer().displacement) {
         case "left": {
-          engine.tryToGoLeft(decor, players, myPlayer(), setPlayers);
+          engine
+            .tryToGoLeft(decor, players, myPlayer(), setPlayers)
+            .then((response) => {
+              const newPlayers = Object.assign([], players);
+              newPlayers[myPlayer().n].x = response.x;
+              newPlayers[myPlayer().n].y = response.y;
+              setPlayers(newPlayers);
+            });
           break;
         }
         case "right": {
-          engine.tryToGoRight(decor, players, myPlayer(), setPlayers);
-          break;
+          engine
+            .tryToGoRight(decor, players, myPlayer(), setPlayers)
+            .then((response) => {
+              const newPlayers = Object.assign([], players);
+              newPlayers[myPlayer().n].x = response.x;
+              newPlayers[myPlayer().n].y = response.y;
+              setPlayers(newPlayers);
+            });
+            break;
         }
         case "down": {
-          engine.tryToGoDown(decor, players, myPlayer(), setPlayers);
+          engine
+            .tryToGoDown(decor, players, myPlayer(), setPlayers)
+            .then((response) => {
+              const newPlayers = Object.assign([], players);
+              newPlayers[myPlayer().n].x = response.x;
+              newPlayers[myPlayer().n].y = response.y;
+              setPlayers(newPlayers);
+            });
           break;
         }
         case "up": {
-          engine.tryToGoUp(decor, players, myPlayer(), setPlayers);
+          engine
+            .tryToGoUp(decor, players, myPlayer(), setPlayers)
+            .then((response) => {
+              const newPlayers = Object.assign([], players);
+              newPlayers[myPlayer().n].x = response.x;
+              newPlayers[myPlayer().n].y = response.y;
+              setPlayers(newPlayers);
+            });
           break;
         }
         default: {
