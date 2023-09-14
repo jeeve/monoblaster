@@ -2,35 +2,48 @@ import * as init from "./init";
 
 function getObjectsNearPlayer(decor, players, player) {
   const objects = decor.filter((sprite) => {
-    return sprite.image !== "" && Math.sqrt(
-      Math.pow(sprite.x - player.x, 2) + Math.pow(sprite.y - player.y, 2) <= 91);
+    return (
+      sprite.image !== "" &&
+      Math.sqrt(
+        Math.pow(sprite.x - player.x, 2) + Math.pow(sprite.y - player.y, 2) <=
+          91
+      )
+    );
   });
   players.map((p) => {
-    objects.push(p);
+    if (p !== player) {
+      objects.push(p);
+    }
   });
   return objects;
+}
+
+function pointInObject(object, x, y) {
+  return (
+    (object.x + 32 > x &&
+      object.x + 32 < x + 32 &&
+      object.y + 32 > y &&
+      object.y + 32 < y + 32) ||
+    (object.x < x + 32 &&
+      object.x > x &&
+      object.y + 32 > y &&
+      object.y + 32 < y + 32) ||
+    (object.x < x + 32 && object.x > x && object.y < y + 32 && object.y > y) ||
+    (object.x + 32 > x &&
+      object.x + 32 < x + 32 &&
+      object.y < y + 32 &&
+      object.y > y)
+  );
 }
 
 function isOkForXY(objects, x, y) {
   return (
     objects.filter((object) => {
       return (
-        (object.x + 32 > x &&
-          object.x + 32 < x + 32 &&
-          object.y + 32 > y &&
-          object.y + 32 < y + 32) ||
-        (object.x < x + 32 &&
-          object.x > x &&
-          object.y + 32 > y &&
-          object.y + 32 < y + 32) ||
-        (object.x < x + 32 &&
-          object.x > x &&
-          object.y < y + 32 &&
-          object.y > y) ||
-        (object.x + 32 > x &&
-          object.x + 32 < x + 32 &&
-          object.y < y + 32 &&
-          object.y > y)
+        pointInObject(object, x, y) ||
+        pointInObject(object, x + 32, y) ||
+        pointInObject(object, x + 32, y + 32) ||
+        pointInObject(object, x, y + 32)
       );
     }).length === 0
   );
