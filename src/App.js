@@ -79,9 +79,7 @@ export default function Game() {
   }
 
   function handleControlDisplacement(displacement) {
-    const newPlayers = Object.assign([], players);
-    newPlayers[myPlayer().n].displacement = displacement;
-    setPlayers(newPlayers);
+    myPlayer().displacement = displacement;
   }
 
   function handleControlBomb() {
@@ -91,27 +89,19 @@ export default function Game() {
   function handleKeyDown(event) {
     if (event.code === "ArrowLeft") {
       event.preventDefault();
-      const newPlayers = Object.assign([], players);
-      newPlayers[myPlayer().n].displacement = "left";
-      setPlayers(newPlayers);
+      myPlayer().displacement = "left";
     }
     if (event.code === "ArrowRight") {
       event.preventDefault();
-      const newPlayers = Object.assign([], players);
-      newPlayers[myPlayer().n].displacement = "right";
-      setPlayers(newPlayers);
+      myPlayer().displacement = "right";
     }
     if (event.code === "ArrowDown") {
       event.preventDefault();
-      const newPlayers = Object.assign([], players);
-      newPlayers[myPlayer().n].displacement = "down";
-      setPlayers(newPlayers);
+      myPlayer().displacement = "down";
     }
     if (event.code === "ArrowUp") {
       event.preventDefault();
-      const newPlayers = Object.assign([], players);
-      newPlayers[myPlayer().n].displacement = "up";
-      setPlayers(newPlayers);
+      myPlayer().displacement = "up";
     }
     if (event.code === "Space") {
       event.preventDefault();
@@ -122,27 +112,19 @@ export default function Game() {
   function handleKeyUp(event) {
     if (event.code === "ArrowLeft" && myPlayer().displacement === "left") {
       event.preventDefault();
-      const newPlayers = Object.assign([], players);
-      newPlayers[myPlayer().n].displacement = "";
-      setPlayers(newPlayers);
+      myPlayer().displacement = "";
     }
     if (event.code === "ArrowRight" && myPlayer().displacement === "right") {
       event.preventDefault();
-      const newPlayers = Object.assign([], players);
-      newPlayers[myPlayer().n].displacement = "";
-      setPlayers(newPlayers);
+      myPlayer().displacement = "";
     }
     if (event.code === "ArrowDown" && myPlayer().displacement === "down") {
       event.preventDefault();
-      const newPlayers = Object.assign([], players);
-      newPlayers[myPlayer().n].displacement = "";
-      setPlayers(newPlayers);
+      myPlayer().displacement = "";
     }
     if (event.code === "ArrowUp" && myPlayer().displacement === "up") {
       event.preventDefault();
-      const newPlayers = Object.assign([], players);
-      newPlayers[myPlayer().n].displacement = "";
-      setPlayers(newPlayers);
+      myPlayer().displacement = "";
     }
   }
 
