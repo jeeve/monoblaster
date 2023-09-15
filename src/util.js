@@ -70,6 +70,7 @@ function pointInObject(object, x, y) {
 }
 
 export function isOkForXY(decor, players, player, x, y) {
+  return true;
   return (
     getObjectsNearXY(decor, players, player, x, y).filter((object) => {
       return (
