@@ -60,7 +60,7 @@ export default function Game() {
     if (decor[n].image === "") {
       const x = util.getI(n) * 32;
       const y = util.getJ(n) * 32;
-      if (!util.isOkForXY(decor, players, x, y)) {
+      if (!util.isOkForXY(decor, players, player, x, y)) {
         return; // on ne peut pas poser à cet endroit
       }
       nextDecor[n] = {
