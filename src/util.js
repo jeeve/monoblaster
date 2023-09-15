@@ -47,7 +47,7 @@ export function spriteDown(n) {
   return n + init.ni;
 }
 
-function getObjectsNearXY(decor, players, x, y) {
+function getObjectsNearXY(decor, players, player, x, y) {
   const objects = decor.filter((sprite) => {
     return (
       sprite.image !== "" && sprite.x !== x && sprite.y !== y /*
@@ -58,7 +58,7 @@ function getObjectsNearXY(decor, players, x, y) {
     );
   });
   players.map((p) => {
-    if (p.x !== x && p.y !== y) {
+    if (p !== player) {
     objects.push(p);
     }
   });
@@ -69,9 +69,9 @@ function pointInObject(object, x, y) {
   return x >= object.x && x <= object.x + 31 && y >= object.y && y <= object.y + 31;
 }
 
-export function isOkForXY(decor, players, x, y) {
+export function isOkForXY(decor, players, player, x, y) {
   return (
-    getObjectsNearXY(decor, players, x, y).filter((object) => {
+    getObjectsNearXY(decor, players, player, x, y).filter((object) => {
       return (
         pointInObject(object, x + 1, y) ||
         pointInObject(object, x + 30, y) ||

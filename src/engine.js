@@ -142,7 +142,7 @@ export function tryToGoLeft(decor, players, player) {
     } else {
       x = player.x - init.dx;
     }
-    if (util.isOkForXY(decor, players, x, y)) {
+    if (util.isOkForXY(decor, players, player, x, y)) {
       resolve({ x, y });
     }
   });
@@ -289,7 +289,7 @@ export function tryToGoRight(decor, players, player) {
     } else {
       x = player.x + init.dx;
     }
-    if (util.isOkForXY(decor, players, x, y)) {
+    if (util.isOkForXY(decor, players, player, x, y)) {
       resolve({ x, y });
     }
   });
@@ -436,7 +436,7 @@ export function tryToGoUp(decor, players, player) {
     } else {
       y = player.y - init.dx;
     }
-    if (util.isOkForXY(decor, players, x, y)) {
+    if (util.isOkForXY(decor, players, player, x, y)) {
       resolve({ x, y });
     }
   });
@@ -583,7 +583,7 @@ export function tryToGoDown(decor, players, player) {
     } else {
       y = player.y + init.dx;
     }
-    if (util.isOkForXY(decor, players, x, y)) {
+    if (util.isOkForXY(decor, players, player, x, y)) {
       resolve({ x, y });
     }
   });
