@@ -3,7 +3,7 @@ import * as init from "./init";
 function getObjectsNearXY(decor, players, x, y) {
   const objects = decor.filter((sprite) => {
     return (
-      sprite.image !== "" /*&&
+      sprite.image !== "" && sprite.x !== x && sprite.y !== y /*
       Math.sqrt(
         Math.pow(sprite.x - x, 2) + Math.pow(sprite.y - y, 2) <=
           91
@@ -23,7 +23,7 @@ function pointInObject(object, x, y) {
 }
 
 function isOkForXY(objects, x, y) {
-  let ok = (
+  return (
     objects.filter((object) => {
       return (
         pointInObject(object, x + 1, y) ||
@@ -31,9 +31,7 @@ function isOkForXY(objects, x, y) {
         pointInObject(object, x + 30, y + 30) ||
         pointInObject(object, x + 1, y + 30)
       );
-    }).length === 0
-  );
-  return ok;
+    }).length === 0)
 }
 
 export function tryToGoLeft(decor, players, player) {
