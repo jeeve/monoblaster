@@ -70,7 +70,6 @@ function pointInObject(object, x, y) {
 }
 
 export function isOkForXY(decor, players, player, x, y) {
-  //return true; // desactive test position car empeche robot de fuir les bombre
   return (
     getObjectsNearXY(decor, players, player, x, y).filter((object) => {
       return (
