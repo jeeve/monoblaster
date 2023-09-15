@@ -1,38 +1,5 @@
 import * as init from "./init";
-
-function getObjectsNearXY(decor, players, x, y) {
-  const objects = decor.filter((sprite) => {
-    return (
-      sprite.image !== "" && sprite.x !== x && sprite.y !== y /*
-      Math.sqrt(
-        Math.pow(sprite.x - x, 2) + Math.pow(sprite.y - y, 2) <=
-          91
-      )*/
-    );
-  });
-  players.map((p) => {
-    if (p.x !== x && p.y !== y) {
-    objects.push(p);
-    }
-  });
-  return objects;
-}
-
-function pointInObject(object, x, y) {
-  return x >= object.x && x <= object.x + 31 && y >= object.y && y <= object.y + 31;
-}
-
-function isOkForXY(objects, x, y) {
-  return (
-    objects.filter((object) => {
-      return (
-        pointInObject(object, x + 1, y) ||
-        pointInObject(object, x + 30, y) ||
-        pointInObject(object, x + 30, y + 30) ||
-        pointInObject(object, x + 1, y + 30)
-      );
-    }).length === 0)
-}
+import * as util from "./util";
 
 export function tryToGoLeft(decor, players, player) {
   function isInZonePlayer(sprite) {
@@ -175,7 +142,7 @@ export function tryToGoLeft(decor, players, player) {
     } else {
       x = player.x - init.dx;
     }
-    if (isOkForXY(getObjectsNearXY(decor, players, x, y), x, y)) {
+    if (util.isOkForXY(decor, players, x, y)) {
       resolve({ x, y });
     }
   });
@@ -322,7 +289,7 @@ export function tryToGoRight(decor, players, player) {
     } else {
       x = player.x + init.dx;
     }
-    if (isOkForXY(getObjectsNearXY(decor, players, x, y), x, y)) {
+    if (util.isOkForXY(decor, players, x, y)) {
       resolve({ x, y });
     }
   });
@@ -469,7 +436,7 @@ export function tryToGoUp(decor, players, player) {
     } else {
       y = player.y - init.dx;
     }
-    if (isOkForXY(getObjectsNearXY(decor, players, x, y), x, y)) {
+    if (util.isOkForXY(decor, players, x, y)) {
       resolve({ x, y });
     }
   });
@@ -616,7 +583,7 @@ export function tryToGoDown(decor, players, player) {
     } else {
       y = player.y + init.dx;
     }
-    if (isOkForXY(getObjectsNearXY(decor, players, x, y), x, y)) {
+    if (util.isOkForXY(decor, players, x, y)) {
       resolve({ x, y });
     }
   });
