@@ -50,7 +50,7 @@ export function spriteDown(n) {
 function getObjectsNearXY(decor, players, player, x, y) {
   const objects = decor.filter((sprite) => {
     return (
-      sprite.image !== "" && sprite.x !== x && sprite.y !== y /*
+      sprite.image !== "" && !sprite.image.includdes("bomb") && sprite.x !== x && sprite.y !== y /*
       Math.sqrt(
         Math.pow(sprite.x - x, 2) + Math.pow(sprite.y - y, 2) <=
           91
@@ -70,7 +70,7 @@ function pointInObject(object, x, y) {
 }
 
 export function isOkForXY(decor, players, player, x, y) {
-  return true; // desactive test position car empeche robot de fuir les bombre
+  //return true; // desactive test position car empeche robot de fuir les bombre
   return (
     getObjectsNearXY(decor, players, player, x, y).filter((object) => {
       return (
