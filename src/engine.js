@@ -3,34 +3,37 @@ import * as init from "./init";
 function getObjectsNearXY(decor, players, x, y) {
   const objects = decor.filter((sprite) => {
     return (
-      sprite.image !== "" &&
+      sprite.image !== "" /*&&
       Math.sqrt(
         Math.pow(sprite.x - x, 2) + Math.pow(sprite.y - y, 2) <=
           91
-      )
+      )*/
     );
   });
   players.map((p) => {
+    if (p.x !== x && p.y !== y) {
     objects.push(p);
+    }
   });
   return objects;
 }
 
 function pointInObject(object, x, y) {
-  return x > object.x && x < object.x + 32 && y > object.y && y < object.y + 32;
+  return x >= object.x && x <= object.x + 31 && y >= object.y && y <= object.y + 31;
 }
 
 function isOkForXY(objects, x, y) {
-  return (
+  let ok = (
     objects.filter((object) => {
       return (
-        pointInObject(object, x, y) ||
-        pointInObject(object, x + 32, y) ||
-        pointInObject(object, x + 32, y + 32) ||
-        pointInObject(object, x, y + 32)
+        pointInObject(object, x + 1, y) ||
+        pointInObject(object, x + 30, y) ||
+        pointInObject(object, x + 30, y + 30) ||
+        pointInObject(object, x + 1, y + 30)
       );
     }).length === 0
   );
+  return ok;
 }
 
 export function tryToGoLeft(decor, players, player) {
