@@ -50,7 +50,7 @@ export function spriteDown(n) {
 function getObjectsNearXY(decor, players, player, x, y) {
   const objects = decor.filter((sprite) => {
     return (
-      sprite.image !== "" && !sprite.image.includes("bomb") && sprite.x !== x && sprite.y !== y /*
+      sprite.image !== "" && !sprite.image.includes("bomb") /*&& sprite.x !== x && sprite.y !== y 
       Math.sqrt(
         Math.pow(sprite.x - x, 2) + Math.pow(sprite.y - y, 2) <=
           91
