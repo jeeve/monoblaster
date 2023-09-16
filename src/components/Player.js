@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import * as init from "../init";
 
 export default function Player({ x, y, n, image, dead, onReborn }) {
-  const deadTime = 40;
+  const deadTime = 20;
   const [img, setImg] = useState(image);
   const [count, setCount] = useState(deadTime);
 
@@ -19,7 +19,7 @@ export default function Player({ x, y, n, image, dead, onReborn }) {
         setCount((prevCount) => prevCount - 1);
         setImg((prevImage) => (prevImage === "" ? image : ""));
       }
-    }, 100);
+    }, 200);
   };
 
   useEffect(() => {
