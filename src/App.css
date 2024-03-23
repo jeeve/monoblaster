@@ -95,6 +95,13 @@ img {
   padding: 5px;
 }
 
+.help {
+  color: white;
+  position: absolute;
+  user-select: none;
+  text-align: center;
+}
+
 @media screen and (max-width: 767px) {
 
   #infos {

@@ -5,6 +5,7 @@ import Fire from "./components/Fire";
 import Score from "./components/Score";
 import Player from "./components/Player";
 import Controls from "./components/Controls";
+import Help from "./components/Help";
 import * as init from "./init";
 import * as util from "./util";
 import * as engine from "./engine";
@@ -430,6 +431,7 @@ export default function Game() {
             onEnd={handleFireEnd}
           />
         ))}
+        <Help ni={32}></Help>
       </div>
       <Controls
         onDisplacement={handleControlDisplacement}
