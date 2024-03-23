@@ -371,7 +371,7 @@ export default function Game() {
         <div className="score score1">
           <Score n={myPlayer().score}></Score>
         </div>
-        <span id="titre">Metablaster</span>
+        <span id="titre">Monoblaster</span>
         <div className="score score2">
           <Score n={theRobot().score}></Score>
         </div>
