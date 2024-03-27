@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import useSound from 'use-sound'
 import mySound from '../assets/sounds/explode.wav' 
+import * as init from "../init";
 
-export default function Bomb({ x, y, n, onExplode, explode, soundOn, ni }) {
+export default function Bomb({ x, y, n, onExplode, explode, soundOn }) {
   const [image, setImage] = useState("bomb1.png");
   const [count, setCount] = useState(5);
   const [playSound] = useSound(mySound);
 
-  const deltax = Math.floor(window.innerWidth / 2 - (ni * 32) / 2);
+  const deltax = Math.floor(window.innerWidth / 2 - (init.ni * 32) / 2);
   const style = {
     left: deltax + x,
     top: y,
