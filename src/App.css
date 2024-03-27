@@ -104,6 +104,10 @@ img {
 
 @media screen and (max-width: 767px) {
 
+  .help {
+    display: none;
+  }
+
   #infos {
     height: 25px;
   }
